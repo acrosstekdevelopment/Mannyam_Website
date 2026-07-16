@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import * as d3 from "d3";
+import { removeInternalLink } from "@/app/clusters/actions";
 
 type GraphNode = {
   id: string;
@@ -70,6 +71,54 @@ export function LinkMapClient({
   // Zoom transform state
   const svgRef = useRef<SVGSVGElement>(null);
   const [zoomTransform, setZoomTransform] = useState("translate(0,0) scale(1)");
+
+  // Scanner States
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanResults, setScanResults] = useState<{
+    scanned: number;
+    ok: number;
+    broken: {
+      id: string;
+      sourceTitle: string;
+      sourceId: string;
+      sourceType: "Page" | "Post";
+      targetId: string;
+      anchorText: string;
+      reason: string;
+    }[];
+  } | null>(null);
+
+  // Trigger link scanner API
+  const handleScan = async () => {
+    setIsScanning(true);
+    try {
+      const res = await fetch("/api/scan-links", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        setScanResults(data);
+      } else {
+        alert("Scan failed. Access denied or server error.");
+      }
+    } catch (err) {
+      alert("Error scanning links: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setIsScanning(false);
+    }
+  };
+
+  // Remove broken link action
+  const handleRemoveBrokenLink = async (linkId: string) => {
+    if (!window.confirm("Are you sure you want to remove this internal link?")) return;
+    try {
+      await removeInternalLink(linkId);
+      // Remove edge from visual layout locally
+      setLinks((prevLinks) => prevLinks.filter((l) => l.id !== linkId));
+      // Re-trigger scan
+      await handleScan();
+    } catch (err) {
+      alert("Failed to remove link: " + (err instanceof Error ? err.message : String(err)));
+    }
+  };
 
   // 1. Run D3 Simulation
   useEffect(() => {
@@ -443,6 +492,110 @@ export function LinkMapClient({
             )}
           </div>
         </div>
+      </div>
+
+      {/* Broken Internal Links Scan Section */}
+      <div className="rounded-lg border border-olive/10 bg-paper p-5 shadow-sm space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-olive/10 pb-2">
+          <div>
+            <h2 className="font-display text-xl font-semibold text-olive">Broken Links Scanner</h2>
+            <p className="text-xs text-olive/60 mt-0.5">
+              Identify internal links pointing to deleted targets or draft contents.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={isScanning}
+            onClick={handleScan}
+            className={`rounded-lg bg-olive text-paper hover:bg-olive/90 disabled:opacity-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors flex items-center gap-2`}
+          >
+            {isScanning ? (
+              <>
+                <svg className="animate-spin h-3 w-3 text-paper" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Scanning...
+              </>
+            ) : (
+              "Scan for Broken Links"
+            )}
+          </button>
+        </div>
+
+        {scanResults && (
+          <div className="space-y-4 pt-2">
+            {scanResults.broken.length === 0 ? (
+              <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 text-xs font-semibold font-sans">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <p className="font-bold">All links healthy</p>
+                  <p className="text-[10px] text-green-600 font-normal mt-0.5">
+                    No draft or missing target pages detected out of {scanResults.scanned} scanned internal links.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="border border-olive/10 rounded-lg overflow-hidden">
+                <table className="w-full text-left text-xs font-sans">
+                  <thead>
+                    <tr className="border-b border-olive/10 bg-cream/30 text-[10px] font-bold uppercase tracking-wider text-olive/70">
+                      <th className="px-3 py-2.5">Source Page</th>
+                      <th className="px-3 py-2.5">Anchor Text</th>
+                      <th className="px-3 py-2.5">Broken Target ID</th>
+                      <th className="px-3 py-2.5">Reason</th>
+                      <th className="px-3 py-2.5 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-olive/5">
+                    {scanResults.broken.map((row) => (
+                      <tr key={row.id} className="hover:bg-cream/10">
+                        <td className="px-3 py-3 font-semibold text-olive">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[9px] uppercase font-bold text-olive/50 bg-cream px-1 rounded py-0.5">
+                              {row.sourceType}
+                            </span>
+                            <span>{row.sourceTitle}</span>
+                          </div>
+                        </td>
+                        <td className="px-3 py-3 italic text-olive/80">&quot;{row.anchorText}&quot;</td>
+                        <td className="px-3 py-3 font-mono text-[10px] text-olive/60 select-all">{row.targetId}</td>
+                        <td className="px-3 py-3">
+                          <span className="inline-block rounded-full bg-red-100 text-red-800 text-[10px] font-semibold px-2 py-0.5">
+                            {row.reason}
+                          </span>
+                        </td>
+                        <td className="px-3 py-3 text-center space-x-1.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const editPath = row.sourceType === "Page" 
+                                ? `/pages-cms/${row.sourceId}/edit` 
+                                : `/journal/${row.sourceId}/edit`;
+                              window.open(editPath, "_blank");
+                            }}
+                            className="rounded border border-gold hover:bg-gold hover:text-olive px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider transition-colors"
+                          >
+                            Fix
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveBrokenLink(row.id)}
+                            className="rounded border border-red-700 hover:bg-red-700 hover:text-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-red-700 transition-colors"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

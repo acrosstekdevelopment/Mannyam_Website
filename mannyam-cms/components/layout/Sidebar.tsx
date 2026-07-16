@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -25,6 +25,22 @@ export interface SidebarProps {
 
 export function Sidebar({ role, userName }: SidebarProps) {
   const pathname = usePathname();
+  const [brokenCount, setBrokenCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch("/api/scan-links", { method: "POST" });
+        if (res.ok) {
+          const data = await res.json();
+          setBrokenCount(data.broken?.length || 0);
+        }
+      } catch {
+        setBrokenCount(0);
+      }
+    };
+    fetchCount();
+  }, [pathname]); // Refresh count when navigating to detect fixes instantly
 
   // Role-based visibility checks:
   const showAnalytics = role !== "Content Manager";
@@ -137,6 +153,11 @@ export function Sidebar({ role, userName }: SidebarProps) {
                 >
                   <Icon className={`w-4 h-4 ${isActive ? "text-gold" : "text-ivory/50"}`} />
                   <span>{item.name}</span>
+                  {item.name === "Clusters" && brokenCount !== null && brokenCount > 0 && (
+                    <span className="ml-auto rounded-full bg-red-600 text-paper text-[10px] font-bold px-2 py-0.5 shadow-sm leading-none animate-pulse">
+                      {brokenCount}
+                    </span>
+                  )}
                 </a>
 
                 {/* Sublink for Settings > Users under Admin role */}
