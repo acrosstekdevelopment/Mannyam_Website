@@ -32,9 +32,16 @@ export function getSupabaseAdmin(): SupabaseClient<Database> {
   return _supabaseAdmin;
 }
 
-// Legacy export for backward compatibility — lazy getter
-export const supabaseAdmin = new Proxy({} as SupabaseClient<Database>, {
-  get(_target, prop) {
-    return Reflect.get(getSupabaseAdmin(), prop);
-  },
-});
+// Lazy proxy: defers client creation until first property access at runtime,
+// so `next build` static analysis does not crash when env vars are absent.
+// Methods are bound to the real client to preserve correct `this`.
+export const supabaseAdmin: SupabaseClient<Database> = new Proxy(
+  {} as SupabaseClient<Database>,
+  {
+    get(_target, prop) {
+      const client = getSupabaseAdmin();
+      const value = Reflect.get(client, prop, client);
+      return typeof value === "function" ? value.bind(client) : value;
+    },
+  }
+);
