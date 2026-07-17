@@ -35,6 +35,6 @@ export function getSupabaseAdmin(): SupabaseClient<Database> {
 // Legacy export for backward compatibility — lazy getter
 export const supabaseAdmin = new Proxy({} as SupabaseClient<Database>, {
   get(_target, prop) {
-    return (getSupabaseAdmin() as Record<string | symbol, unknown>)[prop];
+    return Reflect.get(getSupabaseAdmin(), prop);
   },
 });
