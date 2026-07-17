@@ -23,7 +23,6 @@ export const metadata: Metadata = {
 };
 
 const protectedSiblingRoutes = [
-  "/journal",
   "/pages-cms",
   "/packages",
   "/media",

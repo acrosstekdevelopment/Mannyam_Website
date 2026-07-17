@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { SerpPreview } from "./SerpPreview";
 import { createClient } from "@/lib/supabase/client";
 
-type SeoMeta = {
+export type SeoMeta = {
   title: string;
   description: string;
   canonical_url: string;
   og_title: string;
   og_description: string;
   og_image: string;
+  when?: string;
+  where?: string;
 };
 
 type SeoPanelProps = {
@@ -167,6 +169,38 @@ export function SeoPanel({
         />
         {urlError && <p className="text-[10px] text-red-600 font-medium">{urlError}</p>}
       </div>
+
+      {isPackage && (
+        <>
+          {/* When */}
+          <div className="space-y-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-olive/80">
+              When (e.g. October / Spring)
+            </label>
+            <input
+              type="text"
+              value={seoMeta.when || ""}
+              onChange={(e) => updateField("when", e.target.value)}
+              placeholder="e.g. October / Spring"
+              className="w-full rounded-md border border-olive/20 bg-cream/10 px-3 py-2 text-sm outline-none focus:border-gold"
+            />
+          </div>
+
+          {/* Where */}
+          <div className="space-y-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-olive/80">
+              Where (Location)
+            </label>
+            <input
+              type="text"
+              value={seoMeta.where || ""}
+              onChange={(e) => updateField("where", e.target.value)}
+              placeholder="e.g. Rajasthan, India"
+              className="w-full rounded-md border border-olive/20 bg-cream/10 px-3 py-2 text-sm outline-none focus:border-gold"
+            />
+          </div>
+        </>
+      )}
 
       {/* Collapsible Open Graph Section */}
       <details className="group border border-olive/10 rounded-lg overflow-hidden bg-cream/5">

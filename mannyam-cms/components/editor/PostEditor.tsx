@@ -8,7 +8,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import TipTapLink from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import { checkSlugUnique, createPost, updatePost, type PostInput } from "@/app/journal/actions";
+import { checkSlugUnique, createPost, updatePost, type PostInput } from "@/app/dashboard/journal/actions";
 import { SeoPanel } from "@/components/seo/SeoPanel";
 
 type EditorPost = {
@@ -166,8 +166,8 @@ export function PostEditor({ post, categories, tags, media, revisions }: {
   return (
     <section>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div><Link href="/journal" className="text-sm text-gold hover:underline">← Back to Journal</Link><h1 className="mt-1 font-display text-4xl font-semibold">{post ? "Edit Post" : "New Post"}</h1></div>
-        <div className="flex items-center gap-3 text-sm text-olive/70">{saveState && <span aria-live="polite">{saveState}</span>}{post && <Link target="_blank" href={`/journal/${post.id}/preview`} className="rounded border border-olive/20 px-3 py-2 text-olive">Preview</Link>}</div>
+        <div><Link href="/dashboard/journal" className="text-sm text-gold hover:underline">← Back to Journal</Link><h1 className="mt-1 font-display text-4xl font-semibold">{post ? "Edit Post" : "New Post"}</h1></div>
+        <div className="flex items-center gap-3 text-sm text-olive/70">{saveState && <span aria-live="polite">{saveState}</span>}{post && <Link target="_blank" href={`/dashboard/journal/${post.id}/preview`} className="rounded border border-olive/20 px-3 py-2 text-olive">Preview</Link>}</div>
       </div>
       {error && <p role="alert" className="mb-4 rounded-md bg-red-50 p-3 text-red-800">{error}</p>}
 

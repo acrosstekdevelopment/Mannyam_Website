@@ -23,7 +23,7 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { BlockTipTapEditor } from "./BlockTipTapEditor";
 import { checkSlugUnique, createPackage, updatePackage, type PackageInput } from "@/app/packages/actions";
-import { SeoPanel } from "@/components/seo/SeoPanel";
+import { SeoPanel, type SeoMeta } from "@/components/seo/SeoPanel";
 
 type ItineraryDay = {
   id: string;
@@ -171,7 +171,7 @@ export function PackageEditor({ pkg, media }: { pkg: EditorPackage; media: Media
   const [description, setDescription] = useState(pkg?.description ?? "");
   const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(pkg?.featured_image_url ?? null);
 
-  const [seoMeta, setSeoMeta] = useState(() => {
+  const [seoMeta, setSeoMeta] = useState<SeoMeta>(() => {
     const meta = (pkg?.seo_meta as Record<string, string | null | undefined>) || {};
     return {
       title: meta.title ?? "",
@@ -180,6 +180,8 @@ export function PackageEditor({ pkg, media }: { pkg: EditorPackage; media: Media
       og_title: meta.og_title ?? "",
       og_description: meta.og_description ?? "",
       og_image: meta.og_image ?? meta.featuredImageUrl ?? "",
+      when: meta.when ?? "",
+      where: meta.where ?? "",
     };
   });
 
@@ -627,7 +629,7 @@ export function PackageEditor({ pkg, media }: { pkg: EditorPackage; media: Media
             <h3 className="font-display text-lg font-semibold text-olive mb-3">SEO Metadata</h3>
             <SeoPanel
               seoMeta={seoMeta}
-              onChange={setSeoMeta}
+              onChange={(meta) => setSeoMeta({ ...meta, when: meta.when ?? "", where: meta.where ?? "" })}
               slug={slug}
               defaultTitle={title}
               isPackage={true}

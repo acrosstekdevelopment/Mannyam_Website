@@ -19,6 +19,8 @@ export type PackageInput = {
     og_title: string;
     og_description: string;
     og_image: string;
+    when?: string;
+    where?: string;
   } | null;
 };
 

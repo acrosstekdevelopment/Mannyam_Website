@@ -27,7 +27,7 @@ export default async function PublicHomePage() {
           </p>
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/journeys"
+              href="/experiences"
               className="w-full sm:w-auto font-sans text-xs font-semibold uppercase tracking-wider text-ivory bg-gold hover:bg-gold/90 px-8 py-4 rounded-sm transition-all duration-300 hover:shadow-lg hover:shadow-gold/10 text-center"
             >
               Explore Journeys
@@ -54,7 +54,7 @@ export default async function PublicHomePage() {
             </h2>
           </div>
           <Link
-            href="/journeys"
+            href="/experiences"
             className="font-sans text-xs font-semibold uppercase tracking-wider text-gold hover:text-olive transition-colors flex items-center gap-2 group"
           >
             View All Journeys
@@ -100,7 +100,7 @@ export default async function PublicHomePage() {
                     </p>
                   </div>
                   <Link
-                    href={`/journeys/${pkg.slug}`}
+                    href={`/experiences/${pkg.slug}`}
                     className="font-sans text-[11px] font-bold uppercase tracking-wider text-gold hover:text-olive transition-colors flex items-center gap-1.5 pt-2"
                   >
                     Explore Itinerary &rarr;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
-import { deletePost } from "@/app/journal/actions";
+import { deletePost } from "@/app/dashboard/journal/actions";
 
 type PostRow = {
   id: string;
@@ -76,7 +76,7 @@ export function JournalTable({
           <h1 className="font-display text-4xl font-semibold text-olive">Journal</h1>
           <p className="mt-1 text-sm text-olive/70">Create, schedule and publish journal entries.</p>
         </div>
-        <Link href="/journal/new" className="rounded-md bg-gold px-5 py-2.5 font-medium text-olive hover:bg-gold/90">
+        <Link href="/dashboard/journal/new" className="rounded-md bg-gold px-5 py-2.5 font-medium text-olive hover:bg-gold/90">
           New Post
         </Link>
       </div>
@@ -103,7 +103,7 @@ export function JournalTable({
       {posts.length === 0 ? (
         <div className="rounded-lg border border-dashed border-olive/20 bg-paper p-12 text-center">
           <p className="font-display text-2xl">No journal entries yet. Create your first one.</p>
-          <Link href="/journal/new" className="mt-5 inline-block rounded-md bg-gold px-5 py-2.5 font-medium">Create Post</Link>
+          <Link href="/dashboard/journal/new" className="mt-5 inline-block rounded-md bg-gold px-5 py-2.5 font-medium">Create Post</Link>
         </div>
       ) : (
         <div className="overflow-hidden rounded-lg border border-olive/10 bg-paper shadow-sm">
@@ -126,7 +126,7 @@ export function JournalTable({
                     <td className="px-4 py-4 whitespace-nowrap">{formatDate(post.scheduled_at)}</td>
                     <td className="px-4 py-4 whitespace-nowrap">{formatDate(post.published_at)}</td>
                     <td className="px-4 py-4 whitespace-nowrap">{formatDate(post.created_at)}</td>
-                    <td className="px-4 py-4 whitespace-nowrap"><Link href={`/journal/${post.id}/edit`} className="mr-3 font-medium text-gold hover:underline">Edit</Link><button disabled={isPending} onClick={() => handleDelete(post.id, post.title)} className="font-medium text-red-700 hover:underline disabled:opacity-50">Delete</button></td>
+                    <td className="px-4 py-4 whitespace-nowrap"><Link href={`/dashboard/journal/${post.id}/edit`} className="mr-3 font-medium text-gold hover:underline">Edit</Link><button disabled={isPending} onClick={() => handleDelete(post.id, post.title)} className="font-medium text-red-700 hover:underline disabled:opacity-50">Delete</button></td>
                   </tr>
                 ))}
               </tbody>

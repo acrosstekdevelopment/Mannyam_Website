@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import DOMPurify from "isomorphic-dompurify";
 import { createClient } from "@/lib/supabase/server";
-import { publishPost } from "@/app/journal/actions";
+import { publishPost } from "@/app/dashboard/journal/actions";
 import type { Json } from "@/types/database.types";
 
 function getSeo(value: Json | null) {
@@ -35,7 +35,7 @@ export default async function PreviewPostPage({ params }: { params: Promise<{ id
       </div>
       <div className="border-b border-olive/10 bg-cream p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link href={`/journal/${id}/edit`} className="rounded border border-olive/20 px-4 py-2 text-sm">Back to Editor</Link>
+          <Link href={`/dashboard/journal/${id}/edit`} className="rounded border border-olive/20 px-4 py-2 text-sm">Back to Editor</Link>
           {post.status !== "Published" && <form action={publishAction}><button className="rounded bg-gold px-4 py-2 text-sm font-semibold">Publish Now</button></form>}
         </div>
         <details className="mt-4 rounded border border-olive/10 bg-paper p-3 text-sm"><summary className="cursor-pointer font-semibold">SEO preview</summary><dl className="mt-2 grid gap-1"><div><dt className="font-medium">Meta title</dt><dd>{seo.title || "Not set"}</dd></div><div><dt className="font-medium">Meta description</dt><dd>{seo.description || "Not set"}</dd></div><div><dt className="font-medium">Canonical URL</dt><dd>{seo.canonicalUrl || "Not set"}</dd></div></dl></details>

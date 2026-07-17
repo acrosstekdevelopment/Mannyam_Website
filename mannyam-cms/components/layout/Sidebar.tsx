@@ -56,7 +56,7 @@ export function Sidebar({ role, userName }: SidebarProps) {
     },
     {
       name: "Journal",
-      href: "/journal",
+      href: "/dashboard/journal",
       icon: BookOpen,
       visible: canAccess(role, "journal"),
     },

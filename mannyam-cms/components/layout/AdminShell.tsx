@@ -10,6 +10,7 @@ interface AdminShellProps {
 }
 
 function getPageTitle(path: string) {
+  if (path.startsWith("/dashboard/journal")) return "Journal CMS";
   if (path.startsWith("/dashboard")) return "Dashboard Overview";
   if (path.startsWith("/journal")) return "Journal CMS";
   if (path.startsWith("/pages-cms")) return "Pages Manager";
