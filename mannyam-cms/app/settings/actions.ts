@@ -1,27 +1,14 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
+import { requireRole } from "@/lib/rbac/requireRole";
+
 export async function saveSiteSetting(key: string, value: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { user } = await requireRole(["Admin", "Marketer"]);
 
-  if (!user) {
-    throw new Error("Unauthorized");
-  }
-
-  // Fetch profile to verify role
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Marketer"].includes(profile.role)) {
-    throw new Error("Access denied. Only Admin and Marketer roles can modify these settings.");
-  }
 
   const trimmedValue = value.trim();
 

@@ -1,23 +1,17 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { PagesTable } from "@/components/pages/PagesTable";
 
 export default async function PagesCmsPage() {
+  const { role } = await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
-  const [{ data: profile }, { data: pages, error }] = await Promise.all([
-    supabase.from("users").select("role").eq("id", user.id).single(),
+  const [{ data: pages, error }] = await Promise.all([
     supabase
       .from("pages")
       .select("id,title,slug,type,status,updated_at")
       .order("updated_at", { ascending: false }),
   ]);
-
-  if (!profile || !["Admin", "Content Manager"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   if (error) {
     return (
@@ -35,5 +29,5 @@ export default async function PagesCmsPage() {
     updated_at: page.updated_at ?? new Date(0).toISOString(),
   }));
 
-  return <PagesTable pages={rows} role={profile.role} />;
+  return <PagesTable pages={rows} role={role} />;
 }

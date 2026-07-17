@@ -1,23 +1,12 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { ClustersClient } from "./ClustersClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function ClustersPage() {
+  const { role } = await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Content Manager", "Marketer"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   // 1. Fetch all clusters
   const { data: clustersData } = await supabase
@@ -87,7 +76,7 @@ export default async function ClustersPage() {
     };
   });
 
-  const canWrite = ["Admin", "Content Manager"].includes(profile.role);
+  const canWrite = ["Admin", "Content Manager"].includes(role);
 
   return (
     <ClustersClient

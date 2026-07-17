@@ -1,24 +1,18 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { JournalTable } from "@/components/journal/JournalTable";
 
 export default async function JournalPage() {
+  await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
-  const [{ data: profile }, { data: posts, error }, { data: categories }] = await Promise.all([
-    supabase.from("users").select("role").eq("id", user.id).single(),
+  const [{ data: posts, error }, { data: categories }] = await Promise.all([
     supabase
       .from("posts")
       .select("id,title,category_id,status,scheduled_at,published_at,created_at,categories(name)")
       .order("created_at", { ascending: false }),
     supabase.from("categories").select("id,name").order("name"),
   ]);
-
-  if (!profile || !["Admin", "Content Manager"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   if (error) {
     return (

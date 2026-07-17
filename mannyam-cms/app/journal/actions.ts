@@ -22,12 +22,11 @@ export type PostInput = {
   };
 };
 
+import { requireRole } from "@/lib/rbac/requireRole";
+
 async function requireEditor() {
+  const { user } = await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("You must be signed in.");
-  const { data: profile } = await supabase.from("users").select("role").eq("id", user.id).single();
-  if (!profile || !["Admin", "Content Manager"].includes(profile.role)) throw new Error("Access denied.");
   return { supabase, user };
 }
 

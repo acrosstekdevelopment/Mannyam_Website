@@ -1,23 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
+import { requireRole } from "@/lib/rbac/requireRole";
+
 async function requireAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
-
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || profile.role !== "Admin") {
-    throw new Error("Access denied. Admin role required.");
-  }
+  const { user } = await requireRole(["Admin", "Content Manager", "Marketer"]);
   return { user };
 }
 

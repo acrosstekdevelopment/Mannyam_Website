@@ -5,23 +5,16 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { detectCircularRedirect, type RedirectItem } from "@/lib/redirects/detectCircular";
 
+import { requireRole } from "@/lib/rbac/requireRole";
+
 async function requireEditor() {
+  const { user, role } = await requireRole(["Admin", "Marketer"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("You must be signed in.");
-  const { data: profile } = await supabase.from("users").select("role").eq("id", user.id).single();
-  if (!profile || !["Admin", "Content Manager", "Marketer"].includes(profile.role)) {
-    throw new Error("Access denied.");
-  }
-  return { supabase, user, profile };
+  return { supabase, user, role };
 }
 
 async function requireWritePermission() {
-  const { supabase, user, profile } = await requireEditor();
-  if (!["Admin", "Marketer"].includes(profile.role)) {
-    throw new Error("Access denied. Admin or Marketer role required.");
-  }
-  return { supabase, user, profile };
+  return requireEditor();
 }
 
 function validateRedirectPaths(fromPath: string, toPath: string) {

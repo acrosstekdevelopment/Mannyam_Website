@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { LeadsClient } from "./LeadsClient";
 
@@ -7,22 +7,8 @@ export const dynamic = "force-dynamic";
 export default async function LeadsPage() {
   const supabase = await createClient();
 
-  // 1. Authenticate user
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    redirect("/login");
-  }
-
-  // 2. Fetch user profile to verify role
-  const { data: profile } = await supabase
-    .from("users")
-    .select("id, name, role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Marketer"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
+  // 1. Enforce RBAC
+  await requireRole(["Admin", "Marketer"]);
 
   // 3. Fetch all leads
   const { data: leads } = await supabase

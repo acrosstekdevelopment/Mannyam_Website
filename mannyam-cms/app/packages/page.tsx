@@ -1,23 +1,17 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { PackagesTable } from "@/components/packages/PackagesTable";
 
 export default async function PackagesCmsPage() {
+  const { role } = await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
-  const [{ data: profile }, { data: packages, error }] = await Promise.all([
-    supabase.from("users").select("role").eq("id", user.id).single(),
+  const [{ data: packages, error }] = await Promise.all([
     supabase
       .from("packages")
       .select("id,title,slug,type,featured_image_url,created_at")
       .order("created_at", { ascending: false }),
   ]);
-
-  if (!profile || !["Admin", "Content Manager"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   if (error) {
     return (
@@ -34,5 +28,5 @@ export default async function PackagesCmsPage() {
     created_at: pkg.created_at ?? new Date(0).toISOString(),
   }));
 
-  return <PackagesTable packages={rows} role={profile.role} />;
+  return <PackagesTable packages={rows} role={role} />;
 }

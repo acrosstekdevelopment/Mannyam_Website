@@ -9,11 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        olive: "#393e29",
-        gold: "#ba8838",
-        ivory: "#f6ede3",
-        cream: "#fbf7f0",
+        olive: "#3a4430",
+        gold: "#b1832f",
+        ivory: "#fcfcfa",
+        cream: "#f4f3ec",
         paper: "#fffdf9",
+        ink: "#22271d",
+        sand: "#c39657",
       },
       fontFamily: {
         display: ["var(--font-cormorant-garamond)", "serif"],

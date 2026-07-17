@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { SeoOverviewClient } from "./SeoOverviewClient";
 import { type SeoMetaValue } from "@/lib/seo/utils";
@@ -13,23 +13,8 @@ type SeoItem = {
 };
 
 export default async function SeoOverviewPage() {
+  const { role } = await requireRole(["Admin", "Content Manager", "Marketer"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // Fetch profile to verify role
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Content Manager", "Marketer"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   // Fetch Pages & Posts
   const [pagesResult, postsResult] = await Promise.all([
@@ -90,7 +75,7 @@ export default async function SeoOverviewPage() {
       initialPages={pages}
       initialPosts={posts}
       initialPackages={packages}
-      userRole={profile.role}
+      userRole={role}
     />
   );
 }

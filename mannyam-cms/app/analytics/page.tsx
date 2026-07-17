@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { getSearchConsoleData } from "@/lib/analytics/searchConsole";
 
@@ -63,23 +63,10 @@ export default async function AnalyticsPage(props: {
   const searchParams = await props.searchParams;
   const range = (searchParams.range || "28d") as "7d" | "28d" | "90d";
 
+  // 1. Enforce RBAC
+  await requireRole(["Admin", "Marketer"]);
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // 1. RBAC Check: Only Admin and Marketer can view this page
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Marketer"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   // 2. Check if GSC is configured
   const siteUrl = process.env.GSC_SITE_URL || "";

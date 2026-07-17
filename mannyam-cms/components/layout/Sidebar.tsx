@@ -18,6 +18,8 @@ import {
   LogOut,
 } from "lucide-react";
 
+import { canAccess } from "@/lib/rbac/permissions";
+
 export interface SidebarProps {
   role: "Admin" | "Content Manager" | "Marketer";
   userName: string;
@@ -42,10 +44,7 @@ export function Sidebar({ role, userName }: SidebarProps) {
     fetchCount();
   }, [pathname]); // Refresh count when navigating to detect fixes instantly
 
-  // Role-based visibility checks:
-  const showAnalytics = role !== "Content Manager";
-  const showLeads = role !== "Content Manager";
-  const showRedirects = role !== "Content Manager";
+  // Role-based sublink visibility:
   const showUsersSublink = role === "Admin";
 
   const navigationItems = [
@@ -59,61 +58,61 @@ export function Sidebar({ role, userName }: SidebarProps) {
       name: "Journal",
       href: "/journal",
       icon: BookOpen,
-      visible: true,
+      visible: canAccess(role, "journal"),
     },
     {
       name: "Pages",
       href: "/pages-cms",
       icon: FileText,
-      visible: true,
+      visible: canAccess(role, "pages"),
     },
     {
       name: "Packages",
       href: "/packages",
       icon: Package,
-      visible: true,
+      visible: canAccess(role, "packages"),
     },
     {
       name: "Media",
       href: "/media",
       icon: Image,
-      visible: true,
+      visible: canAccess(role, "media"),
     },
     {
       name: "SEO Tools",
       href: "/seo",
       icon: Search,
-      visible: true,
+      visible: canAccess(role, "seo"),
     },
     {
       name: "Redirects",
       href: "/redirects",
       icon: ArrowRightLeft,
-      visible: showRedirects,
+      visible: canAccess(role, "redirects"),
     },
     {
       name: "Clusters",
       href: "/clusters",
       icon: Network,
-      visible: true,
+      visible: canAccess(role, "clusters"),
     },
     {
       name: "Analytics",
       href: "/analytics",
       icon: BarChart2,
-      visible: showAnalytics,
+      visible: canAccess(role, "analytics"),
     },
     {
       name: "Leads",
       href: "/leads",
       icon: Inbox,
-      visible: showLeads,
+      visible: canAccess(role, "leads"),
     },
     {
       name: "Settings",
       href: "/settings",
       icon: Settings,
-      visible: true,
+      visible: canAccess(role, "settings"),
     },
   ];
 

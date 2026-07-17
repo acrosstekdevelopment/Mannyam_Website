@@ -1,27 +1,12 @@
-import { redirect } from "next/navigation";
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
 import { AnalyticsSettingsClient } from "./AnalyticsSettingsClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function AnalyticsSettingsPage() {
+  await requireRole(["Admin", "Marketer"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // Fetch profile to verify role
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Marketer"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   // Fetch current GA4 and GTM settings
   const { data: settings } = await supabase

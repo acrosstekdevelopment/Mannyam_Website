@@ -9,22 +9,13 @@ export type SpokeInput = {
   type: "Page" | "Post" | "Package";
 };
 
+import { requireRole } from "@/lib/rbac/requireRole";
+
 // Authentication checking helper
 async function requireEditor() {
+  const { user, role } = await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("You must be signed in.");
-  
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-    
-  if (!profile || !["Admin", "Content Manager"].includes(profile.role)) {
-    throw new Error("Access denied. Admin or Content Manager role required.");
-  }
-  return { supabase, user, profile };
+  return { supabase, user, role };
 }
 
 // 1. Fetch Pages, Posts, and Packages options for Pillar & Spoke dropdowns

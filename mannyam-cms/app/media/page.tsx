@@ -1,21 +1,10 @@
+import { requireRole } from "@/lib/rbac/requireRole";
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import { MediaLibraryClient } from "./MediaLibraryClient";
 
 export default async function MediaPage() {
+  const { role } = await requireRole(["Admin", "Content Manager"]);
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !["Admin", "Content Manager"].includes(profile.role)) {
-    redirect("/dashboard?error=access_denied");
-  }
 
   const { data: media } = await supabase
     .from("media")
@@ -65,7 +54,7 @@ export default async function MediaPage() {
   return (
     <MediaLibraryClient
       initialMedia={mediaList}
-      userRole={profile.role}
+      userRole={role}
       initialUsageCounts={usageCounts}
     />
   );

@@ -1,29 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireRole } from "@/lib/rbac/requireRole";
 
 export const dynamic = "force-dynamic";
 
 export default async function SettingsPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  await requireRole(["Admin"]);
 
-  if (!user) {
-    redirect("/login");
-  }
-
-  // Fetch profile to verify role
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  const role = profile?.role || "Content Manager";
-
-  const showUsers = role === "Admin";
-  const showAnalytics = ["Admin", "Marketer"].includes(role);
+  const showUsers = true;
+  const showAnalytics = true;
 
   return (
     <div className="space-y-6 font-sans">
