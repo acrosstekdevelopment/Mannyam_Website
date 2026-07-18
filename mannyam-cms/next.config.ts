@@ -3,16 +3,27 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Pin the workspace root to this project folder so Next.js does not get
-  // confused by a stray package-lock.json in a parent directory on the VPS.
   outputFileTracingRoot: path.join(__dirname),
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+      },
+      {
+        protocol: "https",
+        hostname: "api.mannyam.in",
+      },
+    ],
+  },
   eslint: {
-    // Allow production builds to complete even if ESLint has errors.
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Do not fail the production build on type errors. Type-check separately
-    // in development with `npx tsc --noEmit`.
     ignoreBuildErrors: false,
   },
   experimental: {
