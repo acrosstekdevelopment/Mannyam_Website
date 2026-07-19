@@ -33,8 +33,8 @@ UPDATE public.packages SET featured_image_url =
   WHERE slug = 'ganges-and-beyond';      -- yoga
 
 UPDATE public.packages SET featured_image_url =
-  'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1200&q=75'
-  WHERE slug = 'colours-of-holi';        -- spice (colour)
+  'https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=1200&q=75'
+  WHERE slug = 'colours-of-holi';        -- holi crowd
 
 UPDATE public.packages SET featured_image_url =
   'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=75'
@@ -47,8 +47,8 @@ UPDATE public.packages SET featured_image_url =
 -- ─── POSTS (Journal) og_image inside seo_meta ───────────────────────────────
 UPDATE public.posts SET seo_meta = jsonb_set(
   COALESCE(seo_meta, '{}'::jsonb), '{og_image}',
-  '"https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1200&q=75"'
-) WHERE slug = 'holi-mathura';           -- spice (colour)
+  '"https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=1200&q=75"'
+) WHERE slug = 'holi-mathura';           -- holi crowd
 
 UPDATE public.posts SET seo_meta = jsonb_set(
   COALESCE(seo_meta, '{}'::jsonb), '{og_image}',
