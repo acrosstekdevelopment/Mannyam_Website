@@ -9,6 +9,7 @@ export default async function SettingsPage() {
 
   const showUsers = true;
   const showAnalytics = true;
+  const showPayments = true;
 
   return (
     <div className="space-y-6 font-sans">
@@ -56,7 +57,24 @@ export default async function SettingsPage() {
           </Link>
         )}
 
-        {!showAnalytics && !showUsers && (
+        {showPayments && (
+          <Link
+            href="/settings/payments"
+            className="group rounded-xl border border-olive/10 bg-paper p-5 shadow-sm hover:border-gold transition duration-200 block space-y-2"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl group-hover:scale-110 transition-transform duration-200">💳</span>
+              <h2 className="font-display text-lg font-semibold text-olive group-hover:text-gold transition">
+                Payment Gateways
+              </h2>
+            </div>
+            <p className="text-xs text-olive/60 leading-relaxed">
+              Configure Razorpay API Keys and Webhook secrets securely for the client checkout.
+            </p>
+          </Link>
+        )}
+
+        {!showAnalytics && !showUsers && !showPayments && (
           <div className="rounded-lg border border-gold/15 bg-cream/20 p-5 text-center text-xs text-olive/60 italic sm:col-span-2">
             No configuration options available for your current role.
           </div>

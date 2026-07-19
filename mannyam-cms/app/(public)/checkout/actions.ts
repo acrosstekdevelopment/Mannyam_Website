@@ -1,7 +1,7 @@
 "use server";
 
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { razorpay } from "@/lib/commerce/razorpay";
+import { getRazorpayClient } from "@/lib/commerce/razorpay";
 import { clearCart } from "@/lib/commerce/cart";
 import { createClient } from "@/lib/supabase/server";
 
@@ -39,6 +39,7 @@ export async function verifyAndGetBookingStatus(bookingId: string, paymentId?: s
     // 3. Fallback verification: if paymentId is provided, query Razorpay directly
     if (paymentId && (booking.status === "Pending" || (booking.status === "Confirmed" && booking.razorpay_payment_id !== paymentId))) {
       try {
+        const razorpay = await getRazorpayClient();
         const payment = await razorpay.payments.fetch(paymentId);
         
         if (payment && payment.status === "captured") {

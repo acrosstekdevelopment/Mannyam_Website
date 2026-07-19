@@ -1,6 +1,7 @@
 import { getComputedCart } from "@/lib/commerce/cart";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { CheckoutFormClient } from "@/components/commerce/CheckoutFormClient";
+import { getRazorpayCredentials } from "@/lib/commerce/razorpay";
 import Link from "next/link";
 
 export const metadata = {
@@ -48,6 +49,8 @@ export default async function CheckoutPage() {
     baseAmount: row.base_amount,
   }));
 
+  const { keyId } = await getRazorpayCredentials();
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       {/* Header Eyecatcher */}
@@ -64,7 +67,7 @@ export default async function CheckoutPage() {
       </div>
 
       {/* Interactive Form Component */}
-      <CheckoutFormClient cart={cart} pricingDetails={pricingDetails} />
+      <CheckoutFormClient cart={cart} pricingDetails={pricingDetails} razorpayKeyId={keyId || "rzp_test_placeholder"} />
     </main>
   );
 }

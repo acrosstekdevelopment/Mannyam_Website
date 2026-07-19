@@ -2,13 +2,14 @@ import { NextResponse } from "next/server";
 import { createHmac } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { sendBookingConfirmationEmail } from "@/lib/email/notifyBookingConfirmation";
+import { getRazorpayCredentials } from "@/lib/commerce/razorpay";
 
 export async function POST(request: Request) {
   try {
     const rawBody = await request.text();
     const signature = request.headers.get("x-razorpay-signature") || "";
 
-    const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    const { webhookSecret: secret } = await getRazorpayCredentials();
     if (!secret) {
       console.error("RAZORPAY_WEBHOOK_SECRET is not configured.");
       return NextResponse.json({ error: "Webhook secret missing" }, { status: 500 });

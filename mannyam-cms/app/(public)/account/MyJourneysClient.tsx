@@ -38,9 +38,10 @@ interface MyJourneysClientProps {
     country?: string | null;
   } | null;
   bookings: Booking[];
+  razorpayKeyId: string;
 }
 
-export function MyJourneysClient({ profile, bookings }: MyJourneysClientProps) {
+export function MyJourneysClient({ profile, bookings, razorpayKeyId }: MyJourneysClientProps) {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -73,7 +74,7 @@ export function MyJourneysClient({ profile, bookings }: MyJourneysClientProps) {
 
       // Launch Razorpay Modal
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_placeholder",
+        key: razorpayKeyId,
         amount: data.amount,
         currency: data.currency,
         name: "MANNYAM",

@@ -35,9 +35,10 @@ interface CheckoutFormClientProps {
     depositAmount: number | null;
     baseAmount: number;
   }[];
+  razorpayKeyId: string;
 }
 
-export function CheckoutFormClient({ cart, pricingDetails }: CheckoutFormClientProps) {
+export function CheckoutFormClient({ cart, pricingDetails, razorpayKeyId }: CheckoutFormClientProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -410,7 +411,7 @@ export function CheckoutFormClient({ cart, pricingDetails }: CheckoutFormClientP
 
                 // Launch Razorpay Modal
                 const options = {
-                  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_placeholder",
+                  key: razorpayKeyId,
                   amount: data.amount,
                   currency: data.currency,
                   name: "MANNYAM",

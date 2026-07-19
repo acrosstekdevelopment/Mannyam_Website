@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { razorpay } from "@/lib/commerce/razorpay";
+import { getRazorpayClient } from "@/lib/commerce/razorpay";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +50,7 @@ export async function POST(req: Request, { params }: RouteParams) {
     }
 
     // 5. Generate Razorpay Order
+    const razorpay = await getRazorpayClient();
     const rzpOrder = await razorpay.orders.create({
       amount: remainingBalance,
       currency: booking.currency,

@@ -3,7 +3,7 @@ import { getComputedCart } from "@/lib/commerce/cart";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { sendBookingConfirmationEmail } from "@/lib/email/notifyBookingConfirmation";
 import { createClient } from "@/lib/supabase/server";
-import { razorpay } from "@/lib/commerce/razorpay";
+import { getRazorpayClient } from "@/lib/commerce/razorpay";
 
 export async function POST(request: Request) {
   try {
@@ -201,6 +201,7 @@ export async function POST(request: Request) {
     let orderId = "";
     if (razorpayChargeAmount > 0) {
       try {
+        const razorpay = await getRazorpayClient();
         const rzpOrder = await razorpay.orders.create({
           amount: razorpayChargeAmount,
           currency: cart.currency,

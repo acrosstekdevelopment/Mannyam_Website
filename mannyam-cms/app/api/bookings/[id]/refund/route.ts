@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { razorpay } from "@/lib/commerce/razorpay";
+import { getRazorpayClient } from "@/lib/commerce/razorpay";
 
 export const dynamic = "force-dynamic";
 
@@ -64,6 +64,7 @@ export async function POST(req: Request, { params }: RouteParams) {
     }
 
     // 5. Fire Refund Request on Razorpay API Gateway
+    const razorpay = await getRazorpayClient();
     const refund = await razorpay.payments.refund(razorpay_payment_id, { amount });
 
     if (!refund || !refund.id) {
