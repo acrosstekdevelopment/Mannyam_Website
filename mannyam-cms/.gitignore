@@ -29,3 +29,6 @@ lerna-debug.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Client Documentation
+client-handover.html
