@@ -18,24 +18,24 @@ const EXPERIENCES_ITEMS = [
 ];
 
 const FESTIVALS_ITEMS = [
-  { title: "Holi", desc: "Festival of colour, March", href: "/festival-holi" },
-  { title: "Diwali", desc: "Festival of lights, Oct-Nov", href: "/festival-diwali" },
-  { title: "Dussehra", desc: "Triumph of good, October", href: "/festival-dussehra" },
-  { title: "Durga Puja", desc: "Art and devotion, October", href: "/festival-durga-puja" },
-  { title: "Navratri and Garba", desc: "Nine nights of dance", href: "/festival-navratri" },
-  { title: "Ganesh Chaturthi", desc: "Mumbai's biggest celebration", href: "/festival-ganesh-chaturthi" },
-  { title: "Pongal and Onam", desc: "Harvest festivals of the south", href: "/festival-harvest" },
-  { title: "Celebration Shows", desc: "Private folk evenings, year round", href: "/festival-celebration-shows" },
+  { title: "Holi", desc: "March", href: "/festival-holi" },
+  { title: "Diwali", desc: "October to November", href: "/festival-diwali" },
+  { title: "Dussehra", desc: "October", href: "/festival-dussehra" },
+  { title: "Durga Puja", desc: "October", href: "/festival-durga-puja" },
+  { title: "Navratri and Garba", desc: "October", href: "/festival-navratri" },
+  { title: "Ganesh Chaturthi", desc: "August to September", href: "/festival-ganesh-chaturthi" },
+  { title: "Pongal and Onam", desc: "January and August", href: "/festival-harvest" },
+  { title: "Celebration Shows", desc: "All year", href: "/festival-celebration-shows" },
 ];
 
 const DESTINATIONS_ITEMS = [
-  { title: "Rajasthan", desc: "Desert forts and lake palaces", href: "/destination-rajasthan" },
-  { title: "Kerala", desc: "Backwaters and spice hills", href: "/destination-kerala" },
-  { title: "The Himalayas", desc: "Monasteries and high passes", href: "/destination-himalayas" },
-  { title: "Tamil Nadu", desc: "Temple gateways and coast", href: "/destination-tamil-nadu" },
-  { title: "Varanasi", desc: "Dawn boats and fire rituals", href: "/destination-varanasi" },
-  { title: "The North-East", desc: "Root bridges and tribal cultures", href: "/destination-north-east" },
-  { title: "Gujarat", desc: "Salt deserts and wild lions", href: "/destination-gujarat" },
+  { title: "Rajasthan", desc: "October to March", href: "/destination-rajasthan" },
+  { title: "Kerala", desc: "September to March", href: "/destination-kerala" },
+  { title: "The Himalayas", desc: "May to September", href: "/destination-himalayas" },
+  { title: "Tamil Nadu", desc: "November to February", href: "/destination-tamil-nadu" },
+  { title: "Varanasi", desc: "October to March", href: "/destination-varanasi" },
+  { title: "The North-East", desc: "October to April", href: "/destination-north-east" },
+  { title: "Gujarat", desc: "November to February", href: "/destination-gujarat" },
 ];
 
 const JOURNEYS_ITEMS = [
@@ -49,9 +49,9 @@ const JOURNEYS_ITEMS = [
 ];
 
 const FEATURED_IMAGES: Record<string, string> = {
-  experiences: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=75",
+  experiences: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=75",
   festivals: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=75",
-  destinations: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=600&q=75",
+  destinations: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75",
   journeys: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=75",
 };
 
@@ -119,13 +119,17 @@ export function Header() {
                         <div className="text-[11px] text-olive/50">{item.desc}</div>
                       </Link>
                     ))}
+                    <Link href="/experiences" className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
+                      <div className="font-display text-[17px] text-gold">View all</div>
+                      <div className="text-[11px] text-olive/50">See everything</div>
+                    </Link>
                   </div>
                   <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
                     <img src={FEATURED_IMAGES.experiences} alt="Experience India" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                     <div className="absolute left-3.5 right-3.5 bottom-3 text-ivory z-10">
-                      <div className="text-[9.5px] uppercase tracking-[0.24em] text-sand/80">Featured</div>
-                      <div className="font-display text-[20px] mt-0.5">Royal Rajasthan</div>
+                      <div className="text-[9.5px] uppercase tracking-[0.24em] text-sand/80">Romance</div>
+                      <div className="font-display text-[20px] mt-0.5">Honeymoon and Romance</div>
                     </div>
                   </div>
                 </div>
@@ -153,12 +157,16 @@ export function Header() {
                         <div className="text-[11px] text-olive/50">{item.desc}</div>
                       </Link>
                     ))}
+                    <Link href="/festivals" className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
+                      <div className="font-display text-[17px] text-gold">View all</div>
+                      <div className="text-[11px] text-olive/50">See everything</div>
+                    </Link>
                   </div>
                   <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
                     <img src={FEATURED_IMAGES.festivals} alt="Festival India" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                     <div className="absolute left-3.5 right-3.5 bottom-3 text-ivory z-10">
-                      <div className="text-[9.5px] uppercase tracking-[0.24em] text-sand/80">Upcoming</div>
+                      <div className="text-[9.5px] uppercase tracking-[0.24em] text-sand/80">March</div>
                       <div className="font-display text-[20px] mt-0.5">Colours of Holi</div>
                     </div>
                   </div>
@@ -187,12 +195,16 @@ export function Header() {
                         <div className="text-[11px] text-olive/50">{item.desc}</div>
                       </Link>
                     ))}
+                    <Link href="/destinations" className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
+                      <div className="font-display text-[17px] text-gold">View all</div>
+                      <div className="text-[11px] text-olive/50">See everything</div>
+                    </Link>
                   </div>
                   <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
                     <img src={FEATURED_IMAGES.destinations} alt="Destination India" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                     <div className="absolute left-3.5 right-3.5 bottom-3 text-ivory z-10">
-                      <div className="text-[9.5px] uppercase tracking-[0.24em] text-sand/80">Most Popular</div>
+                      <div className="text-[9.5px] uppercase tracking-[0.24em] text-sand/80">North-West</div>
                       <div className="font-display text-[20px] mt-0.5">Rajasthan</div>
                     </div>
                   </div>
