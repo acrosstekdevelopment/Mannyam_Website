@@ -1,9 +1,10 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { getPublishedPostsPaginated, getCategories } from "@/lib/data/public";
 import { SectionHeading } from "@/components/public/ui/SectionHeading";
 import { PostCard } from "@/components/public/ui/PostCard";
 import { buildMetadata } from "@/lib/seo/buildMetadata";
 import type { Metadata } from "next";
+import { ClosingCta } from "@/components/public/ClosingCta";
 
 export const revalidate = 3600; // Time-based ISR fallback
 
@@ -119,6 +120,7 @@ export default async function JournalPage({ searchParams }: PageProps) {
         )}
       </main>
 
+      <ClosingCta />
     </div>
   );
 }

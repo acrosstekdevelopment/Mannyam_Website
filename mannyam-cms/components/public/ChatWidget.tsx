@@ -161,7 +161,7 @@ export function ChatWidget() {
       <button
         ref={triggerButtonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gold text-ivory rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-[#a07525] hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+        className="fixed bottom-6 right-6 z-50 w-[60px] h-[60px] bg-[#ba9243] text-ivory rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 hover:bg-[#a07525] hover:scale-110 active:scale-95 border-[2px] border-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
         aria-label={isOpen ? "Close curation chat" : "Open curation chat"}
         aria-expanded={isOpen}
         aria-controls="mannyam-chat-panel"
@@ -171,7 +171,7 @@ export function ChatWidget() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <Image src="/logo-icon.png" alt="Ask MANNYAM" width={28} height={28} className="rounded-full" />
+          <Image src="/logo-icon.png" alt="Ask MANNYAM" width={22} height={22} className="rounded-none object-contain" />
         )}
       </button>
 

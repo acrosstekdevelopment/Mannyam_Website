@@ -7,6 +7,7 @@ import { Button } from "@/components/public/ui/Button";
 import { PackageCard } from "@/components/public/ui/PackageCard";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ClosingCta } from "@/components/public/ClosingCta";
 
 async function RelatedJourneysSection({ pkgType }: { pkgType?: 'Festival' | 'Destination' | 'Honeymoon' | 'Wildlife' | 'Wellness' }) {
   const packages = await getPublishedPackages(pkgType, 3);
@@ -202,6 +203,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
             </div>
           </div>
+          <ClosingCta />
         </article>
       );
     }
@@ -210,6 +212,7 @@ export default async function DynamicPage({ params }: PageProps) {
     return (
       <article className="min-h-screen bg-ivory">
         <BlockRenderer blocks={blocks} />
+        <ClosingCta />
       </article>
     );
   }
@@ -358,27 +361,7 @@ export default async function DynamicPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Closing CTA */}
-      <section className="relative py-20 md:py-28 text-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroData.backgroundImage || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=75"} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-[radial-gradient(120%_130%_at_50%_0%,rgba(74,82,55,.8),rgba(44,49,32,.92))]" />
-        </div>
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-ivory">
-          <span className="font-sans text-[10.5px] font-medium tracking-[0.4em] uppercase text-sand">Begin</span>
-          <h2 className="font-display text-[34px] md:text-[60px] font-medium mt-3 leading-tight">
-            Ready to write<br/>your <em className="italic text-gold">India</em>?
-          </h2>
-          <p className="font-sans text-[13.5px] md:text-[16px] text-ivory/75 mt-3.5 leading-relaxed font-light">
-            One short note is all it takes. Tell us what stirs you, and a curator will shape the first outline within a day.
-          </p>
-          <div className="mt-6">
-            <Button href="/enquire" variant="amber">Plan my journey</Button>
-          </div>
-          <p className="font-display italic text-[19px] text-ivory/60 mt-4">Free to start, and no obligation.</p>
-        </div>
-      </section>
-
+      <ClosingCta />
     </article>
   );
 }

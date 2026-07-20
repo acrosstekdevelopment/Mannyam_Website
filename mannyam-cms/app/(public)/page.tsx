@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { HomeConcierge } from "@/components/public/HomeConcierge";
 import { HomeTestimonials } from "@/components/public/HomeTestimonials";
 import { HeroSlideshow } from "@/components/public/HeroSlideshow";
+import { ClosingCta } from "@/components/public/ClosingCta";
 
 export const revalidate = 3600;
 
@@ -280,27 +281,7 @@ export default async function PublicHomePage() {
         </div>
       </section>
 
-      {/* ═══ CLOSING CTA ═══ */}
-      <section className="relative py-20 md:py-28 text-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={HERO_IMG} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-[radial-gradient(120%_130%_at_50%_0%,rgba(74,82,55,.8),rgba(44,49,32,.92))]" />
-        </div>
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-ivory">
-          <span className="font-sans text-[10.5px] font-medium tracking-[0.4em] uppercase text-sand">Your chapter one</span>
-          <h2 className="font-display text-[34px] md:text-[60px] font-medium mt-3 leading-tight">
-            India is waiting<br/>to be <em className="italic text-gold">lived</em>.
-          </h2>
-          <p className="font-sans text-[13.5px] md:text-[16px] text-ivory/75 mt-3.5 leading-relaxed font-light max-w-lg mx-auto">
-            Tell us who you are and what stirs you. Within a day, a curator will write back with the first outline of your journey.
-          </p>
-          <div className="mt-6">
-            <Button href="/enquire" variant="amber">Plan my journey</Button>
-          </div>
-          <p className="font-display italic text-[19px] text-ivory/70 mt-4">No cost, and no templates.</p>
-        </div>
-      </section>
-
+      <ClosingCta />
     </div>
   );
 }
