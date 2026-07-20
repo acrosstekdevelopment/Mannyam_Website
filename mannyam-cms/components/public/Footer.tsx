@@ -86,7 +86,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 md:mt-16 mb-4 md:mb-6">
+        <div className="mt-12 md:mt-16 mb-4 md:mb-6 flex justify-center w-full">
           <FooterLanguageSelector />
         </div>
 
