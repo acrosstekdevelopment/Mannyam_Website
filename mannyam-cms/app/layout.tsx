@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 import { headers } from "next/headers";
 import { AdminShell } from "@/components/layout/AdminShell";
+import { GoogleTranslate } from "@/components/public/GoogleTranslate";
 import "./globals.css";
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -60,6 +61,7 @@ export default async function RootLayout({
   return (
     <html lang="en-GB" className={`${cormorantGaramond.variable} ${jost.variable}`}>
       <body className="font-sans bg-cream text-olive min-h-screen antialiased">
+        <GoogleTranslate />
         {content}
       </body>
     </html>

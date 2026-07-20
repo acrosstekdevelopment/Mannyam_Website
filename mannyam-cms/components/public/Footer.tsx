@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { FooterLanguageSelector } from "./FooterLanguageSelector";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -83,6 +84,10 @@ export function Footer() {
               </nav>
             </div>
           </div>
+        </div>
+
+        <div className="mt-12 md:mt-16 mb-4 md:mb-6">
+          <FooterLanguageSelector />
         </div>
 
         {/* Bottom bar */}

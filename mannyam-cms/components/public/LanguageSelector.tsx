@@ -43,6 +43,16 @@ export function LanguageSelector() {
 
   const handleSelect = (code: string) => {
     document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=31536000`;
+    
+    if (code.toUpperCase() === "EN") {
+      document.cookie = `googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+      document.cookie = `googtrans=; path=/; domain=${window.location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    } else {
+      const expectedGoogtrans = `/en/${code.toLowerCase()}`;
+      document.cookie = `googtrans=${expectedGoogtrans}; path=/`;
+      document.cookie = `googtrans=${expectedGoogtrans}; path=/; domain=${window.location.hostname}`;
+    }
+
     setCurrentLang(code.toUpperCase());
     setIsOpen(false);
     window.location.reload();
