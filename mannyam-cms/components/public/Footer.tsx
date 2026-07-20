@@ -13,7 +13,7 @@ export function Footer() {
 
           {/* Left: Brand + desc + newsletter */}
           <div>
-            <Image src="/logo.png" alt="MANNYAM" height={44} width={180} className="mb-4" />
+            <Image src="/logo.png" alt="MANNYAM" height={64} width={64} className="mb-4" />
             <p className="mt-3 text-[12.5px] text-[#a7a995] leading-relaxed max-w-[34em] font-light">
               Private, thoughtfully planned journeys that reveal the real spirit of India through its festivals, living traditions and the people who make them unforgettable.
             </p>

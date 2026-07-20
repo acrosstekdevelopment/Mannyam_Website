@@ -105,7 +105,7 @@ export function Header() {
 
         {/* Brand */}
         <Link href="/" className="flex flex-col select-none group">
-          <Image src="/logo.png" alt="MANNYAM - The Story of India" height={38} width={220} className="h-[38px] w-auto" />
+          <Image src="/logo.png" alt="MANNYAM - The Story of India" height={44} width={44} className="h-[44px] w-auto" />
           <span className="sr-only">MANNYAM - The Story of India</span>
         </Link>
 
