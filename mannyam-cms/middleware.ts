@@ -71,6 +71,21 @@ function normalizePath(p: string): string {
   return clean.toLowerCase();
 }
 
+const supportedLocales = ['en', 'fr', 'de', 'es', 'it', 'nl', 'pt', 'sv', 'el'];
+
+function getLocale(req: NextRequest) {
+  const acceptLang = req.headers.get('accept-language');
+  if (!acceptLang) return 'en';
+  
+  const langs = acceptLang.split(',').map(l => l.split(';')[0].split('-')[0].trim().toLowerCase());
+  for (const lang of langs) {
+    if (supportedLocales.includes(lang)) {
+      return lang;
+    }
+  }
+  return 'en';
+}
+
 function isPublicRoute(path: string): boolean {
   const adminRoutes = [
     "/dashboard",
@@ -127,8 +142,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Inject x-pathname header to make the current route pathname
-  // accessible in Server Components (such as dashboard layout).
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
 
@@ -136,7 +149,15 @@ export async function middleware(request: NextRequest) {
     headers: requestHeaders,
   });
 
-  return await updateSession(req);
+  const response = await updateSession(req);
+
+  // Auto-detect and set locale cookie for new visitors
+  if (!request.cookies.has('NEXT_LOCALE')) {
+    const locale = getLocale(request);
+    response.cookies.set('NEXT_LOCALE', locale);
+  }
+
+  return response;
 }
 
 export const config = {
