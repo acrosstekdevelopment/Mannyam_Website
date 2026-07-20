@@ -1,77 +1,111 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface ChatMessage {
   id: string;
   sender: "curator" | "user";
-  text: string;
+  text?: string;
+  isGreeting?: boolean;
+  suggestion?: {
+    route: string;
+    title: string;
+    cta: string;
+  };
 }
+
+const ROUTE_MAP = [
+  { pattern: /holi|colour/i, route: "/festival-holi", title: "Colours of Holi", cta: "Explore Holi journeys", desc: "Experience the vibrant colours and joy of Holi, the festival of spring." },
+  { pattern: /diwali|lights|deepawali/i, route: "/festival-diwali", title: "Lights of Diwali", cta: "Explore Diwali journeys", desc: "Witness the magical illumination of India during the festival of lights." },
+  { pattern: /dussehra|dasara|mysuru/i, route: "/festival-dussehra", title: "Royal Dussehra", cta: "Explore Dussehra journeys", desc: "Discover the royal grandeur of Dussehra celebrations." },
+  { pattern: /honeymoon|romance|romantic/i, route: "/experience-honeymoon", title: "Honeymoon and Romance", cta: "Explore honeymoons", desc: "Craft your perfect romantic getaway with our tailored honeymoon experiences." },
+  { pattern: /wildlife|tiger|safari|jungle/i, route: "/experience-wildlife", title: "Nature and Wildlife", cta: "Explore wildlife", desc: "Encounter majestic tigers and India's incredible biodiversity on a guided safari." },
+  { pattern: /food|culinary|cook|eat/i, route: "/experience-food", title: "Food and Culinary Stories", cta: "Explore food journeys", desc: "Taste your way through India's rich and diverse culinary heritage." },
+  { pattern: /spiritual|yoga|temple|ghat/i, route: "/experience-spiritual", title: "Spiritual and Soulful", cta: "Explore spiritual journeys", desc: "Find peace and inner reflection in the spiritual heartland of India." },
+  { pattern: /heritage|fort|palace|royal/i, route: "/experience-heritage", title: "Culture and Heritage", cta: "Explore heritage", desc: "Step back in time through magnificent forts, palaces, and ancient ruins." },
+  { pattern: /rajasthan|jaipur|udaipur|jodhpur/i, route: "/destination-rajasthan", title: "Rajasthan", cta: "Explore Rajasthan", desc: "Immerse yourself in the royal legacy and vibrant culture of Rajasthan." },
+  { pattern: /kerala|backwater|munnar/i, route: "/destination-kerala", title: "Kerala", cta: "Explore Kerala", desc: "Relax in 'God's Own Country', known for its serene backwaters and lush greenery." },
+  { pattern: /himalaya|ladakh|spiti|leh/i, route: "/destination-himalayas", title: "The Himalayas", cta: "Explore the Himalayas", desc: "Ascend to breathtaking heights and discover the serene beauty of the Himalayas." },
+  { pattern: /varanasi|ganges|benares/i, route: "/destination-varanasi", title: "Varanasi", cta: "Explore Varanasi", desc: "Experience the profound spirituality and timeless rituals of Varanasi." },
+  { pattern: /first time|beginner|never been/i, route: "/experiences", title: "Start with Experiences", cta: "Browse experiences", desc: "Perfect introductions to India's incredible diversity for first-time visitors." },
+  { pattern: /off the beaten|unusual|secret/i, route: "/destination-north-east", title: "The North-East", cta: "Explore the North-East", desc: "Discover hidden gems and pristine landscapes far from the crowds." }
+];
+
+const DEFAULT_ROUTE = { 
+  route: "/experiences", 
+  title: "Let us shape it together", 
+  cta: "Browse experiences", 
+  desc: "We can craft a bespoke journey perfectly suited to your unique desires." 
+};
+
+function routeFor(input: string) {
+  for (const mapping of ROUTE_MAP) {
+    if (mapping.pattern.test(input)) {
+      return mapping;
+    }
+  }
+  return DEFAULT_ROUTE;
+}
+
+const GREETING_CHIPS = [
+  "Holi near Mathura",
+  "A honeymoon in Kerala",
+  "Tigers and wildlife",
+  "Diwali in Varanasi",
+  "First time in India",
+  "Off the beaten track"
+];
+
+const RELATED_CHIPS = [
+  { label: "Festivals", href: "/festivals" },
+  { label: "Experiences", href: "/experiences" },
+  { label: "Destinations", href: "/destinations" },
+  { label: "Talk to a curator", href: "/enquire" }
+];
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [step, setStep] = useState<"dream" | "name" | "email" | "complete">("dream");
-  
-  // Input fields
-  const [dreamInput, setDreamInput] = useState("");
-  const [nameInput, setNameInput] = useState("");
-  const [emailInput, setEmailInput] = useState("");
-  
-  // Chat states
+  const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const pathname = usePathname();
   const chatPanelRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const triggerButtonRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialise chat with greetings
+  // Initialize chat with greeting
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([
         {
           id: "msg-greet-1",
           sender: "curator",
-          text: "Greetings from MANNYAM. I am your digital curator. Together, we can begin shaping your custom journey through the story of India."
-        },
-        {
-          id: "msg-greet-2",
-          sender: "curator",
-          text: "What kind of journey are you dreaming of? Please tell me about the places, festivals, or experiences that inspire you."
+          text: "Namaste, I am Mannyam, your concierge. Tell me what you are dreaming of and I will point you to the right corner of India. What draws you most?",
+          isGreeting: true
         }
       ]);
     }
   }, [messages.length]);
 
-  // Scroll to bottom whenever messages or typing state changes
+  // Scroll to bottom
   useEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }
   }, [messages, isTyping, isOpen]);
 
-  // Auto-focus the appropriate input when step changes or chat opens
+  // Focus input when opened
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
-        if (step === "dream") {
-          document.getElementById("chat-dream")?.focus();
-        } else if (step === "name") {
-          document.getElementById("chat-name")?.focus();
-        } else if (step === "email") {
-          document.getElementById("chat-email")?.focus();
-        } else if (step === "complete") {
-          document.getElementById("chat-reset")?.focus();
-        }
+        inputRef.current?.focus();
       }, 50);
     }
-  }, [step, isOpen]);
+  }, [isOpen]);
 
-  // Close on Escape key press
+  // Close on Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -83,212 +117,41 @@ export function ChatWidget() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
-  // Focus trap inside the chat panel
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleFocusTrap = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-
-      const panel = chatPanelRef.current;
-      if (!panel) return;
-
-      // Find all focusable elements
-      const focusableElements = panel.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusableElements.length === 0) return;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (e.shiftKey) {
-        // Shift + Tab: loop backward
-        if (document.activeElement === firstElement) {
-          lastElement.focus();
-          e.preventDefault();
-        }
-      } else {
-        // Tab: loop forward
-        if (document.activeElement === lastElement) {
-          firstElement.focus();
-          e.preventDefault();
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleFocusTrap);
-    return () => window.removeEventListener("keydown", handleFocusTrap);
-  }, [isOpen]);
-
-  // Conversational Flow handlers
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      if (step === "dream") submitDream();
-      else if (step === "name") submitName();
-      else if (step === "email") submitEmail();
-    }
-  };
-
-  const submitDream = () => {
-    setError("");
-    const dream = dreamInput.trim();
-    if (!dream) {
-      setError("Please share a detail of your dream journey.");
-      return;
-    }
-
-    // Add User response
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-dream-${Date.now()}`, sender: "user", text: dream }
-    ]);
+  const handleSend = (text: string) => {
+    if (!text.trim() || isTyping) return;
     
+    // Add user message
+    setMessages(prev => [...prev, {
+      id: `user-${Date.now()}`,
+      sender: "user",
+      text: text.trim()
+    }]);
+    
+    setInputValue("");
     setIsTyping(true);
-    setStep("name");
 
-    // Simulate curator typing
+    const match = routeFor(text);
+
     setTimeout(() => {
       setIsTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `curator-dream-reply-${Date.now()}`,
-          sender: "curator",
-          text: "That sounds absolutely wonderful. Our human curators specialise in crafting exactly these kinds of detailed, inspiring experiences."
-        },
-        {
-          id: `curator-ask-name-${Date.now()}`,
-          sender: "curator",
-          text: "To help us tailor this outline specifically for you, may I ask your full name?"
+      setMessages(prev => [...prev, {
+        id: `curator-${Date.now()}`,
+        sender: "curator",
+        text: match.desc,
+        suggestion: {
+          route: match.route,
+          title: match.title,
+          cta: match.cta
         }
-      ]);
-    }, 1200);
+      }]);
+    }, 800);
   };
 
-  const submitName = () => {
-    setError("");
-    const name = nameInput.trim();
-    if (!name) {
-      setError("Please enter your name.");
-      return;
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend(inputValue);
     }
-    if (name.length < 2) {
-      setError("Name must be at least 2 characters.");
-      return;
-    }
-
-    // Add User name
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-name-${Date.now()}`, sender: "user", text: name }
-    ]);
-
-    setIsTyping(true);
-    setStep("email");
-
-    // Simulate curator typing
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `curator-name-reply-${Date.now()}`,
-          sender: "curator",
-          text: `It is a pleasure to meet you, ${name}.`
-        },
-        {
-          id: `curator-ask-email-${Date.now()}`,
-          sender: "curator",
-          text: "And your email address, so we can send you your bespoke journey outline?"
-        }
-      ]);
-    }, 1200);
-  };
-
-  const submitEmail = async () => {
-    setError("");
-    const email = emailInput.trim();
-    if (!email) {
-      setError("Please enter your email address.");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    // Add User email
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-email-${Date.now()}`, sender: "user", text: email }
-    ]);
-
-    setIsTyping(true);
-    setIsSubmitting(true);
-
-    // Build lead details and message transcript
-    const name = nameInput.trim();
-    const dream = dreamInput.trim();
-    const transcript = `[AI Chat Transcript]\n\nDream Journey: ${dream}\n\nName: ${name}\nEmail: ${email}`;
-
-    try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          source: "AI Chat",
-          source_page: pathname || "/",
-          name,
-          email,
-          message: transcript
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to submit. Please try again.");
-      }
-
-      setStep("complete");
-      setIsTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `curator-complete-1-${Date.now()}`,
-          sender: "curator",
-          text: `Thank you, ${name}. Your journey details have been safely sent to our curators.`
-        },
-        {
-          id: `curator-complete-2-${Date.now()}`,
-          sender: "curator",
-          text: "A dedicated curation specialist will review your preferences and reach out within one working day with a bespoke journey outline. No cost, and no obligation."
-        }
-      ]);
-    } catch (err: unknown) {
-      setIsTyping(false);
-      const errorMsg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
-      setError(errorMsg);
-      // Remove email bubble so they can correct it and retry
-      setMessages((prev) => prev.filter((m) => m.id !== `user-email-${Date.now()}`));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleResetChat = () => {
-    setMessages([]);
-    setDreamInput("");
-    setNameInput("");
-    setEmailInput("");
-    setError("");
-    setStep("dream");
   };
 
   return (
@@ -303,19 +166,12 @@ export function ChatWidget() {
         aria-controls="mannyam-chat-panel"
       >
         {isOpen ? (
-          // Close Icon
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          // Chat Bubble Icon
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
         )}
       </button>
@@ -327,27 +183,32 @@ export function ChatWidget() {
           ref={chatPanelRef}
           role="dialog"
           aria-label="Curation chat with MANNYAM Studio"
-          className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-32px)] h-[550px] max-h-[calc(100vh-120px)] bg-paper border border-olive/15 rounded-sm shadow-2xl flex flex-col overflow-hidden animate-fade-in font-sans"
+          className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-32px)] h-[550px] max-h-[calc(100vh-120px)] bg-white border border-olive/15 rounded-[20px] shadow-2xl flex flex-col overflow-hidden animate-fade-in font-sans"
         >
           {/* Header */}
-          <header className="bg-olive text-ivory p-4 flex items-center justify-between shrink-0">
-            <div className="flex flex-col">
-              <h3 className="font-display text-lg font-bold uppercase tracking-wider text-ivory">
-                Curator Chat
-              </h3>
-              <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mt-0.5 font-light">
-                MANNYAM Studio
-              </span>
+          <header className="bg-olive p-4 flex items-center justify-between shrink-0 rounded-t-[20px]">
+            <div className="flex items-center gap-3">
+              <div className="w-[33px] h-[33px] rounded-full bg-gold flex items-center justify-center text-ivory font-display text-lg">
+                M
+              </div>
+              <div className="flex flex-col">
+                <h3 className="font-display text-[17px] text-ivory leading-tight">
+                  Ask MANNYAM
+                </h3>
+                <span className="font-sans text-[9.5px] uppercase tracking-[0.2em] text-gold mt-0.5">
+                  YOUR JOURNEY CONCIERGE
+                </span>
+              </div>
             </div>
             <button
               onClick={() => {
                 setIsOpen(false);
                 triggerButtonRef.current?.focus();
               }}
-              className="text-ivory/80 hover:text-ivory p-1.5 rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-gold"
+              className="text-ivory hover:opacity-80 p-1.5 transition-opacity focus:outline-none"
               aria-label="Close chat panel"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -356,141 +217,115 @@ export function ChatWidget() {
           {/* Messages Area */}
           <div
             ref={scrollContainerRef}
-            className="flex-1 overflow-y-auto p-4 space-y-4 bg-paper/50"
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#f4f3ec]"
             aria-live="polite"
           >
             {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex gap-2.5 max-w-[85%] ${
-                  msg.sender === "user" ? "ml-auto justify-end" : "items-start"
-                }`}
-              >
-                {msg.sender === "curator" && (
-                  <div
-                    className="w-7 h-7 rounded-full bg-cream border border-olive/10 flex items-center justify-center text-[10px] font-semibold text-olive uppercase font-sans select-none shrink-0"
-                    aria-hidden="true"
-                  >
-                    M
+              <div key={msg.id} className="flex flex-col gap-3">
+                {msg.sender === "curator" ? (
+                  <div className="flex flex-col gap-2 max-w-[92%]">
+                    <div className="bg-[#f4f3ec] border border-olive/10 text-olive/80 text-[13.5px] leading-[1.55] p-3.5 rounded-[14px_14px_14px_4px]">
+                      {msg.text}
+                    </div>
+                    
+                    {msg.isGreeting && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {GREETING_CHIPS.map((chip, i) => (
+                          <button
+                            key={chip}
+                            onClick={() => handleSend(chip)}
+                            className="bg-[#f4f3ec] border border-olive/10 hover:border-gold text-[#1a1a1a] text-[11.5px] px-3 py-1.5 rounded-full transition-colors text-left"
+                            style={{ animation: \`fadeIn 0.3s ease forwards \${i * 0.05}s\`, opacity: 0 }}
+                          >
+                            {chip}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {msg.suggestion && (
+                      <div className="mt-1 bg-white border border-olive/15 rounded-xl p-4 shadow-sm flex flex-col gap-3">
+                        <div>
+                          <p className="text-[10px] uppercase tracking-wider text-olive/60 font-semibold mb-1">
+                            A GOOD STARTING POINT
+                          </p>
+                          <h4 className="font-display font-bold text-lg text-olive">
+                            {msg.suggestion.title}
+                          </h4>
+                        </div>
+                        <Link 
+                          href={msg.suggestion.route}
+                          className="bg-gold hover:bg-[#a07525] text-ivory text-xs font-semibold py-2.5 px-4 rounded-sm transition-colors text-center uppercase tracking-wider block w-full"
+                        >
+                          {msg.suggestion.cta} &rarr;
+                        </Link>
+                        
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {RELATED_CHIPS.map((chip, i) => (
+                            <Link
+                              key={chip.label}
+                              href={chip.href}
+                              target={chip.href === "/enquire" ? "_blank" : undefined}
+                              className="bg-[#f4f3ec] border border-olive/10 hover:border-gold text-[#1a1a1a] text-[11.5px] px-3 py-1.5 rounded-full transition-colors text-center inline-block"
+                            >
+                              {chip.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-[#3a4430] text-ivory text-[13.5px] p-3.5 rounded-[14px_14px_4px_14px] max-w-[86%] self-end">
+                    {msg.text}
                   </div>
                 )}
-                <div
-                  className={`rounded-sm p-3.5 text-xs font-light leading-relaxed ${
-                    msg.sender === "user"
-                      ? "bg-gold text-ivory"
-                      : "bg-cream/40 border border-olive/10 text-olive"
-                  }`}
-                >
-                  {msg.text}
-                </div>
               </div>
             ))}
 
-            {/* Typing Indicator */}
             {isTyping && (
-              <div className="flex gap-2.5 max-w-[85%] items-start">
-                <div
-                  className="w-7 h-7 rounded-full bg-cream border border-olive/10 flex items-center justify-center text-[10px] font-semibold text-olive uppercase font-sans select-none shrink-0"
-                  aria-hidden="true"
-                >
-                  M
-                </div>
-                <div className="bg-cream/40 border border-olive/10 rounded-sm p-3.5 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-gold rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                  <span className="w-1.5 h-1.5 bg-gold rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                  <span className="w-1.5 h-1.5 bg-gold rounded-full animate-bounce"></span>
+              <div className="flex gap-2 max-w-[92%] items-start">
+                <div className="bg-[#f4f3ec] border border-olive/10 rounded-[14px_14px_14px_4px] p-3.5 flex items-center gap-1.5 h-[45px]">
+                  <span className="w-1.5 h-1.5 bg-olive/40 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                  <span className="w-1.5 h-1.5 bg-olive/40 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                  <span className="w-1.5 h-1.5 bg-olive/40 rounded-full animate-bounce"></span>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Form Actions / Input Area */}
-          <div className="border-t border-olive/10 p-4 bg-cream/10 shrink-0">
-            {error && (
-              <div role="alert" className="text-[11px] font-medium text-red-700 bg-red-50 border border-red-200/50 px-3 py-2 rounded-sm mb-3">
-                {error}
-              </div>
-            )}
-
-            {step === "dream" && (
-              <div className="flex flex-col gap-2.5">
-                <textarea
-                  id="chat-dream"
-                  rows={2}
-                  value={dreamInput}
-                  disabled={isSubmitting}
-                  onChange={(e) => setDreamInput(e.target.value)}
-                  onKeyDown={handleInputKeyDown}
-                  placeholder="Tell us what you are dreaming of..."
-                  className="w-full text-xs rounded-sm border border-olive/20 px-3 py-2.5 bg-cream/5 text-olive outline-none focus:border-gold resize-none transition-colors disabled:opacity-50"
-                  aria-label="Your dream journey description"
-                />
-                <button
-                  onClick={submitDream}
-                  disabled={isSubmitting}
-                  className="font-sans text-[10px] font-semibold uppercase tracking-wider text-ivory bg-gold hover:bg-[#a07525] py-2.5 rounded-sm transition-colors duration-200 disabled:opacity-50"
-                >
-                  Continue
-                </button>
-              </div>
-            )}
-
-            {step === "name" && (
-              <div className="flex flex-col gap-2.5">
-                <input
-                  id="chat-name"
-                  type="text"
-                  value={nameInput}
-                  disabled={isSubmitting}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  onKeyDown={handleInputKeyDown}
-                  placeholder="Your name"
-                  className="w-full text-xs rounded-sm border border-olive/20 px-3 py-2.5 bg-cream/5 text-olive outline-none focus:border-gold transition-colors disabled:opacity-50"
-                  aria-label="Your full name"
-                />
-                <button
-                  onClick={submitName}
-                  disabled={isSubmitting}
-                  className="font-sans text-[10px] font-semibold uppercase tracking-wider text-ivory bg-gold hover:bg-[#a07525] py-2.5 rounded-sm transition-colors duration-200 disabled:opacity-50"
-                >
-                  Continue
-                </button>
-              </div>
-            )}
-
-            {step === "email" && (
-              <div className="flex flex-col gap-2.5">
-                <input
-                  id="chat-email"
-                  type="email"
-                  value={emailInput}
-                  disabled={isSubmitting}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  onKeyDown={handleInputKeyDown}
-                  placeholder="you@email.com"
-                  className="w-full text-xs rounded-sm border border-olive/20 px-3 py-2.5 bg-cream/5 text-olive outline-none focus:border-gold transition-colors disabled:opacity-50"
-                  aria-label="Your email address"
-                />
-                <button
-                  onClick={submitEmail}
-                  disabled={isSubmitting}
-                  className="font-sans text-[10px] font-semibold uppercase tracking-wider text-ivory bg-gold hover:bg-[#a07525] py-2.5 rounded-sm transition-colors duration-200 disabled:opacity-50"
-                >
-                  {isSubmitting ? "Sending..." : "Send to Curator"}
-                </button>
-              </div>
-            )}
-
-            {step === "complete" && (
+          {/* Input Area */}
+          <div className="p-3 bg-white border-t border-olive/10 shrink-0">
+            <div className="flex items-center gap-2 border border-olive/20 rounded-[24px] p-1 pl-4 bg-[#f9f9f7] focus-within:border-gold transition-colors">
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                disabled={isTyping}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleInputKeyDown}
+                placeholder="Try: Holi in Mathura, or a honeymoon in Kerala"
+                className="flex-1 bg-transparent text-[13px] text-olive outline-none placeholder:text-olive/40"
+              />
               <button
-                id="chat-reset"
-                onClick={handleResetChat}
-                className="w-full font-sans text-[10px] font-semibold uppercase tracking-wider text-olive border border-olive/20 hover:bg-cream py-2.5 rounded-sm transition-colors duration-200"
+                onClick={() => handleSend(inputValue)}
+                disabled={!inputValue.trim() || isTyping}
+                className="w-8 h-8 rounded-full bg-gold hover:bg-[#a07525] text-ivory flex items-center justify-center transition-colors disabled:opacity-50 shrink-0"
+                aria-label="Send message"
               >
-                Start New Chat
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </button>
-            )}
+            </div>
           </div>
+          
+          <style dangerouslySetInnerHTML={{__html: \`
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(4px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+          \`}} />
         </div>
       )}
     </>
