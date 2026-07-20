@@ -54,21 +54,31 @@ const EXPERIENCES_SLIDES = [
   { image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=75", label: "Honeymoon and Romance", subtitle: "ROMANCE", href: "/experience-honeymoon" },
   { image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75", label: "Culture and Heritage", subtitle: "CULTURE", href: "/experience-heritage" },
   { image: "https://images.unsplash.com/photo-1615824996195-f780bba7cfab?auto=format&fit=crop&w=600&q=75", label: "Nature and Wildlife", subtitle: "WILD", href: "/experience-wildlife" },
+  { image: "https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?auto=format&fit=crop&w=600&q=75", label: "Food and Culinary Stories", subtitle: "TASTE", href: "/experience-food" },
+  { image: "https://images.unsplash.com/photo-1514222134-b57fbb8ce0ee?auto=format&fit=crop&w=600&q=75", label: "Local Life and Community", subtitle: "PEOPLE", href: "/experience-local-life" },
+  { image: "https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=600&q=75", label: "Spiritual and Soulful", subtitle: "SPIRITUAL", href: "/experience-spiritual" }
 ];
 
 const FESTIVALS_SLIDES = [
   { image: "https://unsplash.com/photos/rFP3OzmYH6M/download?w=600&fm=jpg&fit=crop", label: "Colours of Holi", subtitle: "MARCH", href: "/festival-holi" },
   { image: "https://images.unsplash.com/photo-1605337222372-23c2a63d91c7?auto=format&fit=crop&w=600&q=75", label: "Lights of Diwali", subtitle: "OCTOBER", href: "/festival-diwali" },
+  { image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75", label: "Dussehra", subtitle: "OCTOBER", href: "/festival-dussehra" },
+  { image: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=600&q=75", label: "Durga Puja", subtitle: "OCTOBER", href: "/festival-durga-puja" }
 ];
 
 const DESTINATIONS_SLIDES = [
   { image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75", label: "Rajasthan", subtitle: "NORTH-WEST", href: "/destination-rajasthan" },
   { image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=75", label: "Kerala", subtitle: "SOUTH", href: "/destination-kerala" },
+  { image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=75", label: "The Himalayas", subtitle: "NORTH", href: "/destination-himalayas" },
+  { image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=75", label: "Varanasi", subtitle: "NORTH", href: "/destination-varanasi" },
+  { image: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=600&q=75", label: "Tamil Nadu", subtitle: "SOUTH", href: "/destination-tamil-nadu" }
 ];
 
 const JOURNEYS_SLIDES = [
   { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=75", label: "Palaces of the North", subtitle: "SIGNATURE", href: "/experiences/palaces-of-the-north" },
   { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f7415e?auto=format&fit=crop&w=600&q=75", label: "Green Kerala", subtitle: "SIGNATURE", href: "/experiences/green-kerala" },
+  { image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=75", label: "Ladakh and High Passes", subtitle: "ADVENTURE", href: "/experiences/ladakh-high-passes" },
+  { image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=75", label: "The Ganges and Beyond", subtitle: "CULTURE", href: "/experiences/ganges-and-beyond" }
 ];
 
 // ─── Component ───────────────────────────────────────────────────────────────
