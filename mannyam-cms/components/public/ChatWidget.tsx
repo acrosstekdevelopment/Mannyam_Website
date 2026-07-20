@@ -234,7 +234,7 @@ export function ChatWidget() {
                             key={chip}
                             onClick={() => handleSend(chip)}
                             className="bg-[#f4f3ec] border border-olive/10 hover:border-gold text-[#1a1a1a] text-[11.5px] px-3 py-1.5 rounded-full transition-colors text-left"
-                            style={{ animation: \`fadeIn 0.3s ease forwards \${i * 0.05}s\`, opacity: 0 }}
+                            style={{ animation: `fadeIn 0.3s ease forwards ${i * 0.05}s`, opacity: 0 }}
                           >
                             {chip}
                           </button>
@@ -319,12 +319,12 @@ export function ChatWidget() {
             </div>
           </div>
           
-          <style dangerouslySetInnerHTML={{__html: \`
+          <style dangerouslySetInnerHTML={{__html: `
             @keyframes fadeIn {
               from { opacity: 0; transform: translateY(4px); }
               to { opacity: 1; transform: translateY(0); }
             }
-          \`}} />
+          `}} />
         </div>
       )}
     </>
