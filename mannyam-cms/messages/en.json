@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "experiences": "Experiences",
+    "festivals": "Festivals",
+    "destinations": "Destinations",
+    "journeys": "Journeys",
+    "journal": "Journal",
+    "about": "About"
+  },
+  "header": {
+    "planMyJourney": "Plan my journey",
+    "language": "EN"
+  },
+  "hero": {
+    "eyebrow": "The Story of India",
+    "headline": "Step through the threshold.",
+    "subtitle": "Private, unhurried journeys across India...",
+    "cta1": "Plan with our concierge",
+    "cta2": "or browse ready-made journeys",
+    "trust1": "Private, tailor-made trips",
+    "trust2": "Local curators on the ground",
+    "trust3": "Support around the clock"
+  }
+}
