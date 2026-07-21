@@ -26,7 +26,7 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const htmlPath = path.join(__dirname, '..', '..', 'Building Blocks', 'Manyam frontend.html');
+const htmlPath = path.join(__dirname, 'Manyam frontend.html');
 const htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
 function extractArray(regex) {
