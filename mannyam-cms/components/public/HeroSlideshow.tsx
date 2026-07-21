@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 export interface HeroSlide {
   large: string;
@@ -37,7 +38,7 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
       >
         {slides.map((slide, index) => (
           <Link href={slide.largeLink} key={"large-" + index} className={"absolute inset-0 transition-opacity duration-[1500ms] ease-in-out " + (index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0")}>
-            <img src={slide.large} alt={slide.largeLabel} className="w-full h-full object-cover" />
+            <img src={getSafeImageUrl(slide.large)} alt={slide.largeLabel} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute bottom-4 left-4 right-4 text-ivory opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-sand/90 block mb-1">Explore</span>
@@ -54,7 +55,7 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
       >
         {slides.map((slide, index) => (
           <Link href={slide.smallLink} key={"small-" + index} className={"absolute inset-0 transition-opacity duration-[1500ms] ease-in-out " + (index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0")}>
-            <img src={slide.small} alt={slide.smallLabel} className="w-full h-full object-cover" />
+            <img src={getSafeImageUrl(slide.small)} alt={slide.smallLabel} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute bottom-4 left-4 right-4 text-ivory opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span className="font-sans text-[9px] uppercase tracking-[0.2em] text-sand/90 block mb-1">Explore</span>
@@ -72,7 +73,7 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
       >
         {slides.map((slide, index) => (
           <Link href={slide.largeLink} key={"mobile-" + index} className={"absolute inset-0 transition-opacity duration-[1500ms] ease-in-out " + (index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0")}>
-            <img src={slide.large} alt={slide.largeLabel} className="w-full h-full object-cover" />
+            <img src={getSafeImageUrl(slide.large)} alt={slide.largeLabel} className="w-full h-full object-cover" />
           </Link>
         ))}
       </div>

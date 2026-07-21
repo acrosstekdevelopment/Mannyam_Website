@@ -8,6 +8,7 @@ import { generateTourSchema } from "@/lib/seo/generateJsonLd";
 import { BookDepartureButton } from "@/components/commerce/BookDepartureButton";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { AddToBooking } from "@/components/public/AddToBooking";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 export const revalidate = 3600; // Time-based ISR fallback
 
@@ -124,7 +125,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
       <section className="relative h-[65vh] min-h-[450px] w-full flex items-end overflow-hidden bg-olive">
         {pkg.featured_image_url ? (
           <img
-            src={pkg.featured_image_url}
+            src={getSafeImageUrl(pkg.featured_image_url)}
             alt={pkg.title}
             className="absolute inset-0 w-full h-full object-cover brightness-[0.7]"
           />
@@ -286,7 +287,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
                 <div className="aspect-[4/3] bg-olive/5 relative overflow-hidden">
                   {item.featured_image_url ? (
                     <img
-                      src={item.featured_image_url}
+                      src={getSafeImageUrl(item.featured_image_url)}
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />

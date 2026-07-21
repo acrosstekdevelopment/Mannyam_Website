@@ -8,6 +8,7 @@ import { PackageCard } from "@/components/public/ui/PackageCard";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ClosingCta } from "@/components/public/ClosingCta";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 async function RelatedJourneysSection({ pkgType }: { pkgType?: 'Festival' | 'Destination' | 'Honeymoon' | 'Wildlife' | 'Wellness' }) {
   const packages = await getPublishedPackages(pkgType, 3);
@@ -245,7 +246,7 @@ export default async function DynamicPage({ params }: PageProps) {
       {heroData.backgroundImage && (
         <div className="max-w-[1200px] mx-auto px-6 -mt-4 md:mt-0">
           <div className="relative rounded-[18px] overflow-hidden aspect-[16/6] md:aspect-[24/8] mt-6 shadow-[inset_0_0_0_1px_rgba(30,35,25,.06)]">
-            <img src={heroData.backgroundImage} alt={page.title} className="absolute inset-0 w-full h-full object-cover" />
+            <img src={getSafeImageUrl(heroData.backgroundImage)} alt={page.title} className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(26,30,18,.5),transparent_55%,rgba(26,30,18,.55))]" />
             <div className="absolute left-[18px] md:left-[34px] right-[18px] md:right-[34px] bottom-4 md:bottom-[26px] text-ivory font-display text-[21px] md:text-[28px] leading-[1.2] z-10">
               {heroData.subheadline || page.title}

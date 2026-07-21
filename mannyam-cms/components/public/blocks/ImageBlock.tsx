@@ -1,5 +1,6 @@
 import React from "react";
 import { BlockData } from "./BlockRenderer";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 export function ImageBlock({ data }: { data: BlockData }) {
   const { fileUrl, altText, caption } = data;
@@ -11,7 +12,7 @@ export function ImageBlock({ data }: { data: BlockData }) {
       <div className="max-w-5xl mx-auto flex flex-col items-center">
         <div className="w-full relative overflow-hidden rounded-sm border border-olive/10 bg-olive/5">
           <img
-            src={fileUrl}
+            src={getSafeImageUrl(fileUrl)}
             alt={altText || "MANNYAM Studio Curation"}
             className="w-full h-auto object-cover max-h-[80vh] block"
           />

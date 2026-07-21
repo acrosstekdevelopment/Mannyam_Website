@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Page } from "@/lib/data/public";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 interface PageCardProps {
   page: Page;
@@ -42,7 +43,7 @@ export function PageCard({ page, className = "", when }: PageCardProps & { when?
       <div className="relative aspect-[100/124] rounded-[18px] overflow-hidden bg-olive/5 isolate">
         {heroImage ? (
           <img
-            src={heroImage}
+            src={getSafeImageUrl(heroImage)}
             alt={page.title}
             className="w-full h-full object-cover group-hover:scale-[1.07] transition-transform duration-1000 ease-out"
           />
