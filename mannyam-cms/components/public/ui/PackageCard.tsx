@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Package } from "@/lib/data/public";
 import { Badge } from "./Badge";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 interface PackageCardProps {
   pkg: Package;
@@ -21,7 +22,7 @@ export function PackageCard({ pkg, className = "" }: PackageCardProps) {
       <div className="aspect-[4/3] bg-olive/5 relative overflow-hidden">
         {pkg.featured_image_url ? (
           <Image
-            src={pkg.featured_image_url}
+            src={getSafeImageUrl(pkg.featured_image_url)}
             alt={pkg.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

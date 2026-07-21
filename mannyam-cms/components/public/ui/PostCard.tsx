@@ -1,7 +1,8 @@
-﻿import React from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Post } from "@/lib/data/public";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 interface PostCardProps {
   post: Post & {
@@ -46,7 +47,7 @@ export function PostCard({ post, className = "" }: PostCardProps) {
         <div className="aspect-[100/68] rounded-[18px] bg-olive/5 relative overflow-hidden mb-5">
           {featuredImage ? (
             <Image
-              src={featuredImage}
+              src={getSafeImageUrl(featuredImage)}
               alt={post.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

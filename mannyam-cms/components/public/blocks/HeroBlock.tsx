@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { BlockData } from "./BlockRenderer";
+import { getSafeImageUrl } from "@/lib/utils/image";
 
 export function HeroBlock({ data }: { data: BlockData }) {
   const { headline, subheadline, backgroundImage, ctaText, ctaLink } = data;
@@ -13,7 +14,7 @@ export function HeroBlock({ data }: { data: BlockData }) {
       {backgroundImage ? (
         <div className="absolute inset-0 z-0">
           <img
-            src={backgroundImage}
+            src={getSafeImageUrl(backgroundImage)}
             alt={headline}
             className="w-full h-full object-cover brightness-[0.6]"
           />
