@@ -9,6 +9,8 @@ import { BookDepartureButton } from "@/components/commerce/BookDepartureButton";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { AddToBooking } from "@/components/public/AddToBooking";
 import { getSafeImageUrl } from "@/lib/utils/image";
+import { generateJourneyFaq } from "@/lib/faq/generateJourneyFaq";
+import { ListingFaq } from "@/components/public/ListingFaq";
 
 export const revalidate = 3600; // Time-based ISR fallback
 
@@ -265,6 +267,13 @@ export default async function ExperienceDetailPage({ params }: Props) {
 
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <ListingFaq
+        heading="Questions, answered simply"
+        subtitle={`What to expect from the ${pkg.title} journey, answered simply.`}
+        items={generateJourneyFaq(pkg)}
+      />
 
       {/* Related Experiences Section */}
       {related.length > 0 && (

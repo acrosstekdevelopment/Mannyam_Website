@@ -8,6 +8,8 @@ import { generateTourSchema } from "@/lib/seo/generateJsonLd";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { AddToBooking } from "@/components/public/AddToBooking";
 import { getSafeImageUrl } from "@/lib/utils/image";
+import { generateJourneyFaq } from "@/lib/faq/generateJourneyFaq";
+import { ListingFaq } from "@/components/public/ListingFaq";
 
 export const revalidate = 3600; // Time-based ISR fallback
 
@@ -262,6 +264,13 @@ export default async function FestivalDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <ListingFaq
+        heading="Questions, answered simply"
+        subtitle={`What to expect from the ${pkg.title} journey, answered simply.`}
+        items={generateJourneyFaq(pkg)}
+      />
 
       {/* Related Festivals Carousel/Grid */}
       {related.length > 0 && (
