@@ -11,7 +11,17 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service if needed
+    // ChunkLoadError means the deployed build changed and old chunks are gone.
+    // A full reload fetches the new HTML with correct chunk references.
+    if (
+      error.name === "ChunkLoadError" ||
+      error.message?.includes("Loading chunk") ||
+      error.message?.includes("Failed to fetch dynamically imported module")
+    ) {
+      window.location.reload();
+      return;
+    }
+
     console.error(error);
   }, [error]);
 
