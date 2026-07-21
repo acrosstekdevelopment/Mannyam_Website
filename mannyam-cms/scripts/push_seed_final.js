@@ -34,33 +34,48 @@ const EXPERIENCES = extractArray(/EXPERIENCES\s*=\s*(\[.*?\]);/s);
 const FESTIVALS = extractArray(/FESTIVALS\s*=\s*(\[.*?\]);/s);
 const DESTINATIONS = extractArray(/DESTINATIONS\s*=\s*(\[.*?\]);/s);
 
+const { FAQ_CAT, FAQ_DEST, FAQ_JOURNAL } = require('./extracted_faqs.js');
+
 // Dynamic FAQ Generators
 function getExpFaqs(h) {
+  // Use generic experiences FAQs from FAQ_CAT if available, else fallback
+  if (FAQ_CAT.experiences) {
+    return FAQ_CAT.experiences.map(faq => ({ question: faq.q, answer: faq.a }));
+  }
   return [
     { question: `What kinds of ${h.toLowerCase()} experiences can I have in India?`, answer: `From culture and heritage to food, wildlife, spiritual travel, royal evenings and honeymoons, our India experiences let you travel by the feeling you are after. Each ${h.toLowerCase()} journey is private and tailor-made.` },
-    { question: `Can I combine ${h.toLowerCase()} with different experiences in one trip?`, answer: `Yes, and most travellers do. We weave heritage, food, nature and quiet time into a single journey that flows at your pace, rather than a fixed package.` },
-    { question: `Can I customise a ready-made ${h.toLowerCase()} journey?`, answer: `Yes. Every journey is a starting point. Adjust the route, pace, stays and experiences with your curator until it feels entirely your own.` },
-    { question: `Are flights and hotels included?`, answer: `Journeys include carefully chosen stays, private transport, guides and the ${h.toLowerCase()} experiences described. We can also arrange internal flights and advise on international ones.` }
+    { question: `How do I plan a ${h.toLowerCase()} journey?`, answer: `Describe what you love. A curator replies within a day with a first outline, which you shape together until it feels exactly right.` },
+    { question: `Are these trips suitable for first-time visitors?`, answer: `Absolutely. Private travel with dedicated guides and drivers is the calmest and most immersive way to see India for the first time.` }
   ];
 }
 
-function getFestFaqs(h) {
+function getFestFaqs(h, slug) {
+  // Check FAQ_JOURNAL first for specific festival (e.g., holi-mathura or diwali-varanasi)
+  // Or check FAQ_CAT.festivals
+  let faqs = FAQ_CAT.festivals || [];
+  if (slug && FAQ_JOURNAL[slug]) faqs = FAQ_JOURNAL[slug];
+  if (faqs.length > 0) {
+    return faqs.map(faq => ({ question: faq.q, answer: faq.a }));
+  }
   return [
     { question: `Is ${h} safe for travellers?`, answer: `Yes, when planned correctly. We ensure you experience the joy of ${h} while staying comfortable, with vetted guides, private transport and carefully chosen viewing spots.` },
-    { question: `How far in advance should I plan a ${h} trip?`, answer: `At least six to nine months. The best heritage stays and guides book out quickly around major festivals like ${h}.` },
-    { question: `Will ${h} be too crowded?`, answer: `Festivals are busy, but we balance the energy of the crowds with quiet retreats. You can join the heart of the action when you want, and step back when you need to.` },
-    { question: `Can I combine ${h} with a longer journey?`, answer: `Absolutely. ${h} is often the focal point of a longer journey through India, giving you a balance of celebration and slow travel.` }
+    { question: `When is the best time to see ${h}?`, answer: `Dates for ${h} shift slightly each year based on the calendar. We confirm the exact dates for your travel window and secure your places well in advance.` },
+    { question: `How do I get a good view of ${h}?`, answer: `We arrange private terraces, quiet boats, or reserved seating depending on the festival, so you can step into the celebration and step back when you need a breather.` }
   ];
 }
 
-function getDestFaqs(h) {
+function getDestFaqs(h, slug) {
+  let faqs = [];
+  if (slug && FAQ_DEST[slug]) {
+    faqs = FAQ_DEST[slug];
+  }
+  if (faqs.length > 0) {
+    return faqs.map(faq => ({ question: faq.q, answer: faq.a }));
+  }
   return [
     { question: `When is the best time to visit ${h}?`, answer: `The best time to visit ${h} is October to April, when the weather is most comfortable for travel. Your curator will fine-tune the timing around your dates and the experiences you choose.` },
-    { question: `What are the must-see places in ${h}?`, answer: `While the classic landmarks are spectacular, we also guide you to the quieter, lesser-known corners of ${h} that most travellers miss.` },
-    { question: `How many days do I need in ${h}?`, answer: `We recommend spending at least three to four nights in each place to truly absorb it. A two-week journey comfortably covers the highlights of ${h} at a relaxed pace.` },
-    { question: `Is ${h} a good destination for families and couples?`, answer: `Yes, ${h} offers incredible experiences for both families and couples, tailored to your preferred pace and style of travel.` },
-    { question: `What experiences can I have in ${h}?`, answer: `From private heritage walks and culinary masterclasses to quiet nature retreats, ${h} offers a rich variety of experiences.` },
-    { question: `How do I plan a private ${h} tour?`, answer: `Simply send a note through our enquiry form. A curator will reply within a day to begin designing your bespoke ${h} journey.` }
+    { question: `Can I combine ${h} with other regions?`, answer: `Yes, and most travellers do. We often weave ${h} together with quieter regions or festivals, ensuring the journey flows easily without feeling rushed.` },
+    { question: `What is the best way to travel around ${h}?`, answer: `Your journey includes a private, vetted driver and comfortable vehicle, so you travel at your own pace and can stop whenever you like.` }
   ];
 }
 
@@ -130,7 +145,7 @@ async function run() {
       { id: `f${i+1}-facts`, type: "Fact Bar", data: { facts: [{ label: "When", value: f.when }, { label: "Where", value: f.where }] } },
       { id: `f${i+1}-tiles`, type: "Tiles", data: { heading: "How we celebrate it with you", tiles: f.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `f${i+1}-places`, type: "Place Chips", data: { heading: "Best cities", places: f.places.map(p => ({ name: p[0], region: p[1] })) } },
-      { id: `f${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about visiting India for ${f.h}, answered in plain English.`, items: getFestFaqs(f.h) } },
+      { id: `f${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about visiting India for ${f.h}, answered in plain English.`, items: getFestFaqs(f.h, f.slug) } },
       { id: `f${i+1}-related`, type: "Related Pages", data: { heading: "Related Journeys" } },
       { id: `f${i+1}-cta`, type: "CTA Banner", data: { headline: "Join the celebration", body: "We arrange the timing and details. Tell us your travel window.", buttonLabel: "Plan my journey", buttonLink: "/enquire" } }
     ];
@@ -151,7 +166,7 @@ async function run() {
       { id: `d${i+1}-facts`, type: "Fact Bar", data: { facts: [{ label: "Best season", value: d.season }] } },
       { id: `d${i+1}-tiles`, type: "Tiles", data: { heading: "What you might do", tiles: d.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `d${i+1}-places`, type: "Place Chips", data: { heading: "Key places", places: d.places.map(p => ({ name: p[0], region: p[1] })) } },
-      { id: `d${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about visiting ${d.h}, answered in plain English.`, items: getDestFaqs(d.h) } },
+      { id: `d${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about visiting ${d.h}, answered in plain English.`, items: getDestFaqs(d.h, d.slug) } },
       { id: `d${i+1}-related`, type: "Related Pages", data: { heading: "Related Journeys" } },
       { id: `d${i+1}-cta`, type: "CTA Banner", data: { headline: `Your ${d.h}, your way`, body: "Combine regions, or go deep into one.", buttonLabel: `Plan my ${d.h} journey`, buttonLink: "/enquire" } }
     ];

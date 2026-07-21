@@ -1,0 +1,714 @@
+<!-- MANNYAM. The Story of India. Final build.
+     Mobile design implemented from the Claude Design handoff; web view upgraded to match.
+     CSS arches, real photography, no pricing, British English, no em dashes. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MANNYAM | The Story of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22271d;--olive:#3a4430;--olive-soft:#4a5237;--gold:#b1832f;--gold-deep:#846017;--sand:#c39657;--sand-soft:#d8c19a;--ivory:#fcfcfa;--cream:#f4f3ec;--paper:#ffffff;--line:rgba(30,35,25,.11);--line-gold:rgba(177,131,47,.34);--shadow:0 18px 48px -24px rgba(30,35,25,.26);--disp:"Cormorant Garamond",Georgia,serif;--ui:"Jost",system-ui,sans-serif;--maxw:1200px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--ui);font-weight:300;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none;cursor:pointer}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:500;margin:0;line-height:1.1}
+em{font-style:italic;color:var(--gold)}
+p{margin:0}img{display:block;max-width:100%}
+.eyebrow{font-family:var(--ui);font-weight:500;font-size:10.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-deep)}
+.wrap{padding:0 20px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55em;font-family:var(--ui);font-weight:500;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border:0;padding:14px 22px;border-radius:40px;transition:.25s ease;line-height:1;text-align:center}
+.btn svg{width:15px;height:15px;transition:transform .25s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-gold{background:var(--olive);color:var(--ivory)}.btn-gold:hover{background:var(--gold);color:var(--ink)}
+.btn-amber{background:var(--gold);color:var(--ink)}.btn-amber:hover{background:#cf9a44}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{border-color:var(--gold);color:var(--gold-deep)}
+.btn.full{width:100%}
+
+/* device preview */
+.device-shell{display:contents}
+body.view-mobile{background:radial-gradient(120% 90% at 50% -10%,#3c4329,#1a1c12)}
+body.view-mobile .device-shell{display:block;width:404px;height:min(880px,96vh);margin:30px auto;position:relative;border:11px solid #14150e;border-radius:52px;overflow:hidden;box-shadow:0 50px 120px -30px rgba(0,0,0,.8),0 0 0 2px #2c2a1f;background:var(--ivory);transform:translateZ(0)}
+body.view-mobile .device-shell::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#14150e;border-radius:0 0 16px 16px;z-index:300}
+body.view-mobile #app{height:100%;overflow-y:auto;overflow-x:hidden}
+.viewswap{position:fixed;bottom:16px;left:16px;top:auto;z-index:500;display:none;gap:4px;background:rgba(44,49,32,.92);backdrop-filter:blur(10px);border:1px solid var(--line-gold);border-radius:40px;padding:5px}
+.viewswap button{width:42px;height:38px;display:grid;place-items:center;border:0;background:transparent;border-radius:30px;cursor:pointer;color:#cfd2bf;transition:.2s}
+.viewswap button.on{background:var(--gold);color:var(--ink)}.viewswap svg{width:19px;height:19px}
+@media(min-width:760px){.viewswap{display:flex}}
+
+/* arch (CSS, real photo bg) */
+.arch{position:relative;width:100%;aspect-ratio:100/124;background:#e8e3d7 center/cover no-repeat;border-radius:18px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(30,35,25,.06)}
+.arch.wide{aspect-ratio:100/86}
+.arch .albl{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;text-align:center;color:#fff;font-family:var(--disp);font-size:21px;letter-spacing:.02em;padding:16px;z-index:1;background:linear-gradient(transparent 50%,rgba(26,30,18,.62))}
+
+/* header (mobile base) */
+header{position:sticky;top:0;z-index:200;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;padding:0 14px;background:rgba(252,252,250,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:background .3s}
+.iconbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--ink);transition:.2s}
+.iconbtn:hover{border-color:var(--gold);color:var(--gold-deep)}.iconbtn svg{width:18px;height:18px}
+.burger{justify-self:start}
+.brand{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1}
+.brand .mark{width:24px;height:29px;fill:var(--olive)}
+.brand .bname{font-family:var(--disp);font-weight:600;font-size:18px;letter-spacing:.18em;color:var(--ink)}
+.brand .tline{font-size:6.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep)}
+.hdr-right{justify-self:end;display:flex;align-items:center;gap:9px}
+.navside{display:none}
+.header-cta{display:none}
+
+/* mega menu (desktop) */
+.navitem{position:relative}
+.navitem>button,.navlink{font-family:var(--ui);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);font-weight:400;background:none;border:0;cursor:pointer;padding:20px 12px;display:inline-flex;align-items:center;gap:5px;opacity:.88;transition:.2s}
+.navitem>button:hover,.navlink:hover,.navitem.open>button{opacity:1;color:var(--gold-deep)}
+.navitem>button .caret{width:7px;height:7px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;transform:rotate(45deg);margin-top:-3px;transition:.25s;opacity:.6}
+.navitem.open>button .caret{transform:rotate(225deg);margin-top:2px}
+.mega{position:absolute;top:calc(100% - 4px);left:50%;transform:translateX(-50%) translateY(8px);width:min(840px,92vw);background:var(--paper);border:1px solid var(--line-gold);border-radius:18px;box-shadow:var(--shadow);padding:22px;opacity:0;visibility:hidden;transition:.25s;z-index:210}
+.navitem.left2 .mega{left:0;transform:translateX(0) translateY(8px)}
+.navitem.open .mega{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.navitem.left2.open .mega{transform:translateX(0)}
+.megagrid{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+.megacols{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.megacols a{display:block;padding:9px 10px;border-radius:10px;transition:.15s}
+.megacols a:hover{background:var(--cream)}
+.megacols a .mt{font-family:var(--disp);font-size:17px;color:var(--ink)}
+.megacols a .md{font-size:11px;color:#7a7c68}
+.megafeat{border-radius:14px;overflow:hidden;position:relative;cursor:pointer;min-height:150px;background:#9c7d44 center/cover}
+.megafeat::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(44,49,32,.8))}
+.megafeat .mf{position:absolute;left:14px;right:14px;bottom:13px;color:var(--ivory);z-index:3}
+.megafeat .mf .ml{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--sand-soft)}
+.megafeat .mf h4{font-size:20px;color:#fff;margin-top:3px}
+
+/* hero */
+.hero{position:relative;min-height:560px;display:flex;align-items:flex-end;padding:0 0 40px;overflow:hidden;background:radial-gradient(120% 80% at 50% 6%,#5a6444,#3c4329 45%,#2c3120)}
+.hero-img{position:absolute;left:50%;top:34px;transform:translateX(-50%);width:74%;aspect-ratio:100/124;border-radius:18px;overflow:hidden;background:#e8e3d7 center/cover no-repeat;box-shadow:0 30px 60px rgba(0,0,0,.32)}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(34,39,25,.34) 0%,rgba(34,39,25,0) 32%,rgba(34,39,25,.3) 58%,rgba(34,39,25,.9) 100%)}
+.hero-inner{position:relative;z-index:3;color:var(--ivory);padding:0 22px}
+.hero .eyebrow{color:var(--sand-soft)}
+.hero h1{font-size:46px;margin:.2em 0 0;color:#fdf9f1;line-height:1.02}
+.hero .sub{margin-top:14px;font-size:14.5px;max-width:24em;color:#efe6d7;line-height:1.6}
+.hero .hcta{margin-top:22px}.hero .hcta .btn{background:var(--gold);color:var(--ink)}.hero .hcta .btn:hover{background:#fff}
+.hero .hsmall{margin-top:13px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--sand-soft)}
+
+/* concierge */
+.concierge{margin-top:-26px;position:relative;z-index:30;padding:0 16px}
+.cbox{background:var(--paper);border:1px solid var(--line-gold);border-radius:20px;box-shadow:var(--shadow);padding:22px 18px}
+.ctag{display:inline-flex;align-items:center;gap:8px;font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);font-weight:500}
+.ctag .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(186,136,56,.18);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(186,136,56,0)}}
+.cbox h2{font-size:26px;margin-top:11px;line-height:1.12}
+.cbox .csub{font-size:13px;color:#5e6150;margin-top:8px;line-height:1.5}
+.cinput{margin-top:14px;border:1px solid var(--line);border-radius:14px;background:var(--cream);padding:4px}
+.cinput:focus-within{border-color:var(--gold)}
+.cinput textarea{width:100%;border:0;background:transparent;resize:none;font-family:var(--ui);font-weight:300;font-size:14px;line-height:1.6;color:var(--ink);padding:12px 13px;min-height:74px;outline:none}
+.cchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.cchip{font-size:11px;padding:8px 13px;border-radius:30px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.2s;color:var(--ink)}
+.cchip:hover{border-color:var(--gold)}.cchip.on{background:var(--olive);color:var(--ivory);border-color:var(--olive)}
+.crow{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.cnote{font-size:10.5px;color:#7a7c68;display:flex;align-items:center;gap:6px}.cnote svg{width:13px;height:13px;color:var(--gold-deep)}
+.cload{display:none;align-items:center;gap:10px;margin-top:16px;color:var(--gold-deep);font-size:13px}.cload.show{display:flex}
+.spin{width:17px;height:17px;border:2px solid var(--line-gold);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.cres{margin-top:16px;border-top:1px solid var(--line);padding-top:16px;display:none}.cres.show{display:block}
+.cr-pill{display:inline-block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);background:var(--cream);border:1px solid var(--line-gold);border-radius:30px;padding:6px 12px}
+.cr-title{font-family:var(--disp);font-size:24px;margin-top:10px}
+.cr-blurb{font-size:13.5px;color:#5e6150;margin-top:8px;line-height:1.55}
+.cr-rel{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.cr-rel .rl{font-size:11px;padding:9px 13px;border-radius:30px;border:1px solid var(--line);cursor:pointer;color:var(--ink);transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.cr-rel .rl:hover{border-color:var(--gold);color:var(--gold-deep)}.cr-rel .rl svg{width:13px;height:13px}
+
+/* sections */
+.sec{padding:48px 0}
+.sec.alt{background:linear-gradient(180deg,var(--cream),var(--ivory))}
+.sec-head h2{font-size:30px;margin-top:11px;line-height:1.1}
+.sec-head p{margin-top:11px;color:#5a5d49;font-size:13.5px;line-height:1.6}
+.ctablock{margin-top:28px;text-align:center}
+.ctablock .cs{font-family:var(--disp);font-style:italic;font-size:19px}
+.ctablock .cs.light{color:#fdf9f1}.ctablock .btn{margin-top:13px}
+
+/* cards */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+.card{cursor:pointer;position:relative}
+.card .ph{position:relative;overflow:hidden;border-radius:18px}
+.card .arch{border-radius:inherit;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.card:hover .arch{transform:scale(1.07)}
+.card .badge{position:absolute;top:10px;left:10px;z-index:3;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:rgba(246,237,227,.92);border-radius:30px;padding:5px 10px;font-weight:500}
+.card .cap{padding:11px 2px 2px}
+.card .cap .k{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);font-weight:500}
+.card .cap h3{font-size:18px;margin-top:4px}
+.card .cap p{font-size:12px;color:#5e6150;margin-top:4px;line-height:1.45}
+.card .cap .more{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-deep);margin-top:8px;display:inline-flex;align-items:center;gap:5px}
+.card .cap .more svg{width:12px;height:12px}
+
+/* festival rail */
+.fscroll{display:grid;grid-auto-flow:column;grid-auto-columns:74%;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;margin-top:24px;padding:0 20px 8px}
+.fscroll::-webkit-scrollbar{height:5px}.fscroll::-webkit-scrollbar-thumb{background:var(--line-gold);border-radius:10px}
+.fcard{scroll-snap-align:start;cursor:pointer;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:3/4;background:#7a6334 center/cover no-repeat}
+.fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 36%,rgba(44,49,32,.88))}
+.fcard .fi{position:absolute;left:15px;right:15px;bottom:15px;color:var(--ivory);z-index:3}
+.fcard .fi .when{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand-soft)}
+.fcard .fi h3{font-size:24px;color:#fff;margin-top:3px}
+.fcard .fi .where{font-size:11.5px;color:#e7e0d0;margin-top:3px}
+
+/* journeys */
+.journeys{background:var(--cream)}
+.journeys .eyebrow{color:var(--gold-deep)}.journeys .sec-head h2{color:var(--ink)}.journeys .sec-head p{color:#5a5d49}
+.jrow{display:grid;gap:14px;margin-top:24px}
+.jcard{display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px;transition:.3s;cursor:pointer}
+.jcard:hover{border-color:var(--line-gold);box-shadow:var(--shadow);transform:translateY(-2px)}
+.jcard .arch{aspect-ratio:100/116}
+.jcard .jt .tag{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep)}
+.jcard .jt h3{font-size:21px;color:var(--ink);margin-top:5px}
+.jcard .jt .meta{font-size:11px;color:#5e6150;margin-top:6px;line-height:1.5}
+.jcard .jt .more{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-deep);margin-top:8px;display:inline-flex;gap:5px;align-items:center}.jcard .jt .more svg{width:12px;height:12px}
+.jcard.lite{background:var(--paper);border-color:var(--line)}
+.jcard.lite .jt .tag{color:var(--gold-deep)}.jcard.lite .jt h3{color:var(--ink)}.jcard.lite .jt .meta{color:#5e6150}.jcard.lite .jt .more{color:var(--gold-deep)}
+
+/* difference */
+.diff{display:grid;gap:12px;margin-top:24px}
+.dcard{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px 18px;transition:.3s}
+.dcard:hover{border-color:var(--line-gold);transform:translateY(-3px);box-shadow:var(--shadow)}
+.dcard .ic{width:34px;height:34px;color:var(--gold-deep)}
+.dcard h3{font-size:19px;margin-top:11px}.dcard p{font-size:13px;color:#5e6150;margin-top:6px;line-height:1.5}
+
+/* process */
+.steps{margin-top:24px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .n{font-family:var(--disp);font-style:italic;font-size:30px;color:var(--gold);line-height:1}
+.step h3{font-size:20px}.step p{font-size:13px;color:#5e6150;margin-top:5px;line-height:1.5}
+
+/* privacy strip */
+.pstrip{background:var(--cream)}
+.pstrip .eyebrow{color:var(--gold-deep)}
+.pstrip h2{font-size:26px;color:var(--ink);margin-top:9px}
+.pstrip>.wrap>p{font-size:13.5px;color:#5a5d49;margin-top:10px;line-height:1.6}
+.plist{display:grid;gap:12px;margin-top:22px}
+.pitem{display:flex;gap:12px;align-items:flex-start}
+.pitem svg{width:19px;height:19px;color:var(--gold-deep);flex:0 0 auto;margin-top:2px}
+.pitem b{color:var(--ink);font-weight:500}.pitem span{color:#5e6150;font-size:13px;line-height:1.5}
+
+/* voices */
+.voices{background:var(--paper);text-align:center}
+.quote{font-family:var(--disp);font-style:italic;font-size:24px;line-height:1.3;margin:20px auto 0;color:var(--ink)}
+.quote::before{content:"\201C";color:var(--gold);font-size:1.4em;line-height:0;vertical-align:-.3em;margin-right:.04em}
+.attr{margin-top:18px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep)}
+.dots{display:flex;gap:7px;justify-content:center;margin-top:18px}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(30,35,25,.18);cursor:pointer;transition:.2s}
+.dots i.on{background:var(--gold);width:20px;border-radius:6px}
+
+/* journal */
+.jbits{display:grid;gap:16px;margin-top:24px}
+.jbit{cursor:pointer}.jbit .arch{aspect-ratio:100/68}
+.jbit .k{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);margin-top:12px;font-weight:500}
+.jbit h3{font-size:20px;margin-top:5px}.jbit p{font-size:12.5px;color:#5e6150;margin-top:5px;line-height:1.5}
+
+/* closing */
+.closing{position:relative;background:radial-gradient(120% 130% at 50% 0%,#4a5237,#2c3120);color:var(--ivory);text-align:center;overflow:hidden}
+.closing h2{font-size:34px;color:#fdf9f1}.closing p{margin:13px auto 0;color:#dfe1d2;font-size:13.5px;line-height:1.6}
+
+/* page header */
+.phead{position:relative;background:linear-gradient(180deg,var(--cream),var(--ivory));color:var(--ink);padding:30px 0 38px;border-bottom:1px solid var(--line)}
+.phead .crumb{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);cursor:pointer}
+.phead .crumb:hover{color:var(--gold)}
+.phead h1{font-size:36px;margin-top:12px;color:var(--ink);line-height:1.05}
+.phead p{margin-top:13px;color:#5a5d49;font-size:13.5px;line-height:1.6}
+
+/* detail */
+.detail{padding:30px 0}
+.dcols{display:block}
+.dlede{font-size:15px;color:#4a4d3b;line-height:1.7;margin-top:22px}
+.dsub{font-size:23px;margin:30px 0 13px}
+.factbar{display:flex;flex-wrap:wrap;gap:14px 24px;margin:16px 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact .fl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:500}
+.fact .fv{font-family:var(--disp);font-size:20px;margin-top:3px}
+.fact .fv.sm{font-size:15px;max-width:20em}
+.tiles{display:grid;gap:11px}
+.tile{display:flex;gap:13px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:15px;cursor:pointer;transition:.25s}
+.tile:hover{border-color:var(--line-gold);transform:translateX(3px);box-shadow:var(--shadow)}
+.tile .tn{font-family:var(--disp);font-style:italic;font-size:21px;color:var(--gold);line-height:1;flex:0 0 auto;width:24px}
+.tile h4{font-size:17px}.tile p{font-size:12.5px;color:#5e6150;margin-top:4px;line-height:1.45}
+.tile .tg{margin-left:auto;color:var(--gold-deep);align-self:center;flex:0 0 auto}.tile .tg svg{width:17px;height:17px}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px}
+.placechip{display:inline-flex;align-items:center;gap:7px;font-size:12px;padding:9px 13px;border-radius:30px;border:1px solid var(--line);background:var(--cream);cursor:pointer;transition:.2s}
+.placechip:hover{border-color:var(--gold);color:var(--gold-deep)}.placechip b{font-weight:500}.placechip .st{color:#7a7c68}
+.itin{margin-top:6px;border-left:1px solid var(--line-gold);padding-left:20px}
+.day{position:relative;padding:0 0 22px}
+.day::before{content:"";position:absolute;left:-25px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--ivory)}
+.day .dn{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:500}
+.day h4{font-size:18px;margin-top:3px}.day p{font-size:13px;color:#5e6150;margin-top:5px;line-height:1.55}
+.sidecard{border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:24px;background:var(--paper)}
+.sidecard h4{font-size:20px}
+.incl{display:grid;gap:9px;margin-top:12px;padding:0}
+.incl li{display:flex;gap:10px;font-size:13.5px;color:#4a4d3b;list-style:none;line-height:1.4}
+.incl li svg{width:15px;height:15px;color:var(--gold);flex:0 0 auto;margin-top:3px}
+.sidecard .sbody{font-size:13px;color:#5e6150;margin-top:11px;line-height:1.55}
+
+/* about / legal / enquire */
+.values{display:grid;gap:14px;margin-top:6px}
+.vitem{border-top:1px solid var(--line);padding-top:16px}.vitem h4{font-size:20px}.vitem p{font-size:13px;color:#5e6150;margin-top:6px;line-height:1.55}
+.legal{padding:30px 0;max-width:760px}
+.legal .upd{font-size:11.5px;color:#7a7c68}
+.legal h2{font-size:23px;margin:26px 0 9px}
+.legal p{font-size:14px;color:#4a4d3b;line-height:1.7;margin-top:9px}
+.legal ul{padding-left:0;margin:11px 0;display:grid;gap:9px}
+.legal li{list-style:none;display:flex;gap:11px;font-size:13.5px;color:#4a4d3b;line-height:1.55}
+.legal li svg{width:15px;height:15px;color:var(--gold);flex:0 0 auto;margin-top:4px}
+.enqform{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.field{margin-top:12px}.field:first-child{margin-top:0}
+.field label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);display:block;margin-bottom:5px;font-weight:500}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;font-family:var(--ui);font-weight:300;font-size:14px;color:var(--ink);outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.privacy-line{font-size:11px;color:#7a7c68;margin-top:12px;display:flex;gap:7px;align-items:flex-start;line-height:1.5}
+.privacy-line svg{width:14px;height:14px;color:var(--gold-deep);flex:0 0 auto;margin-top:1px}
+.privacy-line a{color:var(--gold-deep);text-decoration:underline}
+.thanks{text-align:center;padding:18px 6px;display:none}.thanks.show{display:block}
+.thanks .tick{width:46px;height:46px;border-radius:50%;background:var(--olive);color:var(--gold);display:grid;place-items:center;margin:0 auto 13px}.thanks .tick svg{width:22px;height:22px}
+.thanks h4{font-size:22px}.thanks p{font-size:13.5px;color:#5e6150;margin-top:8px;line-height:1.55}
+
+/* footer */
+footer{background:var(--ink);color:#c9cbba;padding:40px 20px 28px;font-size:13px}
+.fwrap{max-width:var(--maxw);margin:0 auto}
+.fname{font-family:var(--disp);font-size:24px;letter-spacing:.16em;color:var(--ivory);font-weight:600}
+.ftag{font-size:7.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--sand);margin-top:3px}
+.fdesc{margin-top:12px;color:#a7a995;font-size:12.5px;line-height:1.6;max-width:34em}
+.fnews{display:flex;gap:8px;margin-top:14px;max-width:400px}
+.fnews input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:30px;padding:12px 16px;color:var(--ivory);font-family:var(--ui);font-size:12.5px;outline:none}
+.fnews input::placeholder{color:#8d8f7d}
+.fnews button{background:var(--gold);color:var(--ink);border:0;border-radius:30px;padding:0 18px;font-family:var(--ui);font-weight:500;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;cursor:pointer}
+.fcols{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;margin-top:30px}
+.fcol h4{font-family:var(--ui);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);font-weight:500;margin:0 0 10px}
+.fcol a{display:block;color:#b9bba8;padding:5px 0;font-size:13px;font-weight:300}.fcol a:hover{color:var(--gold)}
+.fbtm{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:#8d8f7d;line-height:1.7;display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+.fbtm a:hover{color:var(--gold)}
+
+/* hero extras */
+.hero-img2{display:none}
+.hlink{display:inline-flex;align-items:center;gap:6px;margin-top:13px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--sand-soft);cursor:pointer;transition:.2s}
+.hlink svg{width:13px;height:13px;transition:transform .2s}.hlink:hover{color:#fff}.hlink:hover svg{transform:translateX(3px)}
+.htrust{display:flex;flex-direction:column;gap:7px;margin-top:18px}
+.htrust span{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.02em;color:#e7decf}
+.htrust span svg{width:14px;height:14px;color:var(--gold);flex:0 0 auto}
+.hscroll{display:none}
+
+/* concierge steps */
+.csteps{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:14px}
+.csteps span{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:#6a6d58;line-height:1.2}
+.csteps b{width:20px;height:20px;border-radius:50%;background:var(--cream);border:1px solid var(--line-gold);color:var(--gold-deep);display:grid;place-items:center;font-family:var(--disp);font-style:italic;font-size:12px;flex:0 0 auto}
+
+/* FAQ */
+.faqsec{margin-top:6px}
+.faqhead{margin:34px 0 14px}
+.faqhead .fqk{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);font-weight:500}
+.faqhead h3{font-size:24px;margin-top:7px}
+.faqhead p{font-size:13px;color:#5e6150;margin-top:6px;line-height:1.5}
+.faq{display:grid;gap:10px}
+.faq details{border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden;transition:border-color .2s}
+.faq details[open]{border-color:var(--line-gold);box-shadow:var(--shadow)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 16px;font-family:var(--disp);font-size:17px;color:var(--ink);line-height:1.25}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .fqi{margin-left:auto;flex:0 0 auto;width:24px;height:24px;border-radius:50%;border:1px solid var(--line-gold);display:grid;place-items:center;color:var(--gold-deep);transition:.25s;position:relative}
+.faq summary .fqi::before,.faq summary .fqi::after{content:"";position:absolute;background:currentColor;border-radius:2px}
+.faq summary .fqi::before{width:11px;height:1.7px}.faq summary .fqi::after{width:1.7px;height:11px;transition:.25s}
+.faq details[open] summary .fqi{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.faq details[open] summary .fqi::after{transform:rotate(90deg);opacity:0}
+.faq .fqa{padding:0 16px 16px;font-size:13.5px;color:#545745;line-height:1.6}
+.faq .fqa a{color:var(--gold-deep);text-decoration:underline}
+
+/* drawer (mobile menu) */
+.drawer{position:fixed;inset:0;z-index:600;background:linear-gradient(180deg,#3f4630,#2a2e1d);color:var(--ivory);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+.drawer.open{transform:none}
+.dtop{display:flex;justify-content:space-between;align-items:center;padding:17px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
+.dtop .dbrand{display:flex;flex-direction:column;line-height:1}
+.dtop .dname{font-family:var(--disp);font-size:20px;letter-spacing:.16em;font-weight:600}
+.dtop .dt2{font-size:6.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--sand);margin-top:4px}
+.dclose{background:rgba(255,255,255,.08);border:0;color:var(--ivory);cursor:pointer;width:38px;height:38px;border-radius:50%;display:grid;place-items:center}.dclose svg{width:20px;height:20px}
+.dscroll{flex:1;overflow-y:auto;padding:18px 20px 22px}
+.dscroll::-webkit-scrollbar{width:0}
+.dquick{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.dq{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#7a6334 center/cover no-repeat;cursor:pointer}
+.dq::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 28%,rgba(26,30,18,.84))}
+.dq>span{position:absolute;left:13px;bottom:11px;z-index:2;font-family:var(--disp);font-size:19px;color:#fff}
+.dq .dqa{position:absolute;right:11px;bottom:12px;z-index:2;color:var(--gold);display:grid;place-items:center}.dq .dqa svg{width:16px;height:16px}
+.dsec{margin:24px 0 4px;font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--sand);font-weight:500}
+.acc{border-top:1px solid rgba(255,255,255,.1)}
+.ah{display:flex;justify-content:space-between;align-items:center;font-family:var(--disp);font-size:21px;padding:13px 0;cursor:pointer}
+.ah .pl{font-size:17px;color:var(--sand);transition:.2s}.acc.open .ah .pl{transform:rotate(45deg)}
+.ab{display:none;padding:2px 0 10px}.acc.open .ab{display:block}
+.ab a{display:block;padding:9px 0 9px 2px;font-size:14px;color:#cfd2bf}.ab a:hover{color:var(--gold)}
+.dfoot{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)}
+.dfoot a{font-size:13px;color:#b9bba8}.dfoot a:hover{color:var(--gold)}
+.dbottom{padding:13px 18px calc(13px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(255,255,255,.12);display:flex;gap:10px;background:rgba(0,0,0,.16)}
+.dbottom .btn{flex:1}
+.dchat{width:50px;height:50px;flex:0 0 auto;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:var(--ivory);display:grid;place-items:center;cursor:pointer}.dchat svg{width:20px;height:20px}
+
+/* chat */
+.chatfab{position:fixed;right:16px;bottom:16px;z-index:170;width:54px;height:54px;border-radius:50%;border:0;cursor:pointer;background:var(--gold);color:var(--ink);display:grid;place-items:center;box-shadow:0 14px 30px -8px rgba(44,49,32,.6);transition:.2s}
+.chatfab:hover{transform:translateY(-3px)}.chatfab svg{width:23px;height:23px}
+.chatpanel{position:fixed;right:16px;bottom:80px;z-index:180;width:min(380px,calc(100vw - 32px));background:var(--paper);border:1px solid var(--line-gold);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;max-height:74vh;transform:translateY(16px) scale(.98);opacity:0;visibility:hidden;transition:.25s}
+.chatpanel.open{transform:none;opacity:1;visibility:visible}
+.chathead{background:var(--olive);color:var(--ivory);padding:15px 16px;display:flex;align-items:center;gap:10px}
+.chathead .ca{width:33px;height:33px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-family:var(--disp);font-weight:600}
+.chathead .cn{font-family:var(--disp);font-size:17px;line-height:1}.chathead .cs2{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sand);margin-top:2px}
+.chathead .cx{margin-left:auto;background:none;border:0;color:var(--ivory);cursor:pointer;width:30px;height:30px;display:grid;place-items:center}.chathead .cx svg{width:18px;height:18px}
+.chatbody{padding:15px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:3px}
+.cmsg{font-size:13.5px;line-height:1.55;color:#4a4d3b}
+.cmsg.bot{align-self:flex-start;max-width:92%;background:var(--cream);border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:11px 13px;color:#40432f;margin-top:6px}
+.cmsg.me{align-self:flex-end;max-width:86%;background:var(--olive);color:var(--ivory);border-radius:14px 14px 4px 14px;padding:10px 13px;margin-top:10px;font-weight:400}
+.cquick{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.cquick button{font-size:11.5px;padding:8px 11px;border-radius:30px;border:1px solid var(--line);background:var(--cream);cursor:pointer;color:var(--ink);transition:.2s}
+.cquick button:hover{border-color:var(--gold);color:var(--gold-deep)}
+.ccard{background:var(--cream);border:1px solid var(--line-gold);border-radius:14px;padding:13px;margin-top:11px}
+.ccard .pill{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep)}
+.ccard h4{font-size:18px;margin-top:5px}.ccard p{font-size:12.5px;color:#5e6150;margin-top:5px;line-height:1.45}
+.ccard .btn{margin-top:11px;width:100%}
+.ccard .rel{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.ccard .rel button{font-size:11px;padding:7px 10px;border-radius:30px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}.ccard .rel button:hover{border-color:var(--gold)}
+.chatfoot{border-top:1px solid var(--line);padding:11px;display:flex;gap:8px;align-items:flex-end}
+.chatfoot textarea{flex:1;border:1px solid var(--line);border-radius:12px;resize:none;font-family:var(--ui);font-weight:300;font-size:13.5px;padding:10px 11px;min-height:42px;max-height:80px;outline:none}
+.chatfoot textarea:focus{border-color:var(--gold)}
+.chatfoot .send{width:40px;height:40px;border-radius:50%;border:0;background:var(--gold);color:var(--ink);cursor:pointer;display:grid;place-items:center;flex:0 0 auto}.chatfoot .send svg{width:17px;height:17px}
+
+/* dock */
+.dock{position:fixed;left:14px;right:80px;bottom:16px;z-index:150;display:flex;gap:10px;align-items:center;background:rgba(44,49,32,.95);backdrop-filter:blur(12px);border:1px solid var(--line-gold);border-radius:46px;padding:8px 8px 8px 18px;box-shadow:var(--shadow);transform:translateY(160%);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.dock.show{transform:none}
+.dock .dl{color:var(--ivory);font-size:11px;line-height:1.2}.dock .dl b{font-family:var(--disp);font-style:italic;color:var(--gold);font-size:15px;display:block}
+.dock .btn{margin-left:auto;padding:12px 16px;background:var(--gold);color:var(--ink)}
+
+/* language selector */
+.langwrap{position:relative}
+.langbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 11px;border-radius:40px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-family:var(--ui);font-size:11.5px;letter-spacing:.08em;transition:.2s}
+.langbtn:hover{border-color:var(--gold);color:var(--gold-deep)}
+.langbtn svg.gl{width:17px;height:17px}
+.langbtn .lc{font-weight:500;text-transform:uppercase;display:none}
+.langbtn .cav{width:6px;height:6px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;transform:rotate(45deg);margin-top:-3px;opacity:.55;display:none}
+.langbtn.busy{opacity:.65;pointer-events:none}
+.langbtn .spin2{width:15px;height:15px;border:2px solid var(--line-gold);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite}
+.langmenu{position:absolute;right:0;top:48px;min-width:186px;background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:6px;z-index:260;opacity:0;visibility:hidden;transform:translateY(6px);transition:.2s;max-height:340px;overflow:auto}
+.langmenu.open{opacity:1;visibility:visible;transform:none}
+.langmenu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:var(--ui);font-weight:300;font-size:13.5px;color:var(--ink);transition:.15s}
+.langmenu button:hover{background:var(--cream)}
+.langmenu button.on{color:var(--gold-deep);font-weight:500}
+.langmenu button .flag{font-size:16px;line-height:1;width:22px;text-align:center;flex:0 0 auto}
+.langmenu button .tickm{margin-left:auto;color:var(--gold);opacity:0;flex:0 0 auto}.langmenu button.on .tickm{opacity:1}.langmenu .tickm svg{width:15px;height:15px}
+/* header float: light lang button over dark hero */
+body.view-web header.float .langbtn{border-color:rgba(255,255,255,.38);color:var(--ivory)}
+/* footer language */
+.flang{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flang .fll{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sand)}
+.flang button{background:none;border:0;color:#b9bba8;font-family:var(--ui);font-size:12px;cursor:pointer;padding:2px 4px;transition:.15s}
+.flang button:hover,.flang button.on{color:var(--gold)}
+/* chat typing + bubbles */
+.ctype{display:inline-flex;gap:4px;align-items:center;align-self:flex-start;margin-top:10px;padding:11px 13px;background:var(--cream);border:1px solid var(--line);border-radius:14px}
+.ctype i{width:6px;height:6px;border-radius:50%;background:var(--gold-deep);animation:blink 1.1s infinite}
+.ctype i:nth-child(2){animation-delay:.18s}.ctype i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+/* section imagery */
+.bandimg{position:relative;border-radius:18px;overflow:hidden;margin-top:24px;aspect-ratio:16/10;background:#e8e3d7 center/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(30,35,25,.06)}
+.bandimg::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(26,30,18,.5),transparent 55%,rgba(26,30,18,.55))}
+.bandimg .bl{position:absolute;left:18px;right:18px;bottom:16px;z-index:2;color:#fff7e9;font-family:var(--disp);font-size:21px;line-height:1.2}
+.secbg{position:absolute;inset:0;background:#2c3120 center/cover no-repeat;z-index:0}
+.secshade{position:absolute;inset:0;z-index:1}
+.closing{position:relative;overflow:hidden}
+.closing>.wrap{position:relative;z-index:2}
+.closing .secshade{background:radial-gradient(120% 130% at 50% 0%,rgba(58,68,48,.8),rgba(30,35,20,.9))}
+.voices .secbg,.voices .secshade,.pstrip .secbg,.pstrip .secshade{display:none}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ===================== WEB UPGRADE (desktop, not in mobile preview) ===================== */
+@media(min-width:760px){
+  body.view-web .wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px}
+  body.view-web header{height:76px;grid-template-columns:1fr auto 1fr;padding:0 32px}
+  body.view-web .burger{display:none}
+  body.view-web .navside{display:flex;align-items:center}
+  body.view-web .navside.left{justify-self:start}
+  body.view-web .hdr-right{gap:14px}
+  body.view-web .navside.rightnav{display:flex;align-items:center}
+  body.view-web .header-cta{display:inline-flex}
+  body.view-web .brand .mark{width:28px;height:34px}
+  body.view-web .brand .bname{font-size:23px}
+  body.view-web .brand .tline{font-size:7px}
+  body.view-web header.float{background:transparent;border-bottom-color:transparent}
+  body.view-web header.float .brand .bname{color:var(--ivory)}
+  body.view-web header.float .brand .tline{color:var(--sand)}
+  body.view-web header.float .brand .mark{fill:#fff}
+  body.view-web header.float .navitem>button,body.view-web header.float .navlink{color:var(--ivory)}
+  body.view-web header.float .iconbtn{border-color:rgba(255,255,255,.4);color:var(--ivory)}
+
+  body.view-web .hero{min-height:100svh;padding-bottom:84px;margin-top:-76px;align-items:center;background:radial-gradient(130% 92% at 80% 20%,#5d6747,#3a4128 46%,#23270f)}
+  body.view-web .hero-img{left:auto;right:5%;top:50%;transform:translateY(-50%);width:38%;max-width:520px;aspect-ratio:100/128;border-radius:20px;box-shadow:0 50px 90px -30px rgba(0,0,0,.55)}
+  body.view-web .hero-img2{display:block;position:absolute;right:30%;bottom:9%;width:16%;max-width:220px;aspect-ratio:100/120;border-radius:18px;background:#e8e3d7 center/cover no-repeat;box-shadow:0 30px 60px -18px rgba(0,0,0,.5);z-index:4}
+  body.view-web .hero-veil{background:linear-gradient(100deg,rgba(28,32,14,.88) 0%,rgba(28,32,14,.5) 36%,rgba(28,32,14,0) 60%)}
+  body.view-web .hero-inner{padding:0 40px;max-width:var(--maxw);margin:0 auto;width:100%}
+  body.view-web .hero-inner>*{max-width:600px}
+  body.view-web .hero h1{font-size:86px;letter-spacing:-.01em}
+  body.view-web .hero .sub{font-size:18.5px;max-width:27em}
+  body.view-web .hcta{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:26px}
+  body.view-web .hcta .btn{padding:17px 30px;font-size:12px}
+  body.view-web .hlink{margin-top:0}
+  body.view-web .htrust{flex-direction:row;flex-wrap:wrap;gap:10px 24px;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.16);max-width:none}
+  body.view-web .htrust span{font-size:12.5px}
+  body.view-web .hscroll{display:flex;flex-direction:column;align-items:center;gap:6px;position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:5;color:var(--sand-soft);cursor:pointer;font-size:9px;letter-spacing:.22em;text-transform:uppercase}
+  body.view-web .hscroll svg{width:20px;height:20px;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(5px)}}
+  body.view-web .csteps{gap:10px 18px;margin-top:16px}
+  body.view-web .csteps span{font-size:12.5px}
+  body.view-web .faqsec{max-width:860px}
+  body.view-web .faq summary{font-size:18.5px;padding:17px 20px}
+  body.view-web .faq .fqa{font-size:14.5px;padding:0 20px 18px}
+  body.view-web .faqhead h3{font-size:34px}
+
+  body.view-web .concierge{margin-top:-58px;padding:0;max-width:var(--maxw);margin-left:auto;margin-right:auto}
+  body.view-web .cbox{padding:34px 40px;max-width:760px}
+  body.view-web .cbox h2{font-size:36px}
+  body.view-web .cbox .csub{font-size:14.5px}
+
+  body.view-web .sec{padding:80px 0}
+  body.view-web .sec-head{max-width:640px}
+  body.view-web .sec-head h2{font-size:46px}
+  body.view-web .sec-head p{font-size:15px}
+  body.view-web .cards{grid-template-columns:repeat(3,1fr);gap:24px}
+  body.view-web .fscroll{grid-auto-columns:30%;padding:0 40px 10px;max-width:var(--maxw);margin-left:auto;margin-right:auto}
+  body.view-web .fcard:hover{transform:translateY(-4px);transition:transform .3s}
+  body.view-web .jrow{grid-template-columns:1fr 1fr;gap:18px}
+  body.view-web .jcard{grid-template-columns:140px 1fr}
+  body.view-web .diff{grid-template-columns:repeat(3,1fr);gap:18px}
+  body.view-web .jbits{grid-template-columns:repeat(3,1fr);gap:22px}
+  body.view-web .steps{max-width:760px}
+  body.view-web .bandimg{aspect-ratio:24/8;margin-top:34px}
+  body.view-web .bandimg .bl{font-size:28px;left:34px;right:34px;bottom:26px}
+  body.view-web .stepwrap{display:grid;grid-template-columns:1fr 300px;gap:50px;align-items:center}
+  body.view-web .stepwrap .steps{margin-top:0}
+  body.view-web .stepart{display:block}
+  .stepart{display:none}
+  body.view-web .stepart .arch{aspect-ratio:100/132}
+  body.view-web .pstrip .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  body.view-web .pstrip .plist{margin-top:0}
+  body.view-web .quote{font-size:38px;max-width:18em}
+  body.view-web .closing h2{font-size:60px}
+  body.view-web .closing p{font-size:16px}
+
+  body.view-web .phead{padding:120px 0 64px;margin-top:-76px}
+  body.view-web .phead h1{font-size:60px}
+  body.view-web .phead p{font-size:16px;max-width:40em}
+  body.view-web .detail{padding:54px 0}
+  body.view-web .dcols{display:grid;grid-template-columns:1.6fr 1fr;gap:48px;align-items:start}
+  body.view-web .dcols .sidecard{margin-top:0;position:sticky;top:100px}
+  body.view-web .dlede{font-size:17px}
+  body.view-web .dsub{font-size:30px}
+  body.view-web .tiles{grid-template-columns:1fr 1fr}
+  body.view-web .values{grid-template-columns:1fr 1fr;gap:30px}
+  body.view-web .enqgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+  body.view-web .field.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  body.view-web .field.two label{display:none}
+
+  body.view-web footer{padding:60px 40px 34px}
+  body.view-web .langbtn .lc,body.view-web .langbtn .cav{display:inline-block}
+  body.view-web .langbtn{padding:0 14px;height:42px}
+  body.view-web .fgrid{display:grid;grid-template-columns:1.2fr 1.8fr;gap:48px;align-items:start}
+  body.view-web .fcols{grid-template-columns:repeat(4,1fr);margin-top:0}
+  body.view-web .dock{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+
+<div class="viewswap" id="viewswap" aria-label="Preview device">
+  <button id="vWeb" class="on" title="Web view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M9 21h6M12 17v4"/></svg></button>
+  <button id="vMob" title="Mobile view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg></button>
+</div>
+
+<div class="device-shell">
+<div id="app">
+  <header id="hdr">
+    <button class="iconbtn burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="navside left" id="navleft" aria-label="Primary"></nav>
+    <a class="brand" data-go="/" aria-label="MANNYAM home">
+      <svg class="mark" viewBox="0 0 60 72" aria-hidden="true"><path d="M6 68V6h9l15 30L45 6h9v62h-9V26L33 50h-6L18 26v42z"/></svg>
+      <span class="bname">MANNYAM</span><span class="tline">The Story of India</span>
+    </a>
+    <div class="hdr-right">
+      <nav class="navside rightnav" id="navright" aria-label="Secondary"></nav>
+      <div class="langwrap" data-notrans>
+        <button class="langbtn" id="langBtn" aria-label="Change language"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg><span class="lc" id="langCode">EN</span><span class="cav"></span></button>
+        <div class="langmenu" id="langMenu"></div>
+      </div>
+      <a class="btn btn-gold header-cta" data-go="/enquire">Plan my journey</a>
+      <button class="iconbtn" id="chatOpenTop" aria-label="Ask MANNYAM"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12Z"/></svg></button>
+    </div>
+  </header>
+
+  <main id="view"></main>
+
+  <footer>
+    <div class="fwrap"><div class="fgrid">
+      <div>
+        <div class="fname">MANNYAM</div><div class="ftag">The Story of India</div>
+        <p class="fdesc">Private, thoughtfully planned journeys that reveal the real spirit of India through its festivals, living traditions and the people who make them unforgettable.</p>
+        <div class="fnews"><input type="email" placeholder="Your email for the journal" aria-label="Email"><button>Join</button></div>
+      </div>
+      <div class="fcols" id="fcols"></div>
+    </div>
+    <div class="fbtm"><span>Copyright 2026 MANNYAM. Private journeys across India.</span><div class="flang" id="flang" data-notrans><span class="fll">Language</span></div><span><a data-go="/privacy">Privacy and security</a> &nbsp;&middot;&nbsp; <a data-go="/about">Our story</a> &nbsp;&middot;&nbsp; <a data-go="/enquire">Contact</a></span></div>
+    </div>
+  </footer>
+
+  <div class="dock" id="dock"><div class="dl">Ready when you are<b>Plan my journey</b></div><a class="btn btn-gold" data-go="/enquire">Start</a></div>
+</div>
+</div>
+
+<button class="chatfab" id="chatFab" aria-label="Ask MANNYAM"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12Z"/></svg></button>
+<div class="chatpanel" id="chatPanel" role="dialog" aria-label="MANNYAM concierge">
+  <div class="chathead"><div class="ca">M</div><div><div class="cn">Ask MANNYAM</div><div class="cs2">Your journey concierge</div></div><button class="cx" id="chatClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="chatbody" id="chatBody"></div>
+  <div class="chatfoot"><textarea id="chatInput" rows="1" placeholder="Try: Holi in Mathura, or a honeymoon in Kerala"></textarea><button class="send" id="chatSend" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+</div>
+
+<div class="drawer" id="drawer">
+  <div class="dtop"><div class="dbrand"><span class="dname">MANNYAM</span><span class="dt2">The Story of India</span></div><button class="dclose" id="dclose" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="dscroll">
+    <div class="dsec" style="margin-top:2px">Start here</div>
+    <div class="dquick" id="dquick"></div>
+    <div class="dsec">Browse everything</div>
+    <div id="draccs"></div>
+    <div class="dsec">Language</div>
+    <div class="flang" id="dlang" data-notrans style="margin-top:6px"></div>
+    <div class="dfoot" id="dfoot"></div>
+  </div>
+  <div class="dbottom">
+    <a class="btn btn-amber" data-go="/enquire">Plan my journey</a>
+    <button class="dchat" id="drawerChat" aria-label="Ask the concierge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12Z"/></svg></button>
+  </div>
+</div>
+
+<script>
+/* ===== IMAGE SYSTEM (from approved design) ===== */
+const PIC={taj:'1524492412937-b28074a5d7da',fort:'1599661046289-e31897846e41',palace:'1477587458883-47145ed94245',curry:'1585937421612-70a008356fbe',spice:'1596040033229-a9821ebd058d',tiger:'1615824996195-f780bba7cfab',kerala:'1593693411515-c20261bcad6e',kerala2:'1602216056096-3b40cc0c9944',bride:'1583391733956-3750e0ff4e8b',gopuram:'1582510003544-4d00b7f74220',snow:'1626621341517-bbf3d9990a23',yoga:'1545389336-cf090694435e',stupa:'1596402184320-417e7178b2cd',holi1:'u/WTE7HKuXZlM',holi2:'u/rFP3OzmYH6M',holi3:'u/HpWLA9mpr2o'};
+const PICK={heritage:'fort','local-life':'palace',food:'curry',spiritual:'yoga',wildlife:'tiger',royal:'taj',arts:'gopuram',slow:'kerala',honeymoon:'bride',holi:'holi1',diwali:'palace',dussehra:'fort','durga-puja':'gopuram',navratri:'bride','ganesh-chaturthi':'stupa',harvest:'kerala2','celebration-shows':'fort',rajasthan:'palace',kerala:'kerala',himalayas:'snow','tamil-nadu':'gopuram',varanasi:'yoga','north-east':'kerala2',gujarat:'fort','palaces-of-the-north':'taj','green-kerala':'kerala','ladakh-high-passes':'snow','ganges-and-beyond':'yoga','colours-of-holi':'holi2','lights-of-diwali':'palace','royal-dussehra':'fort','holi-mathura':'holi3','diwali-varanasi':'yoga','slow-spiti':'snow'};
+/* To use your own licensed photos (e.g. downloaded from Magnific/Freepik or your own shoots):
+   download each image, drop it in an "images/" folder beside this file, and map the slug here.
+   Example: 'rajasthan':'images/rajasthan.jpg'. Anything not listed falls back to the stock photo below. */
+const IMG_OVERRIDE={};
+function imgUrl(id){return id.indexOf('u/')===0?'https://unsplash.com/photos/'+id.slice(2)+'/download?w=860&fm=jpg&fit=crop':'https://images.unsplash.com/photo-'+id+'?auto=format&fit=crop&w=820&q=72';}
+function picUrl(slug){return IMG_OVERRIDE[slug]||imgUrl(PIC[PICK[slug]]||PIC.taj);}
+function picBg(slug){return "url('"+picUrl(slug)+"')";}
+
+/* ===== DATA ===== */
+const EXPERIENCES=[
+  {slug:"heritage",k:"Culture",h:"Culture & Heritage",lede:"Walk the old quarters where centuries still shape daily life, on foot, by cycle or by tuk-tuk.",moments:[["Heritage walks","Hidden lanes, carved facades and the stories behind them."],["Royal pasts","Forts and palaces, with the families who keep them."],["Living traditions","Crafts and rituals still practised by hand."]],places:[["Jaipur","Rajasthan"],["Udaipur","Rajasthan"],["Madurai","Tamil Nadu"]]},
+  {slug:"local-life",k:"People",h:"Local Life & Community",lede:"Meet India through its people, in villages, homes and on short local train journeys.",moments:[["Home meals","Shared food and easy conversation in a family home."],["Village days","Rural walks and women led initiatives, warm and human."],["Slow trains","A short ride alongside locals, the real countryside passing by."]],places:[["Kutch","Gujarat"],["Wayanad","Kerala"],["Khasi Hills","Meghalaya"]]},
+  {slug:"food",k:"Flavours",h:"Food & Culinary Stories",lede:"Every meal tells a story of geography, history and tradition. Taste your way through it.",moments:[["Food walks","Street kitchens and market stalls with someone who knows them."],["Cook and dine","A hands-on lesson, then a long table with the family."],["Regional tables","From coastal spice to royal kitchens, region by region."]],places:[["Old Delhi","Delhi"],["Chettinad","Tamil Nadu"],["Lucknow","Uttar Pradesh"]]},
+  {slug:"spiritual",k:"Soul",h:"Spiritual & Soulful",lede:"Witness rituals that have flowed unchanged for centuries, and find a little quiet of your own.",moments:[["River dawns","Yoga and prayer by sacred water as the day begins."],["Ceremonial boats","A slow row at dusk, with live music on the water."],["Temples and ghats","Time with priests and practitioners, gently guided."]],places:[["Rishikesh","Uttarakhand"],["Varanasi","Uttar Pradesh"],["Madurai","Tamil Nadu"]]},
+  {slug:"wildlife",k:"Wild",h:"Nature & Wildlife",lede:"Reconnect with the wild through careful, responsible encounters led by expert naturalists.",moments:[["Tiger country","Dawn drives in the great national parks."],["Plantation walks","Tea and spice trails through deep green hills."],["Jungle table","Lunch in the forest after a morning safari."]],places:[["Ranthambore","Rajasthan"],["Kaziranga","Assam"],["Periyar","Kerala"]]},
+  {slug:"royal",k:"Royal",h:"Royal & Exclusive",lede:"Step into India's regal past with moments once reserved for royalty alone.",moments:[["Vintage drives","A classic car through the old city at golden hour."],["Lakeside high tea","An exclusive table set just for you."],["Private dinners","A historic courtyard, candlelight and nobody else."]],places:[["Udaipur","Rajasthan"],["Jodhpur","Rajasthan"],["Mysuru","Karnataka"]]},
+  {slug:"arts",k:"Arts",h:"Arts, Music & Performance",lede:"Discover India's creative soul, from classical musicians to regional dance and martial forms.",moments:[["Private recitals","An intimate performance by masters of a classical form."],["Art districts","The studios and lanes where India still makes by hand."],["Stage traditions","Kathakali, Kalbeliya and more, up close."]],places:[["Kochi","Kerala"],["Jaipur","Rajasthan"],["Kolkata","West Bengal"]]},
+  {slug:"slow",k:"Slow",h:"Slow Travel & Scenic Living",lede:"Sometimes the best way to know a place is to slow right down and let it unfold.",moments:[["Sunset cruises","A quiet boat as the light turns on the water."],["Markets after dark","The old town once the day's heat has gone."],["Cycle the towns","Heritage streets at the pace of a bicycle."]],places:[["Pondicherry","Tamil Nadu"],["Fort Kochi","Kerala"],["Alleppey","Kerala"]]},
+  {slug:"honeymoon",k:"Romance",h:"Honeymoon & Romance",lede:"However you picture it, India sets the scene for romance like nowhere else.",moments:[["Lake palaces","A suite on the water and a boat to a private dinner."],["Desert nights","Sundowners on the dunes and a sky full of stars."],["Backwater calm","Just the two of you, drifting, with your own cook."]],places:[["Udaipur","Rajasthan"],["Jaisalmer","Rajasthan"],["Alleppey","Kerala"]]}
+];
+const FESTIVALS=[
+  {slug:"holi",h:"Holi",k:"Festival of colour",when:"March",where:"Mathura, Vrindavan and Barsana, Uttar Pradesh; Jaipur and Udaipur, Rajasthan",lede:"The festival of colour, love and spring. A morning that turns whole towns into a swirl of pink, gold and laughter.",moments:[["The colour throw","Join the crowds, or watch from a calm rooftop, as colour fills the air."],["Barsana traditions","The famous, joyful Lathmar Holi in the towns near Mathura."],["A gentler Holi","A private, family style celebration if the crowds feel too much."]],places:[["Mathura","Uttar Pradesh"],["Vrindavan","Uttar Pradesh"],["Barsana","Uttar Pradesh"],["Jaipur","Rajasthan"],["Udaipur","Rajasthan"],["Pushkar","Rajasthan"]],journeys:["colours-of-holi"]},
+  {slug:"diwali",h:"Diwali",k:"Festival of lights",when:"October to November",where:"Varanasi, Uttar Pradesh; Jaipur and Udaipur, Rajasthan; Amritsar, Punjab",lede:"The festival of lights. Lamps along every doorway, fireworks over the rivers and a warmth that fills the night.",moments:[["Lamp lit ghats","Thousands of oil lamps float and glow along the river at Varanasi."],["City of light","Jaipur and Udaipur dressed head to toe in light and colour."],["A family Diwali","Sweets, prayers and lamps in a home that welcomes you in."]],places:[["Varanasi","Uttar Pradesh"],["Jaipur","Rajasthan"],["Udaipur","Rajasthan"],["Amritsar","Punjab"]],journeys:["lights-of-diwali"]},
+  {slug:"dussehra",h:"Dussehra",k:"Triumph of good",when:"October",where:"Mysuru, Karnataka; Kullu, Himachal Pradesh; Varanasi Ramlila",lede:"The triumph of good over evil, marked by royal processions, towering effigies and ancient street theatre.",moments:[["Mysuru Dasara","The lit palace and a grand procession of elephants and music."],["Kullu's gods","Hundreds of village deities carried together through the valley."],["Ramlila nights","The old retelling of the Ramayana, performed across the city."]],places:[["Mysuru","Karnataka"],["Kullu","Himachal Pradesh"],["Varanasi","Uttar Pradesh"]],journeys:["royal-dussehra"]},
+  {slug:"durga-puja",h:"Durga Puja",k:"Art and devotion",when:"October",where:"Kolkata, West Bengal",lede:"The east at its most artistic. Whole neighbourhoods become open air galleries of light, sculpture and devotion.",moments:[["Pandal hopping","Walk between extraordinary temporary art pavilions, each one different."],["The drums","Live dhak drumming and dance that builds for days."],["River farewell","The final, moving procession to the water."]],places:[["Kolkata","West Bengal"]],journeys:[]},
+  {slug:"navratri",h:"Navratri & Garba",k:"Nine nights of dance",when:"October",where:"Ahmedabad and Vadodara, Gujarat",lede:"Nine nights of rhythm. Great circles of dancers in mirror work and colour, turning until the early hours.",moments:[["Learn the steps","A gentle lesson before you join the circle yourself."],["The big grounds","The energy of thousands dancing Garba and Dandiya together."],["Dress the part","Traditional outfits arranged, so you feel part of it all."]],places:[["Ahmedabad","Gujarat"],["Vadodara","Gujarat"]],journeys:[]},
+  {slug:"ganesh-chaturthi",h:"Ganesh Chaturthi",k:"The people's festival",when:"August to September",where:"Mumbai and the Konkan coast, Maharashtra",lede:"Mumbai's biggest celebration. Streets full of music and colour as the elephant headed god is welcomed and, days later, sent to the sea.",moments:[["Welcome days","Beautifully made idols and the joy of the opening processions."],["Coastal Konkan","A quieter, village side of the festival along the coast."],["To the water","The final procession to the sea, vast and full of feeling."]],places:[["Mumbai","Maharashtra"],["Pune","Maharashtra"]],journeys:[]},
+  {slug:"harvest",h:"Pongal & Onam",k:"Festivals of harvest",when:"January and August",where:"Tamil Nadu (Pongal) and Kerala (Onam)",lede:"The south gives thanks. Floral carpets, boat races and feasts served on banana leaves, all rooted in the land.",moments:[["Onam feast","The grand Sadhya, dish after dish on a fresh banana leaf."],["Flower carpets","Intricate Pookalam laid out across doorways and courtyards."],["Snake boats","The thunder of Kerala's long racing boats on the water."]],places:[["Madurai","Tamil Nadu"],["Kochi","Kerala"],["Alleppey","Kerala"]],journeys:[]},
+  {slug:"celebration-shows",h:"Celebration Shows",k:"Folk evenings",when:"All year",where:"Rajasthan, Kerala, Gujarat and beyond",lede:"You do not have to wait for a festival to feel the celebration. Private evenings of folk dance, music and fire, arranged just for you.",moments:[["Desert evenings","Kalbeliya dancers and folk musicians under a Rajasthani sky."],["Kathakali up close","The painted faces and slow drama of Kerala's great art form."],["Light and fire","Drummers, lamps and movement, set in a courtyard or fort."]],places:[["Jaisalmer","Rajasthan"],["Kochi","Kerala"],["Udaipur","Rajasthan"]],journeys:[]}
+];
+const DESTINATIONS=[
+  {slug:"rajasthan",k:"North-West",h:"Rajasthan",season:"October to March",p:"Desert forts, mirrored palaces and cities painted pink, blue and gold.",lede:"The India of the imagination. Warrior forts, lake palaces and bazaars that have traded for centuries.",moments:[["Palace stays","Sleep within working palaces in Udaipur and Jaipur."],["Blue Jodhpur","Mehrangarh Fort at dawn, then the blue lanes below."],["Desert nights","Sundowners on the dunes near Jaisalmer."]],places:[["Jaipur","Pink City"],["Udaipur","Lakes"],["Jodhpur","Blue City"],["Jaisalmer","Desert"]],journeys:["palaces-of-the-north","colours-of-holi","lights-of-diwali"]},
+  {slug:"kerala",k:"South",h:"Kerala",season:"September to March",p:"Backwater houseboats, spice hills and air that smells of cardamom.",lede:"India at the pace of water. Palm lined backwaters, tea and spice hills and a gentle southern calm.",moments:[["On the water","A private houseboat night with your own cook."],["Tea hills","Walk the green slopes of Munnar with a grower."],["Old Kochi","Harbour mornings among churches and fishing nets."]],places:[["Kochi","Harbour"],["Munnar","Tea hills"],["Alleppey","Backwaters"]],journeys:["green-kerala"]},
+  {slug:"himalayas",k:"North",h:"The Himalayas",season:"May to September",p:"Ladakh, Spiti and the hill stations. Monasteries, high passes and clean silence.",lede:"Some of the highest roads on earth, ancient monasteries and a stillness that stays with you.",moments:[["Monastery dawn","Morning prayers at Thiksey before the day begins."],["High passes","A careful drive over the world's great mountain roads."],["Night skies","Stars so clear the Milky Way feels close."]],places:[["Leh","Ladakh"],["Nubra","Valley"],["Spiti","Highlands"]],journeys:["ladakh-high-passes"]},
+  {slug:"tamil-nadu",k:"South",h:"Tamil Nadu",season:"November to February",p:"Towering temple gateways, Chettinad mansions and the slow Coromandel coast.",lede:"The heartland of living temple culture, with carved gateways that rise like mountains.",moments:[["Temple dawns","Inside a working temple as the first prayers begin."],["Chettinad tables","A long lunch in a heritage mansion."],["Coastal calm","Slow days by the sea in Pondicherry."]],places:[["Madurai","Temples"],["Thanjavur","Bronze"],["Pondicherry","Coast"]],journeys:[]},
+  {slug:"varanasi",k:"North",h:"Varanasi & the Ganges",season:"October to March",p:"The world's oldest living city. Dawn boats, fire rituals and lanes of incense.",lede:"One of the oldest lived in cities on earth, and few places move a traveller more deeply.",moments:[["River at first light","A quiet boat as the city bathes and prays."],["Evening fire","A reserved view of the Ganga Aarti."],["The first sermon","A calm morning at Sarnath nearby."]],places:[["Varanasi","The ghats"],["Sarnath","Buddhist"]],journeys:["ganges-and-beyond","lights-of-diwali"]},
+  {slug:"north-east",k:"East",h:"The North-East",season:"October to April",p:"Living-root bridges, tea gardens and tribal cultures far from any crowd.",lede:"India's best kept secret. A green world of root bridges, clear rivers and proud tribal cultures.",moments:[["Root bridges","Walk to bridges grown, not built, over generations."],["Village welcome","Time with a Khasi or Naga family in the hills."],["Tea and rhino","An Assam garden stay paired with Kaziranga."]],places:[["Shillong","Meghalaya"],["Kaziranga","Assam"],["Nagaland","Hills"]],journeys:[]},
+  {slug:"gujarat",k:"West",h:"Gujarat",season:"November to February",p:"White salt deserts, artisan villages and the last of Asia's wild lions.",lede:"India's most surprising and least crowded state. White salt deserts and extraordinary craft.",moments:[["White desert","An evening on the salt flats as the light turns."],["Craft villages","Days among master weavers and embroiderers."],["Wild lions","A careful safari in Gir, their last refuge."]],places:[["Kutch","Salt desert"],["Ahmedabad","Old city"],["Gir","Lions"]],journeys:[]}
+];
+const JOURNEYS=[
+  {slug:"palaces-of-the-north",type:"signature",tag:"12 days",h:"Palaces of the North",regions:["Delhi","Agra","Jaipur","Jodhpur","Udaipur"],intro:"A slow, comfortable arc across Rajasthan and the golden triangle, staying within working palaces and meeting the families who keep this world alive.",days:[["Arrival in Delhi","Met at the airport and settled into a quiet heritage hotel."],["Old and New Delhi","A gentle walk through the lanes and the calm of Humayun's Tomb."],["Agra and the Taj","Sunrise at the Taj Mahal before the crowds."],["On to Jaipur","A scenic drive with a stop at Fatehpur Sikri."],["Jaipur in depth","Amber Fort early, then artisans at work."],["Towards Jodhpur","Into the desert, with a rural lunch on the way."],["The blue city","Mehrangarh Fort at opening time, then a rooftop dinner."],["Into the Aravallis","A drive to Udaipur via the marble temples of Ranakpur."],["Udaipur on the water","The City Palace and a private boat at golden hour."],["A slower day","Time to wander, shop or simply rest by the lake."],["Craft and countryside","Artisans in the morning, villages in the afternoon."],["Homeward","A relaxed transfer for your onward flight."]],incl:["Eleven nights in palace and heritage stays","Private car with a vetted driver throughout","A dedicated curator reachable at all times","Expert local guides in each city","Private experiences and access as described"]},
+  {slug:"green-kerala",type:"signature",tag:"9 days",h:"Green Kerala & the Ghats",regions:["Kochi","Munnar","Backwaters","Kovalam"],intro:"A gentle journey through the south, from old harbour towns to tea hills and the backwaters, with proper Ayurveda built in.",days:[["Arrival in Kochi","Settle into a heritage home in old Fort Kochi."],["Old Kochi","The spice quarter, the synagogue and a Kathakali performance."],["Into the hills","A scenic drive up through the tea estates of Munnar."],["Tea and spice","A plantation walk with a grower."],["Down to the water","Onto your private houseboat for the night."],["Backwater day","Drifting past village life, with your own cook."],["Rest and restore","A coastal Ayurvedic retreat and your first treatment."],["A healing day","Daily treatments, gentle yoga and quiet by the sea."],["Homeward","A final morning by the water before your transfer."]],incl:["Eight characterful stays and one houseboat night","Private transport with a trusted driver","A dedicated curator throughout","Ayurvedic consultation and treatments","Local guides and private experiences"]},
+  {slug:"ladakh-high-passes",type:"signature",tag:"10 days",h:"Ladakh & the High Passes",regions:["Leh","Nubra","Pangong","Monasteries"],intro:"A carefully paced mountain journey through Ladakh, with time to acclimatise, ancient monasteries and some of the highest roads on earth.",days:[["Arrival in Leh","A flight into the mountains and a full day of rest."],["Easing in","A gentle day among Leh's old town and nearby monasteries."],["Monastery circuit","Thiksey at dawn, then Hemis and Shey."],["Over to Nubra","A drive over one of the world's highest roads."],["Sand and silence","The dunes of Nubra and a night under the stars."],["To Pangong","A long, beautiful drive to the impossibly blue lake."],["Lakeside morning","Sunrise at the lake before returning towards Leh."],["A free day","Rest, walk or shop in Leh."],["Indus valley","The temples and villages along the river."],["Homeward","An early flight out of the mountains."]],incl:["Nine mountain lodges and one night under canvas","Private vehicle suited to the terrain","A dedicated curator and careful altitude planning","Permits, oxygen support and expert guides","Monastery visits and private experiences"]},
+  {slug:"ganges-and-beyond",type:"signature",tag:"7 days",h:"The Ganges & Beyond",regions:["Varanasi","Rishikesh","Foothills"],intro:"A short, moving journey along India's sacred river, from the intensity of Varanasi to the calm of Rishikesh in the foothills.",days:[["Arrival in Varanasi","Settle into a riverside stay."],["River and fire","A sunrise boat and, at dusk, the Aarti fire ceremony."],["Lanes and Sarnath","The old city, then the calm of Sarnath."],["To the foothills","A flight and drive towards Rishikesh."],["Yoga by the river","Morning yoga above the Ganges."],["A day to breathe","Treatments, reading or a gentle hike."],["Homeward","A final riverside morning before your transfer."]],incl:["Six riverside and foothill stays","Private transport and internal flights","A dedicated curator throughout","Guided river and city experiences","Yoga and wellbeing sessions"]},
+  {slug:"colours-of-holi",type:"festival",tag:"8 days, Holi",h:"Colours of Holi",regions:["Delhi","Mathura","Vrindavan","Jaipur"],intro:"Time your journey to the festival of colour. The towns near Mathura at their most joyful, balanced with the calm of palace Rajasthan.",days:[["Arrival in Delhi","Settle in and rest before the celebrations."],["Old Delhi","A gentle walk through the lanes and bazaars."],["To Mathura","Into the heartland of Holi, with a local host."],["Holi morning","Join the colour, or watch from a calm rooftop, as you wish."],["Vrindavan and Barsana","The temple towns and their famous traditions."],["On to Jaipur","A scenic drive into palace Rajasthan."],["Jaipur in colour","Amber Fort and the pink city, post festival calm."],["Homeward","A relaxed transfer for your onward flight."]],incl:["Seven heritage and palace stays","A local Holi host and a calm, safe vantage point","Private car with a vetted driver","Expert guides throughout","Traditional white clothing and colour arranged"]},
+  {slug:"lights-of-diwali",type:"festival",tag:"9 days, Diwali",h:"Lights of Diwali",regions:["Jaipur","Udaipur","Varanasi"],intro:"Follow the festival of lights from the glowing cities of Rajasthan to the lamp lit ghats of Varanasi.",days:[["Arrival in Jaipur","Settle into the pink city as it dresses for Diwali."],["Jaipur aglow","Markets, lights and a family celebration."],["To Udaipur","The lake city, lit and reflected on the water."],["Udaipur Diwali","Lamps, sweets and a private boat at dusk."],["To Varanasi","A flight east to the sacred river."],["Dev Deepawali","Thousands of lamps along the ghats at night."],["River and lanes","A sunrise boat and the old city by day."],["Sarnath calm","A quiet morning where the Buddha first taught."],["Homeward","A final morning before your transfer."]],incl:["Eight stays including riverside and palace","A family Diwali welcome","Private transport and an internal flight","A reserved view of the lamp lit ghats","Expert guides throughout"]},
+  {slug:"royal-dussehra",type:"festival",tag:"6 days, Dussehra",h:"Royal Dussehra of Mysuru",regions:["Bengaluru","Mysuru"],intro:"Witness one of India's grandest royal celebrations, when the palace city of Mysuru lights up for ten days of processions and music.",days:[["Arrival in Bengaluru","Settle into the garden city."],["To Mysuru","A drive to the palace city as it prepares."],["The lit palace","Mysuru Palace glowing with thousands of bulbs."],["Procession day","Elephants, music and the grand Jamboo Savari."],["Around Mysuru","Silk, sandalwood and the royal heritage."],["Homeward","A transfer to Bengaluru for your onward flight."]],incl:["Five heritage and palace stays","Reserved viewing for the procession","Private car with a vetted driver","Expert local guides","Royal and cultural experiences as described"]}
+];
+const DIFF=[
+  {h:"A curator, not a call centre",p:"One person designs your journey and stays reachable through every day of it, in plain language.",ic:'<path d="M20 21a8 8 0 0 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="none" stroke="currentColor" stroke-width="1.6"/>'},
+  {h:"Real access, not a script",p:"Private temple openings, festival vantage points and dinners in family homes, built on years of trust.",ic:'<path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3Z" fill="none" stroke="currentColor" stroke-width="1.5"/>'},
+  {h:"Seamless and safe",p:"Vetted drivers, support around the clock and every transfer handled. You arrive, and everything works.",ic:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/>'},
+  {h:"Unhurried by design",p:"Fewer places and more depth, with slow mornings and room to wander built in.",ic:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.6"/>'},
+  {h:"Honest advice",p:"We tell you what a place is really like, the right season and where the crowds will be.",ic:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8h.01M11 12h1v4h1" fill="none" stroke="currentColor" stroke-width="1.6"/>'},
+  {h:"Yours to shape",p:"Every journey is designed around you and can be reimagined to suit your pace and purpose.",ic:'<path d="M3 21l3-1 11-11-2-2L4 18l-1 3ZM14 6l4 4" fill="none" stroke="currentColor" stroke-width="1.6"/>'}
+];
+const STEPS=[["Tell us your story","Share who is travelling, what moves you and roughly when. The concierge makes a fine first sketch."],["We write the first draft","Within a day your curator sends a tailored outline. Reshape it freely until it feels like yours."],["You live it","Land in India and let go. Your host and ground team carry every detail."]];
+const VOICES=[["We came to see India. We left feeling we had been let into it.","Saoirse and Liam, Dublin, Ireland"],["Holi in Mathura was the most alive morning of our lives, and we always felt safe.","The Bakker family, Utrecht, Netherlands"],["Our curator knew exactly when to fill the day and when to leave us be.","Claire and Antoine, Lyon, France"],["From the airport to the last sunset, every detail was simply handled.","The Hendersons, Austin, United States"]];
+const JOURNAL=[
+  {slug:"holi-mathura",k:"Festivals",h:"How to do Holi without the overwhelm",p:"Where to stand, what to wear and how to feel the joy on your own terms.",body:"Holi in the towns near Mathura is unforgettable, and it can also be a lot. The trick is a trusted local host and a calm vantage point, so you can step into the colour when you want to and step back when you need to. We arrange the white clothing, the safe rooftop and the timing, so the morning stays pure joy."},
+  {slug:"diwali-varanasi",k:"Festivals",h:"The night the river turns to light",p:"Dev Deepawali in Varanasi, when thousands of lamps line the ghats.",body:"A few nights after Diwali, Varanasi lights every step of every ghat with small oil lamps. From a quiet boat on the water the whole city seems to glow. It is one of the most beautiful sights in India, and one of the busiest, which is exactly why a reserved boat and the right timing matter so much."},
+  {slug:"slow-spiti",k:"Slow travel",h:"A week with no plan in Spiti",p:"Why the emptiest valley left the deepest mark.",body:"We sent a couple from Switzerland into Spiti with almost nothing fixed, just a trusted driver and a few homestays. They came back changed. The valley is high, bare and almost empty, and that emptiness turned out to be the point. Sometimes the richest journey is the one with the most space left in it."}
+];
+
+/* ===== HELPERS ===== */
+const arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const tick='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-11"/></svg>';
+const lock='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const tick2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-11"/></svg>';
+function archDiv(slug,cls,label){return `<div class="arch ${cls||''}" style="background-image:${picBg(slug)}">${label?`<div class="albl">${label}</div>`:''}</div>`;}
+function band(slug,label,cls){return `<div class="bandimg ${cls||''} rv" style="background-image:${picBg(slug)}">${label?`<div class="bl">${label}</div>`:''}</div>`;}
+function cta(sub,label,route,light){return `<div class="ctablock rv"><div class="cs ${light?'light':''}">${sub}</div><a class="btn btn-gold" data-go="${route}">${label} ${arrow}</a></div>`;}
+function phead(crumb,title,sub){return `<section class="phead"><div class="wrap"><div class="crumb" data-go="/">${crumb}</div><h1>${title}</h1>${sub?`<p>${sub}</p>`:''}</div></section>`;}
+function tiles(arr){return `<div class="tiles">${arr.map((m,i)=>`<div class="tile" data-go="/enquire"><div class="tn">${String(i+1).padStart(2,'0')}</div><div><h4>${m[0]}</h4><p>${m[1]}</p></div><div class="tg">${arrow}</div></div>`).join('')}</div>`;}
+function placechips(arr){return `<div class="chiprow">${arr.map(p=>`<span class="placechip" data-go="/destinations"><b>${p[0]}</b><span class="st">${p[1]}</span></span>`).join('')}</div>`;}
+function card(d,route,k,h,p,badge){return `<a class="card" data-go="${route}"><div class="ph">${badge?`<span class="badge">${badge}</span>`:''}${archDiv(d.slug)}</div><div class="cap"><div class="k">${k}</div><h3>${h}</h3><p>${p}</p><span class="more">Explore ${arrow}</span></div></a>`;}
+function jcard(j,lite){return `<a class="jcard ${lite?'lite':''}" data-go="/journey/${j.slug}">${archDiv(j.slug)}<div class="jt"><div class="tag">${j.tag}</div><h3>${j.h}</h3><div class="meta">${j.regions.join(' to ')}</div><span class="more">View journey ${arrow}</span></div></a>`;}
+function closing(){return `<section class="sec closing"><div class="secbg" style="background-image:${picBg('royal')}"></div><div class="secshade"></div><div class="wrap rv"><span class="eyebrow" style="color:var(--sand)">Begin</span><h2>Ready to write<br>your <em>India</em>?</h2><p>One short note is all it takes. Tell us what stirs you, and a curator will shape the first outline within a day.</p>${cta("Free to start, and no obligation.","Plan my journey","/enquire",true)}</div></section>`;}
+
+/* ===== FAQ ENGINE (keyword-targeted answers, simple British English) ===== */
+function faqSection(arr,intro){if(!arr||!arr.length)return '';
+  return `<section class="faqsec rv"><div class="faqhead"><div class="fqk">Good to know</div><h3>Questions, answered simply</h3><p>${intro||'A few honest answers to the things travellers ask us most. Still unsure? Ask the concierge or speak to a curator.'}</p></div><div class="faq">${arr.map((f,i)=>`<details${i===0?' open':''}><summary>${f.q}<span class="fqi"></span></summary><div class="fqa">${f.a}</div></details>`).join('')}</div></section>`;}
+function plLine(places,n){return places.slice(0,n||3).map(p=>p[0]+' in '+p[1]).join(', ');}
+
+function faqExperience(e){const pl=plLine(e.places,3),m=e.moments;
+  return [
+    {q:`What is a ${e.h.toLowerCase()} trip in India?`,a:`A ${e.h} journey with MANNYAM is a private, tailor-made India trip designed around the things you love most. ${e.lede} Every day is planned for you and paced exactly as you like.`},
+    {q:`Where in India is best for ${e.h.toLowerCase()}?`,a:`Some of the best places for ${e.k.toLowerCase()} focused travel are ${pl}. We pair the right regions for your dates, so your ${e.h.toLowerCase()} journey flows naturally from one place to the next.`},
+    {q:`What can I do on a ${e.h.toLowerCase()} journey?`,a:`Highlights include ${m[0][0].toLowerCase()}, ${m[1][0].toLowerCase()} and ${m[2][0].toLowerCase()}. Each one is private and arranged with trusted local hosts, so you experience the real thing in comfort.`},
+    {q:`Who is this kind of India trip best suited to?`,a:`Our ${e.h.toLowerCase()} journeys suit couples, families, honeymooners and small private groups who want depth and ease rather than a rushed tour. Tell us who is travelling and we shape the pace to match.`},
+    {q:`When is the best time of year to visit?`,a:`India is a year-round destination, and the best months depend on the regions in your ${e.h.toLowerCase()} journey. Share your travel window and your curator will advise on the ideal season and weather for each place.`},
+    {q:`How do I plan a private ${e.h.toLowerCase()} journey?`,a:`Start with our <a data-go="/enquire">enquiry form</a> or the concierge. Tell us what moves you, and within a day a real curator sends a first outline you can shape until it feels like yours.`}
+  ];
+}
+function faqFestival(f){const p0=f.places[0],p1=f.places[1];const pl=p1?(p0[1]===p1[1]?`${p0[0]} and ${p1[0]} in ${p0[1]}`:`${p0[0]} in ${p0[1]} and ${p1[0]} in ${p1[1]}`):`${p0[0]} in ${p0[1]}`;
+  return [
+    {q:`When is ${f.h} celebrated in India?`,a:`${f.h} is celebrated in ${f.when} each year. The exact dates follow the traditional calendar and shift a little year to year, so tell us your travel window and we will confirm the ${f.h} dates and plan around them.`},
+    {q:`Where is the best place to experience ${f.h}?`,a:`The best places to experience ${f.h} are ${pl}. We choose the right spot for you and arrange a calm, safe vantage point so you see the celebration at its finest.`},
+    {q:`Is it safe to travel for ${f.h} as a foreign visitor?`,a:`Yes. On a private ${f.h} journey we arrange a trusted local host and a safe, comfortable vantage point, so you can step into the celebration when you wish and step back whenever you need to.`},
+    {q:`What happens during ${f.h}?`,a:`Expect highlights such as ${f.moments[0][0]}, ${f.moments[1][0]} and ${f.moments[2][0]}. We explain each tradition as it unfolds, so it all makes sense and you never feel lost.`},
+    {q:`How far ahead should I book a ${f.h} trip?`,a:`${f.h} is a popular time and the best stays fill early, so we suggest planning your private ${f.h} journey several months in advance to secure the right hotels and vantage points.`},
+    {q:`Can MANNYAM plan a private, tailor-made ${f.h} journey?`,a:`Yes. We design private ${f.h} tour packages around you, pairing the festival with palaces, wildlife or quiet time afterwards, all planned end to end. <a data-go="/enquire">Tell us your dates</a> to begin.`}
+  ];
+}
+function faqDestination(d){const pl=plLine(d.places,3),m=d.moments;
+  return [
+    {q:`When is the best time to visit ${d.h}?`,a:`The best time to visit ${d.h} is ${d.season}, when the weather is most comfortable for travel. Your curator will fine-tune the timing around your dates and the experiences you choose.`},
+    {q:`What are the must-see places in ${d.h}?`,a:`Favourite places in ${d.h} include ${pl}. We build a route that links them in a sensible order, with unhurried time in each rather than a rushed checklist.`},
+    {q:`How many days do I need in ${d.h}?`,a:`Most travellers spend around five to eight days in ${d.h} to see it well, and longer if you pair it with another region. We tailor the length of your ${d.h} tour to your pace and interests.`},
+    {q:`Is ${d.h} a good destination for families and couples?`,a:`Yes. ${d.h} works beautifully for couples, honeymooners and families. With private transport, vetted drivers and support around the clock, a ${d.h} trip stays comfortable and safe throughout.`},
+    {q:`What experiences can I have in ${d.h}?`,a:`In ${d.h} you can enjoy ${m[0][0].toLowerCase()}, ${m[1][0]} and ${m[2][0].toLowerCase()}, all arranged privately. Tell us the feeling you are after and we weave it in.`},
+    {q:`How do I plan a private ${d.h} tour?`,a:`Share your dates and ideas through our <a data-go="/enquire">enquiry form</a> or the concierge, and a curator will send a tailored ${d.h} itinerary within a day, yours to reshape freely.`}
+  ];
+}
+function faqJourney(j){const len=j.tag.split(',')[0];const reg=j.regions.join(', ');
+  return [
+    {q:`How long is the ${j.h} journey?`,a:`${j.h} is a ${len} private journey. The pace is unhurried by design, and we can shorten or extend it to suit your time in India.`},
+    {q:`Which places does ${j.h} cover?`,a:`This journey travels through ${reg}. We plan every transfer between them, so your ${j.h} trip flows smoothly from one place to the next.`},
+    {q:`What is included in ${j.h}?`,a:`Your ${j.h} itinerary includes ${j.incl.slice(0,3).map(x=>x.toLowerCase()).join(', ')}, and more. Everything is private and handled for you from arrival to departure.`},
+    {q:`Can I customise the ${j.h} itinerary?`,a:`Absolutely. Take ${j.h} as it is, or treat it as a starting point and reshape the route, pace and stays with your curator until it feels entirely your own.`},
+    {q:`When is the best time to take this journey?`,a:`${j.type==='festival'?`As a festival journey, ${j.h} is timed to the celebration itself, so the dates are set by the festival each year.`:`${j.h} is best enjoyed in the cooler, clearer months, though the ideal window depends on the regions involved.`} We will confirm the right timing for your dates.`},
+    {q:`How do I book the ${j.h} journey?`,a:`Send us a note through the <a data-go="/enquire">enquiry form</a> or ask the concierge. A real curator replies within a day with a tailored outline and clear next steps. No obligation.`}
+  ];
+}
