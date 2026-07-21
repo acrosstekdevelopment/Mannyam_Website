@@ -6,84 +6,21 @@ import Image from "next/image";
 import { LanguageSelector } from "./LanguageSelector";
 import { MegaFeaturedSlide } from "./MegaFeaturedSlide";
 
-// ─── Mega-menu data matching frontend.html ───────────────────────────────────
-
-const EXPERIENCES_ITEMS = [
-  { title: "Culture and Heritage", desc: "Forts, palaces and living traditions", href: "/experience-heritage" },
-  { title: "Local Life and Community", desc: "Villages, homes and local trains", href: "/experience-local-life" },
-  { title: "Food and Culinary Stories", desc: "Street kitchens to royal tables", href: "/experience-food" },
-  { title: "Spiritual and Soulful", desc: "River dawns and ancient rituals", href: "/experience-spiritual" },
-  { title: "Nature and Wildlife", desc: "Tigers, tea hills and jungle tables", href: "/experience-wildlife" },
-  { title: "Royal and Exclusive", desc: "Vintage drives and private dinners", href: "/experience-royal" },
-  { title: "Arts, Music and Performance", desc: "Classical recitals and Kathakali", href: "/experience-arts" },
-  { title: "Honeymoon and Romance", desc: "Lake palaces and desert nights", href: "/experience-honeymoon" },
-];
-
-const FESTIVALS_ITEMS = [
-  { title: "Holi", desc: "March", href: "/festival-holi" },
-  { title: "Diwali", desc: "October to November", href: "/festival-diwali" },
-  { title: "Dussehra", desc: "October", href: "/festival-dussehra" },
-  { title: "Durga Puja", desc: "October", href: "/festival-durga-puja" },
-  { title: "Navratri and Garba", desc: "October", href: "/festival-navratri" },
-  { title: "Ganesh Chaturthi", desc: "August to September", href: "/festival-ganesh-chaturthi" },
-  { title: "Pongal and Onam", desc: "January and August", href: "/festival-harvest" },
-  { title: "Celebration Shows", desc: "All year", href: "/festival-celebration-shows" },
-];
-
-const DESTINATIONS_ITEMS = [
-  { title: "Rajasthan", desc: "October to March", href: "/destination-rajasthan" },
-  { title: "Kerala", desc: "September to March", href: "/destination-kerala" },
-  { title: "The Himalayas", desc: "May to September", href: "/destination-himalayas" },
-  { title: "Tamil Nadu", desc: "November to February", href: "/destination-tamil-nadu" },
-  { title: "Varanasi", desc: "October to March", href: "/destination-varanasi" },
-  { title: "The North-East", desc: "October to April", href: "/destination-north-east" },
-  { title: "Gujarat", desc: "November to February", href: "/destination-gujarat" },
-];
-
-const JOURNEYS_ITEMS = [
-  { title: "Palaces of the North", desc: "12 days", href: "/experiences/palaces-of-the-north" },
-  { title: "Green Kerala and the Ghats", desc: "9 days", href: "/experiences/green-kerala" },
-  { title: "Ladakh and the High Passes", desc: "10 days", href: "/experiences/ladakh-high-passes" },
-  { title: "The Ganges and Beyond", desc: "7 days", href: "/experiences/ganges-and-beyond" },
-  { title: "Colours of Holi", desc: "8 days, Holi", href: "/festivals/colours-of-holi" },
-  { title: "Lights of Diwali", desc: "9 days, Diwali", href: "/festivals/lights-of-diwali" },
-  { title: "Royal Dussehra of Mysuru", desc: "6 days, Dussehra", href: "/festivals/royal-dussehra" },
-];
-
-const EXPERIENCES_SLIDES = [
-  { image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=75", label: "Honeymoon and Romance", subtitle: "ROMANCE", href: "/experience-honeymoon" },
-  { image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75", label: "Culture and Heritage", subtitle: "CULTURE", href: "/experience-heritage" },
-  { image: "https://images.unsplash.com/photo-1615824996195-f780bba7cfab?auto=format&fit=crop&w=600&q=75", label: "Nature and Wildlife", subtitle: "WILD", href: "/experience-wildlife" },
-  { image: "https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?auto=format&fit=crop&w=600&q=75", label: "Food and Culinary Stories", subtitle: "TASTE", href: "/experience-food" },
-  { image: "https://images.unsplash.com/photo-1514222134-b57fbb8ce0ee?auto=format&fit=crop&w=600&q=75", label: "Local Life and Community", subtitle: "PEOPLE", href: "/experience-local-life" },
-  { image: "https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=600&q=75", label: "Spiritual and Soulful", subtitle: "SPIRITUAL", href: "/experience-spiritual" }
-];
-
-const FESTIVALS_SLIDES = [
-  { image: "https://unsplash.com/photos/rFP3OzmYH6M/download?w=600&fm=jpg&fit=crop", label: "Colours of Holi", subtitle: "MARCH", href: "/festival-holi" },
-  { image: "https://images.unsplash.com/photo-1605337222372-23c2a63d91c7?auto=format&fit=crop&w=600&q=75", label: "Lights of Diwali", subtitle: "OCTOBER", href: "/festival-diwali" },
-  { image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75", label: "Dussehra", subtitle: "OCTOBER", href: "/festival-dussehra" },
-  { image: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=600&q=75", label: "Durga Puja", subtitle: "OCTOBER", href: "/festival-durga-puja" }
-];
-
-const DESTINATIONS_SLIDES = [
-  { image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=75", label: "Rajasthan", subtitle: "NORTH-WEST", href: "/destination-rajasthan" },
-  { image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=75", label: "Kerala", subtitle: "SOUTH", href: "/destination-kerala" },
-  { image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=75", label: "The Himalayas", subtitle: "NORTH", href: "/destination-himalayas" },
-  { image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=75", label: "Varanasi", subtitle: "NORTH", href: "/destination-varanasi" },
-  { image: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=600&q=75", label: "Tamil Nadu", subtitle: "SOUTH", href: "/destination-tamil-nadu" }
-];
-
-const JOURNEYS_SLIDES = [
-  { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=75", label: "Palaces of the North", subtitle: "SIGNATURE", href: "/experiences/palaces-of-the-north" },
-  { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f7415e?auto=format&fit=crop&w=600&q=75", label: "Green Kerala", subtitle: "SIGNATURE", href: "/experiences/green-kerala" },
-  { image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=75", label: "Ladakh and High Passes", subtitle: "ADVENTURE", href: "/experiences/ladakh-high-passes" },
-  { image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=75", label: "The Ganges and Beyond", subtitle: "CULTURE", href: "/experiences/ganges-and-beyond" }
-];
-
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export function Header() {
+type MegaItem = { title: string; desc: string; href: string };
+type MegaSlide = { image: string; label: string; subtitle: string; href: string };
+
+type HeaderCategoryProps = { items: MegaItem[], slides: MegaSlide[] };
+
+export interface HeaderProps {
+  experiences?: HeaderCategoryProps;
+  festivals?: HeaderCategoryProps;
+  destinations?: HeaderCategoryProps;
+  journeys?: HeaderCategoryProps;
+}
+
+export function Header({ experiences, festivals, destinations, journeys }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openMega, setOpenMega] = useState<string | null>(null);
   const megaTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -134,7 +71,7 @@ export function Header() {
             <div className={`fixed top-[76px] left-4 right-4 max-w-[780px] bg-paper border border-gold/25 rounded-[18px] shadow-[0_18px_48px_-24px_rgba(30,35,25,.26)] p-5 z-50 overflow-hidden transition-all duration-300 origin-top ${openMega === "experiences" ? "opacity-100 pointer-events-auto translate-y-0 scale-y-100 visible" : "opacity-0 pointer-events-none -translate-y-2 scale-y-95 invisible"}`}>
               <div className="grid grid-cols-[1fr_200px] gap-4">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  {EXPERIENCES_ITEMS.map((item) => (
+                  {experiences?.items.map((item) => (
                     <Link key={item.href} href={item.href} className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
                       <div className="font-display text-[17px] text-olive">{item.title}</div>
                       <div className="text-[11px] text-olive/50">{item.desc}</div>
@@ -146,7 +83,9 @@ export function Header() {
                   </Link>
                 </div>
                 <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
-                  <MegaFeaturedSlide slides={EXPERIENCES_SLIDES} />
+                  {experiences?.slides && experiences.slides.length > 0 && (
+                    <MegaFeaturedSlide slides={experiences.slides} />
+                  )}
                 </div>
               </div>
             </div>
@@ -165,7 +104,7 @@ export function Header() {
             <div className={`fixed top-[76px] left-4 right-4 max-w-[780px] bg-paper border border-gold/25 rounded-[18px] shadow-[0_18px_48px_-24px_rgba(30,35,25,.26)] p-5 z-50 overflow-hidden transition-all duration-300 origin-top ${openMega === "festivals" ? "opacity-100 pointer-events-auto translate-y-0 scale-y-100 visible" : "opacity-0 pointer-events-none -translate-y-2 scale-y-95 invisible"}`}>
               <div className="grid grid-cols-[1fr_200px] gap-4">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  {FESTIVALS_ITEMS.map((item) => (
+                  {festivals?.items.map((item) => (
                     <Link key={item.href} href={item.href} className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
                       <div className="font-display text-[17px] text-olive">{item.title}</div>
                       <div className="text-[11px] text-olive/50">{item.desc}</div>
@@ -177,7 +116,9 @@ export function Header() {
                   </Link>
                 </div>
                 <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
-                  <MegaFeaturedSlide slides={FESTIVALS_SLIDES} />
+                  {festivals?.slides && festivals.slides.length > 0 && (
+                    <MegaFeaturedSlide slides={festivals.slides} />
+                  )}
                 </div>
               </div>
             </div>
@@ -196,7 +137,7 @@ export function Header() {
             <div className={`fixed top-[76px] left-4 right-4 max-w-[780px] bg-paper border border-gold/25 rounded-[18px] shadow-[0_18px_48px_-24px_rgba(30,35,25,.26)] p-5 z-50 overflow-hidden transition-all duration-300 origin-top ${openMega === "destinations" ? "opacity-100 pointer-events-auto translate-y-0 scale-y-100 visible" : "opacity-0 pointer-events-none -translate-y-2 scale-y-95 invisible"}`}>
               <div className="grid grid-cols-[1fr_200px] gap-4">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  {DESTINATIONS_ITEMS.map((item) => (
+                  {destinations?.items.map((item) => (
                     <Link key={item.href} href={item.href} className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
                       <div className="font-display text-[17px] text-olive">{item.title}</div>
                       <div className="text-[11px] text-olive/50">{item.desc}</div>
@@ -208,7 +149,9 @@ export function Header() {
                   </Link>
                 </div>
                 <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
-                  <MegaFeaturedSlide slides={DESTINATIONS_SLIDES} />
+                  {destinations?.slides && destinations.slides.length > 0 && (
+                    <MegaFeaturedSlide slides={destinations.slides} />
+                  )}
                 </div>
               </div>
             </div>
@@ -227,7 +170,7 @@ export function Header() {
             <div className={`fixed top-[76px] left-4 right-4 max-w-[780px] bg-paper border border-gold/25 rounded-[18px] shadow-[0_18px_48px_-24px_rgba(30,35,25,.26)] p-5 z-50 overflow-hidden transition-all duration-300 origin-top ${openMega === "journeys" ? "opacity-100 pointer-events-auto translate-y-0 scale-y-100 visible" : "opacity-0 pointer-events-none -translate-y-2 scale-y-95 invisible"}`}>
               <div className="grid grid-cols-[1fr_200px] gap-4">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  {JOURNEYS_ITEMS.map((item) => (
+                  {journeys?.items.map((item) => (
                     <Link key={item.href} href={item.href} className="block px-2.5 py-2.5 rounded-[10px] transition-colors hover:bg-cream" onClick={() => setOpenMega(null)}>
                       <div className="font-display text-[17px] text-olive">{item.title}</div>
                       <div className="text-[11px] text-olive/50">{item.desc}</div>
@@ -239,7 +182,9 @@ export function Header() {
                   </Link>
                 </div>
                 <div className="rounded-[14px] overflow-hidden relative min-h-[150px] bg-olive/10">
-                  <MegaFeaturedSlide slides={JOURNEYS_SLIDES} />
+                  {journeys?.slides && journeys.slides.length > 0 && (
+                    <MegaFeaturedSlide slides={journeys.slides} />
+                  )}
                 </div>
               </div>
             </div>
@@ -294,10 +239,10 @@ export function Header() {
 
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
           {/* Mobile Experiences Accordion */}
-          <MobileAccordion title="Experiences" items={EXPERIENCES_ITEMS} onClose={() => setIsMobileMenuOpen(false)} />
-          <MobileAccordion title="Festivals" items={FESTIVALS_ITEMS} onClose={() => setIsMobileMenuOpen(false)} />
-          <MobileAccordion title="Destinations" items={DESTINATIONS_ITEMS} onClose={() => setIsMobileMenuOpen(false)} />
-          <MobileAccordion title="Journeys" items={JOURNEYS_ITEMS} onClose={() => setIsMobileMenuOpen(false)} />
+          <MobileAccordion title="Experiences" items={experiences?.items || []} onClose={() => setIsMobileMenuOpen(false)} />
+          <MobileAccordion title="Festivals" items={festivals?.items || []} onClose={() => setIsMobileMenuOpen(false)} />
+          <MobileAccordion title="Destinations" items={destinations?.items || []} onClose={() => setIsMobileMenuOpen(false)} />
+          <MobileAccordion title="Journeys" items={journeys?.items || []} onClose={() => setIsMobileMenuOpen(false)} />
 
           <Link href="/journal" onClick={() => setIsMobileMenuOpen(false)} className="block font-display text-[21px] py-3 border-t border-white/10">Journal</Link>
           <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="block font-display text-[21px] py-3 border-t border-white/10">About</Link>

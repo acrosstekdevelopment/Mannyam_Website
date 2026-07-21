@@ -345,17 +345,6 @@ export default async function DynamicPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Related Journeys Section */}
-      {(() => {
-        let pkgType: "Festival" | "Destination" | "Honeymoon" | "Wildlife" | "Wellness" | undefined;
-        if (slug.startsWith("festival-")) pkgType = "Festival";
-        if (slug.startsWith("destination-")) pkgType = "Destination";
-
-        return (
-          <RelatedJourneysSection pkgType={pkgType} />
-        );
-      })()}
-
       {/* FAQ Section */}
       {faqBlock ? (
         <div className="max-w-[1200px] mx-auto px-6 pb-12">
@@ -374,6 +363,17 @@ export default async function DynamicPage({ params }: PageProps) {
           ]}
         />
       )}
+
+      {/* Related Journeys Section */}
+      {(() => {
+        let pkgType: "Festival" | "Destination" | "Honeymoon" | "Wildlife" | "Wellness" | undefined;
+        if (slug.startsWith("festival-")) pkgType = "Festival";
+        if (slug.startsWith("destination-")) pkgType = "Destination";
+
+        return (
+          <RelatedJourneysSection pkgType={pkgType} />
+        );
+      })()}
 
       <ClosingCta />
     </article>

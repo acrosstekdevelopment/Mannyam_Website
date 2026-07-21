@@ -74,6 +74,15 @@ async function run() {
     console.error("Error fetching media:", mediaError);
     process.exit(1);
   }
+  
+  if (!media || media.length === 0) {
+    console.log("⚠️ WARNING: 0 images found in your CMS Media Library.");
+    console.log("Please go to your Admin Panel (/admin/media) and upload your images first!");
+    console.log("Until you upload images, journeys and pages will have blank grey boxes.");
+  } else {
+    console.log(`✅ Found ${media.length} images in your CMS Media Library. Mapping them to content...`);
+  }
+
   const mediaUrls = media && media.length > 0 ? media.map(m => m.file_url) : [""];
   let mediaIndex = 0;
   function getNextMedia() {
@@ -122,6 +131,7 @@ async function run() {
       { id: `f${i+1}-tiles`, type: "Tiles", data: { heading: "How we celebrate it with you", tiles: f.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `f${i+1}-places`, type: "Place Chips", data: { heading: "Best cities", places: f.places.map(p => ({ name: p[0], region: p[1] })) } },
       { id: `f${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about visiting India for ${f.h}, answered in plain English.`, items: getFestFaqs(f.h) } },
+      { id: `f${i+1}-related`, type: "Related Pages", data: { heading: "Related Journeys" } },
       { id: `f${i+1}-cta`, type: "CTA Banner", data: { headline: "Join the celebration", body: "We arrange the timing and details. Tell us your travel window.", buttonLabel: "Plan my journey", buttonLink: "/enquire" } }
     ];
     pagesToUpsert.push({
@@ -142,6 +152,7 @@ async function run() {
       { id: `d${i+1}-tiles`, type: "Tiles", data: { heading: "What you might do", tiles: d.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `d${i+1}-places`, type: "Place Chips", data: { heading: "Key places", places: d.places.map(p => ({ name: p[0], region: p[1] })) } },
       { id: `d${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about visiting ${d.h}, answered in plain English.`, items: getDestFaqs(d.h) } },
+      { id: `d${i+1}-related`, type: "Related Pages", data: { heading: "Related Journeys" } },
       { id: `d${i+1}-cta`, type: "CTA Banner", data: { headline: `Your ${d.h}, your way`, body: "Combine regions, or go deep into one.", buttonLabel: `Plan my ${d.h} journey`, buttonLink: "/enquire" } }
     ];
     pagesToUpsert.push({
