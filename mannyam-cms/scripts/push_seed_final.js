@@ -26,10 +26,15 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const htmlPath = path.join(__dirname, 'Manyam frontend.html');
-const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+let htmlPath = path.join(__dirname, 'Manyam frontend.html');
+if (!fs.existsSync(htmlPath)) {
+  htmlPath = path.join(__dirname, '..', '..', 'Building Blocks', 'Manyam frontend.html');
+}
+
+const htmlContent = fs.existsSync(htmlPath) ? fs.readFileSync(htmlPath, 'utf8') : '';
 
 function extractArray(regex) {
+  if (!htmlContent) return [];
   const match = htmlContent.match(regex);
   if (!match) return [];
   try { return new Function(`return ${match[1]};`)(); } catch (e) { return []; }
