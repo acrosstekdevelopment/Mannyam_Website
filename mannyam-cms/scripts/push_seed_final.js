@@ -64,12 +64,30 @@ function getDestFaqs(h) {
   ];
 }
 
+const JOURNEYS = extractArray(/JOURNEYS\s*=\s*(\[.*?\]);/s);
+
 async function run() {
+  // Fetch media from CMS
+  console.log("Fetching media from CMS...");
+  const { data: media, error: mediaError } = await supabase.from('media').select('file_url');
+  if (mediaError) {
+    console.error("Error fetching media:", mediaError);
+    process.exit(1);
+  }
+  const mediaUrls = media && media.length > 0 ? media.map(m => m.file_url) : [""];
+  let mediaIndex = 0;
+  function getNextMedia() {
+    const url = mediaUrls[mediaIndex % mediaUrls.length];
+    mediaIndex++;
+    return url;
+  }
+
   const pagesToUpsert = [];
 
   EXPERIENCES.forEach((e, i) => {
+    const img = getNextMedia();
     const blocks = [
-      { id: `e${i+1}-hero`, type: "Hero", data: { headline: e.h, subheadline: e.lede, backgroundImage: "", ctaText: "Plan This Experience", ctaLink: "/enquire" } },
+      { id: `e${i+1}-hero`, type: "Hero", data: { headline: e.h, subheadline: e.lede, backgroundImage: img, ctaText: "Plan This Experience", ctaLink: "/enquire" } },
       { id: `e${i+1}-tiles`, type: "Tiles", data: { heading: "What you might do", tiles: e.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `e${i+1}-places`, type: "Place Chips", data: { heading: "Best enjoyed in", places: e.places.map(p => ({ name: p[0], region: p[1] })) } },
       { id: `e${i+1}-faq`, type: "FAQ", data: { heading: "Questions, answered simply", subtitle: `The practical questions about ${e.h}, answered in plain English.`, items: getExpFaqs(e.h) } },
@@ -86,8 +104,9 @@ async function run() {
   });
 
   FESTIVALS.forEach((f, i) => {
+    const img = getNextMedia();
     const blocks = [
-      { id: `f${i+1}-hero`, type: "Hero", data: { headline: f.h, subheadline: f.lede, backgroundImage: "", ctaText: "Plan My Journey", ctaLink: "/enquire" } },
+      { id: `f${i+1}-hero`, type: "Hero", data: { headline: f.h, subheadline: f.lede, backgroundImage: img, ctaText: "Plan My Journey", ctaLink: "/enquire" } },
       { id: `f${i+1}-facts`, type: "Fact Bar", data: { facts: [{ label: "When", value: f.when }, { label: "Where", value: f.where }] } },
       { id: `f${i+1}-tiles`, type: "Tiles", data: { heading: "How we celebrate it with you", tiles: f.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `f${i+1}-places`, type: "Place Chips", data: { heading: "Best cities", places: f.places.map(p => ({ name: p[0], region: p[1] })) } },
@@ -105,8 +124,9 @@ async function run() {
   });
 
   DESTINATIONS.forEach((d, i) => {
+    const img = getNextMedia();
     const blocks = [
-      { id: `d${i+1}-hero`, type: "Hero", data: { headline: d.h, subheadline: d.lede, backgroundImage: "", ctaText: "Plan My Journey", ctaLink: "/enquire" } },
+      { id: `d${i+1}-hero`, type: "Hero", data: { headline: d.h, subheadline: d.lede, backgroundImage: img, ctaText: "Plan My Journey", ctaLink: "/enquire" } },
       { id: `d${i+1}-facts`, type: "Fact Bar", data: { facts: [{ label: "Best season", value: d.season }] } },
       { id: `d${i+1}-tiles`, type: "Tiles", data: { heading: "What you might do", tiles: d.moments.map(m => ({ title: m[0], description: m[1] })) } },
       { id: `d${i+1}-places`, type: "Place Chips", data: { heading: "Key places", places: d.places.map(p => ({ name: p[0], region: p[1] })) } },
@@ -123,13 +143,41 @@ async function run() {
     });
   });
 
-  console.log(`Upserting ${pagesToUpsert.length} pages with dynamic FAQs...`);
-  const { data, error } = await supabase.from('pages').upsert(pagesToUpsert, { onConflict: 'slug' });
-  if (error) {
-    console.error("Error upserting pages:", error);
+  console.log(`Upserting ${pagesToUpsert.length} pages with dynamic FAQs and CMS Media...`);
+  const { error: pageError } = await supabase.from('pages').upsert(pagesToUpsert, { onConflict: 'slug' });
+  if (pageError) {
+    console.error("Error upserting pages:", pageError);
   } else {
-    console.log("Successfully upserted all pages to Supabase directly!");
+    console.log("Successfully upserted all pages to Supabase!");
   }
+
+  // Push Journeys to packages
+  console.log("Upserting Journeys to packages...");
+  for (const j of JOURNEYS) {
+    let mappedType = 'Destination';
+    if (j.type === 'festival' || j.slug.includes('holi') || j.slug.includes('diwali') || j.slug.includes('dussehra')) mappedType = 'Festival';
+    
+    const availability = { tag: j.tag, regions: j.regions, includes: j.incl };
+    const itinerary = j.days.map((d, index) => ({ day: index + 1, title: d[0], description: d[1] }));
+    const img = getNextMedia();
+
+    const pkg = {
+      title: j.h,
+      slug: j.slug,
+      type: mappedType,
+      description: j.intro,
+      itinerary: itinerary,
+      availability: availability,
+      featured_image_url: img,
+      seo_meta: { title: `${j.h} | MANNYAM Journey`, description: j.intro }
+    };
+
+    const { error: pkgError } = await supabase.from('packages').upsert(pkg, { onConflict: 'slug' });
+    if (pkgError) {
+      console.error(`Error inserting journey ${j.slug}:`, pkgError);
+    }
+  }
+  console.log("Successfully upserted Journeys with CMS Media!");
 }
 
 run();
