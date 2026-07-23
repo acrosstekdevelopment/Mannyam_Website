@@ -40,45 +40,45 @@ export function Footer() {
             {/* Experiences */}
             <div>
               <h4 className="font-sans text-[11px] tracking-[0.2em] uppercase text-sand font-medium mb-3">Experiences</h4>
-              <nav className="flex flex-col gap-[8px]">
-                <Link href="/experience-heritage" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Culture and Heritage</Link>
-                <Link href="/experience-food" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Food and Culinary</Link>
-                <Link href="/experience-wildlife" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Nature and Wildlife</Link>
-                <Link href="/experience-royal" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Royal and Exclusive</Link>
-                <Link href="/experience-honeymoon" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Honeymoon</Link>
+              <nav className="flex flex-col gap-[10px]">
+                <Link href="/experience-heritage" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Culture and Heritage</Link>
+                <Link href="/experience-food" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Food and Culinary</Link>
+                <Link href="/experience-wildlife" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Nature and Wildlife</Link>
+                <Link href="/experience-royal" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Royal and Exclusive</Link>
+                <Link href="/experience-honeymoon" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Honeymoon</Link>
               </nav>
             </div>
 
             {/* Festivals */}
             <div>
               <h4 className="font-sans text-[11px] tracking-[0.2em] uppercase text-sand font-medium mb-3">Festivals</h4>
-              <nav className="flex flex-col gap-[8px]">
-                <Link href="/festival-holi" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Holi</Link>
-                <Link href="/festival-diwali" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Diwali</Link>
-                <Link href="/festival-dussehra" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Dussehra</Link>
-                <Link href="/festival-navratri" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Navratri</Link>
-                <Link href="/festivals" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">All festivals</Link>
+              <nav className="flex flex-col gap-[10px]">
+                <Link href="/festival-holi" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Holi</Link>
+                <Link href="/festival-diwali" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Diwali</Link>
+                <Link href="/festival-dussehra" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Dussehra</Link>
+                <Link href="/festival-navratri" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Navratri</Link>
+                <Link href="/festivals" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">All festivals</Link>
               </nav>
             </div>
 
             {/* Destinations */}
             <div>
               <h4 className="font-sans text-[11px] tracking-[0.2em] uppercase text-sand font-medium mb-3">Destinations</h4>
-              <nav className="flex flex-col gap-[8px]">
-                <Link href="/destination-rajasthan" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Rajasthan</Link>
-                <Link href="/destination-kerala" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Kerala</Link>
-                <Link href="/destination-himalayas" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">The Himalayas</Link>
-                <Link href="/destination-varanasi" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Varanasi</Link>
-                <Link href="/destinations" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">All destinations</Link>
+              <nav className="flex flex-col gap-[10px]">
+                <Link href="/destination-rajasthan" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Rajasthan</Link>
+                <Link href="/destination-kerala" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Kerala</Link>
+                <Link href="/destination-himalayas" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">The Himalayas</Link>
+                <Link href="/destination-varanasi" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Varanasi</Link>
+                <Link href="/destinations" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">All destinations</Link>
               </nav>
             </div>
 
             {/* Company */}
             <div>
               <h4 className="font-sans text-[11px] tracking-[0.2em] uppercase text-sand font-medium mb-3">Company</h4>
-              <nav className="flex flex-col gap-[8px]">
-                <Link href="/about" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Our story</Link>
-                <Link href="/journal" className="text-[14.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Journal</Link>
+              <nav className="flex flex-col gap-[10px]">
+                <Link href="/about" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Our story</Link>
+                <Link href="/journal" className="text-[15.5px] font-light text-[#b9bba8] hover:text-gold transition-colors">Journal</Link>
                 <Link href="/enquire" className="text-[13px] font-light text-[#b9bba8] hover:text-gold transition-colors">Contact</Link>
                 <Link href="/privacy" className="text-[13px] font-light text-[#b9bba8] hover:text-gold transition-colors">Privacy</Link>
               </nav>
