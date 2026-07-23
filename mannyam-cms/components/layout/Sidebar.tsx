@@ -174,22 +174,7 @@ export function Sidebar({ role, userName }: SidebarProps) {
                   )}
                 </a>
 
-                {/* Sublink for Settings > Users under Admin role */}
-                {item.name === "Settings" && showUsersSublink && (
-                  <div className="pl-7 mt-1 space-y-1">
-                    <Link
-                      href="/settings/users"
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-sans transition-all duration-200 ${
-                        pathname === "/settings/users"
-                          ? "text-gold font-medium"
-                          : "text-ivory/50 hover:text-gold"
-                      }`}
-                    >
-                      <Users className="w-3.5 h-3.5" />
-                      <span>Users & Team</span>
-                    </Link>
-                  </div>
-                )}
+                {/* Users & Team sublink removed - accessible only via Settings hub */}
               </div>
             );
           })}
