@@ -29,11 +29,11 @@ export function FestivalScrollRail({ items }: { items: FestivalItem[] }) {
 
       if (!isPaused) {
         const maxScroll = container.scrollWidth - container.clientWidth;
-        container.scrollLeft += speed;
+        container.scrollLeft -= speed;
 
-        // Loop back to start when reaching the end
-        if (container.scrollLeft >= maxScroll) {
-          container.scrollLeft = 0;
+        // Loop back to end when reaching the start
+        if (container.scrollLeft <= 0) {
+          container.scrollLeft = maxScroll;
         }
       }
 

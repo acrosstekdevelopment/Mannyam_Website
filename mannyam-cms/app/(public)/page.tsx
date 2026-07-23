@@ -196,7 +196,7 @@ export default async function PublicHomePage() {
       <section className="py-12 md:py-20 max-w-7xl mx-auto px-6">
         <SectionHeading eyebrow="Experiences" heading="Travel by the feeling you are after." intro="From food walks to royal evenings, choose the kind of moments you want, and we will weave them into a journey." />
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3.5 md:gap-6 mt-6">
-          {EXPERIENCES_CARDS.map((e) => (
+          {EXPERIENCES_CARDS.slice(0, 3).map((e) => (
             <Link key={e.slug} href={`/${e.slug}`} className="group cursor-pointer">
               <div className="relative rounded-[18px] overflow-hidden aspect-[100/124]">
                 <img src={e.img} alt={e.h} className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.07] transition-transform duration-1000" />
@@ -218,7 +218,7 @@ export default async function PublicHomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeading eyebrow="Destinations" heading="Choose where to begin." intro="A different India in every direction. Pick a region, and we will pair it with the right experiences." />
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3.5 md:gap-6 mt-6">
-            {DESTINATIONS_CARDS.map((d) => (
+            {DESTINATIONS_CARDS.slice(0, 3).map((d) => (
               <Link key={d.slug} href={`/${d.slug}`} className="group cursor-pointer relative">
                 <div className="relative rounded-[18px] overflow-hidden aspect-[100/124]">
                   <img src={d.img} alt={d.h} className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.07] transition-transform duration-1000" />
@@ -242,7 +242,7 @@ export default async function PublicHomePage() {
           <SectionHeading eyebrow="Signature journeys" heading="Stories we have already written." intro="Take them as they are, or treat them as a first chapter and reshape them with us." />
           {packages.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              {packages.map((pkg) => (
+              {packages.slice(0, 4).map((pkg) => (
                 <PackageCard key={pkg.id} pkg={pkg} />
               ))}
             </div>
