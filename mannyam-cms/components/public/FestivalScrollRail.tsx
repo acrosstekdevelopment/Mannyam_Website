@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 
 interface FestivalItem {
@@ -14,30 +14,32 @@ interface FestivalItem {
 export function FestivalScrollRail({ items }: { items: FestivalItem[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const initialised = useRef(false);
 
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
 
-    let animationId: number;
-    let lastTimestamp = 0;
-    const speed = 0.5; // pixels per frame (~30px/sec at 60fps)
+    // Start scrolled to the end so we can scroll leftward
+    if (!initialised.current) {
+      container.scrollLeft = container.scrollWidth - container.clientWidth;
+      initialised.current = true;
+    }
 
-    function step(timestamp: number) {
+    let animationId: number;
+
+    function step() {
       if (!container) return;
-      if (lastTimestamp === 0) lastTimestamp = timestamp;
 
       if (!isPaused) {
-        const maxScroll = container.scrollWidth - container.clientWidth;
-        container.scrollLeft -= speed;
+        container.scrollLeft -= 0.6;
 
-        // Loop back to end when reaching the start
+        // When we reach the start, jump back to the end
         if (container.scrollLeft <= 0) {
-          container.scrollLeft = maxScroll;
+          container.scrollLeft = container.scrollWidth - container.clientWidth;
         }
       }
 
-      lastTimestamp = timestamp;
       animationId = requestAnimationFrame(step);
     }
 
@@ -48,7 +50,8 @@ export function FestivalScrollRail({ items }: { items: FestivalItem[] }) {
   return (
     <div
       ref={scrollRef}
-      className="flex gap-[13px] overflow-x-auto snap-x snap-mandatory mt-6 px-5 md:px-10 pb-2 scrollbar-thin scrollbar-thumb-gold/30"
+      className="flex gap-[13px] overflow-x-auto mt-6 px-5 md:px-10 pb-2 scrollbar-thin scrollbar-thumb-gold/30"
+      style={{ scrollBehavior: "auto" }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={() => setIsPaused(true)}
@@ -58,7 +61,7 @@ export function FestivalScrollRail({ items }: { items: FestivalItem[] }) {
         <Link
           key={f.slug}
           href={`/${f.slug}`}
-          className="snap-start flex-shrink-0 w-[74%] md:w-[30%] relative rounded-[16px] overflow-hidden aspect-[3/4] group"
+          className="flex-shrink-0 w-[74%] md:w-[30%] relative rounded-[16px] overflow-hidden aspect-[3/4] group"
         >
           <img
             src={f.img}
